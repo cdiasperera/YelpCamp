@@ -1,5 +1,13 @@
+<link rel="stylesheet" href="style.css">
 <% include ./partials/header %>
 
 <h1>This is a list of campgrounds</h1>
+
+<% campgrounds.forEach((campground) => { %>
+    <div>
+        <h4><%= campground.name %> </h4>
+        <img src="<%= campground.image %>"  alt="campground">
+    </div>
+<%  }); %>
 
 <% include ./partials/footer %>
