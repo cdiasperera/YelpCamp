@@ -5,6 +5,9 @@ var app = express();
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
+// Setup database
+var mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true, useUnifiedTopology: true});
 // Read the body of a request
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }))
