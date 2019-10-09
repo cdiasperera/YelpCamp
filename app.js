@@ -8,6 +8,14 @@ app.set("view engine", "ejs");
 // Setup database
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true, useUnifiedTopology: true});
+
+// Schemas
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+var Campground = mongoose.model("Campground", campgroundSchema);
+
 // Read the body of a request
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -17,20 +25,25 @@ app.get("/", (req, res) => {
     res.render("homepage");
 });
 
-var campgrounds = [
-    {name: "Salmon Creek", image: "https://grist.files.wordpress.com/2017/05/tent-campsite-by-river.jpg?w=1024&h=576&crop=1"},
-    {name: "Granite Hill", image: "https://www.camping.se/ImageVaultFiles/id_2034/cf_239/st_edited/8ZfOHyVM3gcxasp5N1En.jpg"},
-    {name: "Mountain Goat\"s Rest", image:"https://s3.ap-south-1.amazonaws.com/campmonk.com/blogs/5879f8e0-5be4-11e8-a7bc-5f5bfad23fd4-1200-1200.jpeg"}
-];
-
 app.get("/campgrounds", (req, res) => {
-    res.render("campgrounds", {campgrounds: campgrounds});
+    Campground.find({}, (err, allCampgrounds) => {
+        if (err) {
+            console.log(err);
+        } else {
+        res.render("campgrounds", {campgrounds: allCampgrounds});
+        }
+    });
 });
 
 app.post("/campgrounds", (req, res) => {
     var newCampground = {name: req.body.name, image:req.body.source};
-    campgrounds.push(newCampground);
-    res.render("campgrounds", {campgrounds: campgrounds});
+    Campground.create(newCampground, (err, campground) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/campgrounds");
+        }
+    });
 });
 
 app.get("/campgrounds/new", (req, res) => {
