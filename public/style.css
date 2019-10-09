@@ -1,9 +1,8 @@
 img {
-    margin: 0 auto;
-    display: block;
-    width: 50%;
+    width: 100%;
 }
 
-h4 {
-    text-align: center;
+.row {
+    display: flex;
+    flex-wrap: wrap;
 }
