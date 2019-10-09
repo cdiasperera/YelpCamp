@@ -2,7 +2,16 @@ img {
     width: 100%;
 }
 
-.row {
+.campgrounds-row {
     display: flex;
     flex-wrap: wrap;
+}
+
+.login-form {
+    width: 30%;
+    margin: 25px auto;
+}
+
+#newCampHeader {
+    text-align: center;
 }
