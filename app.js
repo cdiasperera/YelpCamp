@@ -12,7 +12,8 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true, 
 // Schemas
 var campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    desc: String
 });
 var Campground = mongoose.model("Campground", campgroundSchema);
 
@@ -36,7 +37,8 @@ app.get("/campgrounds", (req, res) => {
 });
 
 app.post("/campgrounds", (req, res) => {
-    var newCampground = {name: req.body.name, image:req.body.source};
+    var newCampground = {   name: req.body.name, image:req.body.source,
+                            desc: req.body.desc};
     Campground.create(newCampground, (err, campground) => {
         if (err) {
             console.log(err);
@@ -48,6 +50,10 @@ app.post("/campgrounds", (req, res) => {
 
 app.get("/campgrounds/new", (req, res) => {
     res.render("new");
+});
+
+app.get("/campgrounds/:name", (req, res) => {
+    res.send("THIS WILL BE THE SHOW PAGE ONE DAY");
 });
 // Start server
 port = process.env.port || 3000;
