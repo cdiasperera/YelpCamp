@@ -53,7 +53,14 @@ app.get("/campgrounds/new", (req, res) => {
 });
 
 app.get("/campgrounds/:name", (req, res) => {
-    res.send("THIS WILL BE THE SHOW PAGE ONE DAY");
+    var campName = req.params.name;
+    Campground.find({name: campName}, (err, foundCampground) => {
+       if (err) {
+           console.log(err);
+       } else {
+           res.render("show", {campground: foundCampground});
+       }
+    });
 });
 // Start server
 port = process.env.port || 3000;
