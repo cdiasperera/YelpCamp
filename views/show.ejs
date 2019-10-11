@@ -1,3 +1,5 @@
-<%= campground %>
-<%= campground.name %>
-<p><%= campground.name %></p>
+<% include ./partials/header %>
+<h1><%= campground.name%></h1>
+<img src="<%= campground.image%>" alt="campground">
+<p><%= campground.desc%> </p>
+<% include ./partials/footer %>

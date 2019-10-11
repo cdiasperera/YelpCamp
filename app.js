@@ -54,7 +54,7 @@ app.get("/campgrounds/new", (req, res) => {
 
 app.get("/campgrounds/:name", (req, res) => {
     var campName = req.params.name;
-    Campground.find({name: campName}, (err, foundCampground) => {
+    Campground.findOne({name: campName}, (err, foundCampground) => {
        if (err) {
            console.log(err);
        } else {
