@@ -9,13 +9,7 @@ app.set("view engine", "ejs");
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true, useUnifiedTopology: true});
 
-// Schemas
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    desc: String
-});
-var Campground = mongoose.model("Campground", campgroundSchema);
+Campground = require("./models/campground");
 
 // Read the body of a request
 var bodyParser = require("body-parser");
