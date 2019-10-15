@@ -11,6 +11,10 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true, 
 
 Campground = require("./models/campground");
 
+// Seed the Db
+var seedDB = require("./seeds");
+seedDB();
+
 // Read the body of a request
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }))
