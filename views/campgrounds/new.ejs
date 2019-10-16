@@ -1,8 +1,8 @@
-<% include ./partials/header %>
+<% include ../partials/header %>
 <div class="container">
     <div class="row">
         <h1 id="newCampHeader">Create a new campground</h1>
-        <div class="login-form">
+        <div class="new-form">
             <form action="/campgrounds" method="POST">
                 <div class="form-group">
                     <input class="form-control" type="text" name="name" placeholder="Name">
@@ -11,7 +11,7 @@
                     <input class="form-control" type="text" name="source" placeholder="Image URL">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="texxt" name="desc" placeholder="Description">
+                    <input class="form-control" type="text" name="desc" placeholder="Description">
                 </div>
                 <div class="form-group">
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
@@ -21,4 +21,4 @@
         </div>
     </div>
 </div>
-<% include ./partials/footer %>
+<% include ../partials/footer %>
