@@ -50,14 +50,14 @@ app.get("/campgrounds/new", (req, res) => {
     res.render("new");
 });
 
-app.get("/campgrounds/:name", (req, res) => {
-    var campName = req.params.name;
-    Campground.findOne({name: campName}, (err, foundCampground) => {
-       if (err) {
-           console.log(err);
-       } else {
-           res.render("show", {campground: foundCampground});
-       }
+app.get("/campgrounds/:id", (req, res) => {
+    Campground.findById(req.params.id).populate("comments").exec( 
+    (err, foundCampground) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("show", {campground: foundCampground});
+      }
     });
 });
 // Start server

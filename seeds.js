@@ -1,5 +1,6 @@
-var mongoose = require("mongoose");
-var Campground = require("./models/campground");
+var mongoose    = require("mongoose");
+var Campground  = require("./models/campground");
+var Comment     = require("./models/comment");
 
 // Data to reseed the "campground
 var data = [
@@ -32,11 +33,23 @@ function seedDB() {
 
   // Add "campgrounds
   data.forEach((campground) => {
-    Campground.create(campground, (err, data) => {
+    Campground.create(campground, (err, campground) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(data);
+        console.log(campground);
+        Comment.create({
+          text: "Wassup dawg, this be a hella sick comment.",
+          author: "Ya boi",
+        }, (err, comment) => {
+          if (err) {
+            console.log(err);
+          } else {
+            campground.comments.push(comment);
+            campground.save();
+            console.log("created a new comment"); 
+          }
+        });
       }
     });
   })
