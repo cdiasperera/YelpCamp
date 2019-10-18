@@ -74,13 +74,11 @@ app.get("/campgrounds/:id/comments/new", (req, res) => {
 
 app.post("/campgrounds/:id/comments", (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
-    console.log(req.body);
     Comment.create(req.body.comment, (err, comment) => {
       if (err) {
         console.log(err);
         res.redirect("/");
       } else {
-        console.log(campground);
         campground.comments.push(comment);
         campground.save();
         res.redirect("/campgrounds/" + campground._id);
