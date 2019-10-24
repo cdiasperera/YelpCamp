@@ -11,11 +11,14 @@ var Comment               = require("./models/comment");
 var User                  = require("./models/user");
 var seedDB                = require("./seeds");
 var sessionSecret         = require("./secret.js");
+
 // CONFIG APP
 app = express();
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
+
 app.use(bodyParser.urlencoded({ extended: true }))
+
 
 // PASSPORT CONFIG
 app.use(session({
@@ -29,6 +32,13 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// Pass in the user information to all pages
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  console.log(req.user);
+  next();
+});
 
 // DB CONFIG
 mongoose.connect(
@@ -49,7 +59,11 @@ app.get("/campgrounds", (req, res) => {
         if (err) {
             console.log(err);
         } else {
-        res.render("campgrounds/index", {campgrounds: allCampgrounds});
+        res.render(
+          "campgrounds/index",
+          {
+            campgrounds: allCampgrounds,
+          });
         }
     });
 });
