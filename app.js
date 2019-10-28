@@ -52,7 +52,7 @@ mongoose.connect(
 );
 
 // Reset Database
-// seedDB();
+seedDB();
 
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);

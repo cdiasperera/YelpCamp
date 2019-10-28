@@ -31,28 +31,28 @@ function seedDB() {
     }
   });
 
-  // Add "campgrounds
-  data.forEach((campground) => {
-    Campground.create(campground, (err, campground) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(campground);
-        Comment.create({
-          text: "Wassup dawg, this be a hella sick comment.",
-          author: "Ya boi",
-        }, (err, comment) => {
-          if (err) {
-            console.log(err);
-          } else {
-            campground.comments.push(comment);
-            campground.save();
-            console.log("created a new comment"); 
-          }
-        });
-      }
-    });
-  })
+  // // Add "campgrounds
+  // data.forEach((campground) => {
+  //   Campground.create(campground, (err, campground) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log(campground);
+  //       Comment.create({
+  //         text: "Wassup dawg, this be a hella sick comment.",
+  //         author: "Ya boi",
+  //       }, (err, comment) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           campground.comments.push(comment);
+  //           campground.save();
+  //           console.log("created a new comment"); 
+  //         }
+  //       });
+  //     }
+  //   });
+  // })
 }
 
 module.exports = seedDB;
