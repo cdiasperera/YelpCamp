@@ -1,7 +1,8 @@
-var express    = require("express");
-var router     = express.Router({mergeParams: true});
-var Campground = require("../models/campground");
+var express     = require("express");
+var router      = express.Router({mergeParams: true});
 
+var Campground  = require("../models/campground");
+var Comment     = require("../models/comment");
 router.get("/", (req, res) => {
     Campground.find({}, (err, allCampgrounds) => {
       if (err) {
@@ -73,11 +74,16 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  Campground.findByIdAndRemove(req.params.id, (err) => {
+  Campground.findByIdAndRemove(req.params.id, (err, campRemoved) => {
     if (err) {
       console.log(err);
     } else {
-      res.redirect("/campgrounds");
+      Comment.deleteMany( {_id: { $in: campRemoved.comments } }, (err) => {
+        if (err) {
+          console.log(err);
+        }
+        res.redirect("/campgrounds"); 
+      })
     }
   })
 });

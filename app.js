@@ -48,7 +48,10 @@ app.use((req, res, next) => {
 // DB CONFIG
 mongoose.connect(
   "mongodb://localhost:27017/yelp_camp", 
-  {useNewUrlParser: true, useUnifiedTopology: true}
+  {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useFindAndModify: true}
 );
 
 // Reset Database
