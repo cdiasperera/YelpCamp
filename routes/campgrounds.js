@@ -17,13 +17,14 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", isLoggedIn, (req, res) => {
-    var newCampground = {   image:req.body.source,
+    var newCampground = {   
+                            name: req.body.name,
+                            image:req.body.source,
                             desc: req.body.desc,
                             author: {
                               id: req.user.id,
                               username: req.user.username
                             }};
-    console.log(newCampground.author);
     Campground.create(newCampground, (err, campground) => {
         if (err) {
           console.log(err);
@@ -48,6 +49,10 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.get("/:id/edit", (req, res) => {
+  var foundCamground = Campground.findById(req.params.id);
+  res.render("camgrounds/edit", foundCampground);
+});
 // Middleware. TODO: Refactor
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
