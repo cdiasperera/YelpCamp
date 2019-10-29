@@ -59,7 +59,7 @@ router.get("/:id/edit", (req, res) => {
   });
 });
 
-router.put("/:id/", (req, res) => {
+router.put("/:id", (req, res) => {
   Campground.findByIdAndUpdate(
     req.params.id, 
     req.body.campground, 
@@ -70,6 +70,16 @@ router.put("/:id/", (req, res) => {
         res.redirect("/campgrounds/" + req.params.id);
       }
     }); 
+});
+
+router.delete("/:id", (req, res) => {
+  Campground.findByIdAndRemove(req.params.id, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campgrounds");
+    }
+  })
 });
 // Middleware. TODO: Refactor
 function isLoggedIn(req, res, next) {
