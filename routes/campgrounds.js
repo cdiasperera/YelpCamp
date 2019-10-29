@@ -50,8 +50,26 @@ router.get("/:id", (req, res) => {
 });
 
 router.get("/:id/edit", (req, res) => {
-  var foundCamground = Campground.findById(req.params.id);
-  res.render("camgrounds/edit", foundCampground);
+  Campground.findById(req.params.id, (err, foundCampground) => {
+    if (err) {
+      console.log(err); 
+    } else {
+      res.render("campgrounds/edit", {campground: foundCampground});
+    }
+  });
+});
+
+router.put("/:id/", (req, res) => {
+  Campground.findByIdAndUpdate(
+    req.params.id, 
+    req.body.campground, 
+    (err, updatedCampground) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/campgrounds/" + req.params.id);
+      }
+    }); 
 });
 // Middleware. TODO: Refactor
 function isLoggedIn(req, res, next) {

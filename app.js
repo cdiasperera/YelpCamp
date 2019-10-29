@@ -6,7 +6,7 @@ var passport              = require("passport");
 var LocalStrategy         = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
 var session               = require("express-session");
-
+var methodOverride        = require("method-override");
 var Campground            = require("./models/campground");
 var Comment               = require("./models/comment");
 var User                  = require("./models/user");
@@ -24,7 +24,7 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(methodOverride("_method"));
 
 // PASSPORT CONFIG
 app.use(session({
@@ -52,7 +52,7 @@ mongoose.connect(
 );
 
 // Reset Database
-seedDB();
+// seedDB();
 
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
