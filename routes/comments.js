@@ -34,4 +34,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
   });
 });
 
+router.get("/comments/:comment_id/edit", (req, res) => {
+  res.send("Comment edit page");
+});
 module.exports = router;
