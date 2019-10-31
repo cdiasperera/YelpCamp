@@ -32,10 +32,16 @@
         <hr>
         <% campground.comments.forEach((comment) => { %>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 comment">
               <strong><%= comment.author.username %></strong>
               <span class="pull-right">10 days ago</span>
-              <p><%= comment.text%></p>
+              <div> 
+                <p class="comment-text inline"><%= comment.text%></p>
+                <span class="pull-right">
+                  <button class="btn btn-xs btn-warning">Edit</button>
+                  <button class="btn btn-xs btn-danger">Delete</button>
+                </span>
+              </div>
           </div>
         </div>
         <% }); %>

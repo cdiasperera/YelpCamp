@@ -21,6 +21,17 @@ img {
     flex-wrap: wrap;
 }
 
+.inline {
+    display: inline;
+}
+
+.comment {
+  padding-bottom: 1em;
+}
+.comment-text {
+  font-size: 2.4vh;
+}
+
 .new-form {
     width: 30%;
     margin: 25px auto;
