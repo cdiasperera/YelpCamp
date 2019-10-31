@@ -4,7 +4,9 @@ var router     = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment    = require("../models/comment");
 
-router.get("/new", isLoggedIn, (req, res) => {
+var middleware = require("../middleware");
+
+router.get("/new", middleware.isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err) {
       console.log(err);
@@ -14,7 +16,7 @@ router.get("/new", isLoggedIn, (req, res) => {
   });
 });
 
-router.post("/", isLoggedIn, (req, res) => {
+router.post("/", middleware.isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     Comment.create(req.body.comment, (err, comment) => {
       if (err) {
@@ -31,14 +33,5 @@ router.post("/", isLoggedIn, (req, res) => {
     });
   });
 });
-
-// Middleware. TODO: Refactor
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    res.redirect("/login");
-  }
-}
 
 module.exports = router;
