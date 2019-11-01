@@ -34,7 +34,25 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
   });
 });
 
-router.get("/comments/:comment_id/edit", (req, res) => {
-  res.send("Comment edit page");
+router.get("/:comment_id/edit", (req, res) => {
+  Campground.findById(req.params.id, (err, foundCampground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      Comment.findById(req.params.comment_id, (err, foundComment) => {
+        res.render("comments/edit", {campground: foundCampground, comment: foundComment});
+      });
+    }
+  });
+});
+
+router.put("/:comment_id", (req, res) => {
+  Comment.findByIdAndUpdate(req.params.comment_id, {text: req.body.comment.text}, (err, updatedComment) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campgrounds/" + req.params.id);
+    }
+  })
 });
 module.exports = router;

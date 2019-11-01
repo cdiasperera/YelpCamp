@@ -60,6 +60,7 @@ mongoose.connect(
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
+
 // Start server
 port = process.env.port || 3000;
 app.listen(port, () => {
