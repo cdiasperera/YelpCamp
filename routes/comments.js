@@ -18,12 +18,13 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 
 router.post("/", middleware.isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
+    var newComment = req.body.comment;
     Comment.create(req.body.comment, (err, comment) => {
       if (err) {
         console.log(err);
         res.redirect("/");
       } else {
-        comment.author.id = req.user.username._id;
+        comment.author.id = req.user._id;
         comment.author.username = req.user.username;
         comment.save();
         campground.comments.push(comment);

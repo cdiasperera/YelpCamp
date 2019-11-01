@@ -24,7 +24,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
       image:req.body.source,
       desc: req.body.desc,
       author: {
-        id: req.user.id,
+        id: req.user._id,
         username: req.user.username
       }
     };
