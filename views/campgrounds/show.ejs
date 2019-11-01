@@ -42,7 +42,11 @@
                     class="btn btn-xs btn-warning">
                       Edit
                   </a>
-                  <button class="btn btn-xs btn-danger">Delete</button>
+                  <form class="inline" 
+                    action="<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" 
+                    method="post">
+                      <button class="btn btn-xs btn-danger">Delete</button>
+                  </form>
                 </span>
               </div>
           </div>

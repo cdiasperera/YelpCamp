@@ -62,4 +62,14 @@ router.put("/:comment_id", (req, res) => {
   })
 });
 
+router.delete("/:comment_id", (req, res) => {
+  Comment.findByIdAndRemove(req.params.comment_id, (err, removedComment) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campgrounds/" + req.params.id);
+    }
+  });
+});
+
 module.exports = router;
