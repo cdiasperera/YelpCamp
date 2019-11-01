@@ -24,6 +24,21 @@ function checkCampOwnership (req, res, next) {
   });
 }
 
-middlewareObj.checkOwnershipStack = [middlewareObj.isLoggedIn, checkCampOwnership];
+function checkCommentOwnership (req, res, next) {
+  Comment.findById(req.params.comment_id, (err, foundComment) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundComment.author.id.equals(req.user._id)) {
+        next();
+      } else {
+        res.redirect("back");
+      }
+    }
+  })
+}
+
+middlewareObj.checkCampStack    = [middlewareObj.isLoggedIn, checkCampOwnership];
+middlewareObj.checkCommentStack = [middlewareObj.isLoggedIn, checkCampOwnership];
 
 module.exports = middlewareObj;

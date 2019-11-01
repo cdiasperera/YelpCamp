@@ -48,7 +48,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.get("/:id/edit", middleware.checkOwnershipStack, (req, res) => {
+router.get("/:id/edit", middleware.checkCampStack, (req, res) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err) {
       console.log(err); 
@@ -58,7 +58,7 @@ router.get("/:id/edit", middleware.checkOwnershipStack, (req, res) => {
   });
 });
 
-router.put("/:id", middleware.checkOwnershipStack, (req, res) => {
+router.put("/:id", middleware.checkCampStack, (req, res) => {
   Campground.findByIdAndUpdate(
     req.params.id, 
     req.body.campground, 
@@ -71,7 +71,7 @@ router.put("/:id", middleware.checkOwnershipStack, (req, res) => {
     }); 
 });
 
-router.delete("/:id", middleware.checkOwnershipStack, (req, res) => {
+router.delete("/:id", middleware.checkCampStack, (req, res) => {
   Campground.findByIdAndRemove(req.params.id, (err, campRemoved) => {
     if (err) {
       console.log(err);
