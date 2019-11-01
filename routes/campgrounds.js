@@ -5,6 +5,7 @@ var Campground  = require("../models/campground");
 var Comment     = require("../models/comment");
 
 var middleware  = require("../middleware");
+
 router.get("/", (req, res) => {
     Campground.find({}, (err, allCampgrounds) => {
       if (err) {
@@ -12,22 +13,21 @@ router.get("/", (req, res) => {
         } else {
         res.render(
           "campgrounds/index",
-          {
-            campgrounds: allCampgrounds,
-          });
+          {campgrounds: allCampgrounds});
         }
     });
 });
 
 router.post("/", middleware.isLoggedIn, (req, res) => {
     var newCampground = {   
-                            name: req.body.name,
-                            image:req.body.source,
-                            desc: req.body.desc,
-                            author: {
-                              id: req.user.id,
-                              username: req.user.username
-                            }};
+      name: req.body.name,
+      image:req.body.source,
+      desc: req.body.desc,
+      author: {
+        id: req.user.id,
+        username: req.user.username
+      }
+    };
     Campground.create(newCampground, (err, campground) => {
         if (err) {
           console.log(err);
