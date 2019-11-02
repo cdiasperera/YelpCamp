@@ -7,6 +7,8 @@ var LocalStrategy         = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
 var session               = require("express-session");
 var methodOverride        = require("method-override");
+var flash                 = require("connect-flash");
+
 var Campground            = require("./models/campground");
 var Comment               = require("./models/comment");
 var User                  = require("./models/user");
@@ -25,6 +27,7 @@ app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride("_method"));
+app.use(flash());
 
 // PASSPORT CONFIG
 app.use(session({
@@ -42,6 +45,7 @@ passport.deserializeUser(User.deserializeUser());
 // Pass in the user information to all pages
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
+  res.locals.message = req.flash("error");
   next();
 });
 

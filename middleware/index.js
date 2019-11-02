@@ -6,6 +6,7 @@ middlewareObj.isLoggedIn = (req, res, next) => {
     return next();
   } else {
     req.session.returnTo = req.originalUrl;
+    req.flash("error", "Please login first");
     res.redirect("/login");
   }
 }
@@ -18,6 +19,7 @@ function checkCampOwnership (req, res, next) {
       if (foundCamp.author.id.equals(req.user._id)) {
         next();
       } else {
+        req.flash("error", "You do not have access to that camp");
         res.redirect("back");
       }
     }
@@ -32,6 +34,7 @@ function checkCommentOwnership (req, res, next) {
       if (foundComment.author.id.equals(req.user._id)) {
         next();
       } else {
+        req.flash("error", "You do not have access to that comment");
         res.redirect("back");
       }
     }
