@@ -29,6 +29,8 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
         comment.save();
         campground.comments.push(comment);
         campground.save();
+
+        req.flash("success", "Comment Created!");
         res.redirect("/campgrounds/" + campground._id);
       }
     });
@@ -58,6 +60,7 @@ router.put("/:comment_id", middleware.checkCommentStack, (req, res) => {
       if (err) {
         console.log(err);
       } else {
+        req.flash("success", "Comment Updated!");
         res.redirect("/campgrounds/" + req.params.id);
       }
   })

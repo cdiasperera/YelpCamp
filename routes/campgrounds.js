@@ -32,7 +32,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          req.flash("success", "Campground Created");
+          req.flash("success", "Campground Created!");
           res.redirect("campgrounds/");
         }
     });
@@ -67,7 +67,7 @@ router.put("/:id", middleware.checkCampStack, (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        req.flash("success", "Campground Edited");
+        req.flash("success", "Campground Updated!");
         res.redirect("/campgrounds/" + req.params.id);
       }
     }); 
@@ -82,7 +82,7 @@ router.delete("/:id", middleware.checkCampStack, (req, res) => {
         if (err) {
           console.log(err);
         }
-        req.flash("success", "Campground Deleted");
+        req.flash("success", "Campground Deleted!");
         res.redirect("/campgrounds"); 
       })
     }
