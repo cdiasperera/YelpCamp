@@ -1,4 +1,6 @@
 var Campground    = require("../models/campground");
+var Comment       = require("../models/comment");
+
 var middlewareObj = {};
 
 middlewareObj.isLoggedIn = (req, res, next) => {
@@ -19,7 +21,7 @@ function checkCampOwnership (req, res, next) {
       if (foundCamp.author.id.equals(req.user._id)) {
         next();
       } else {
-        req.flash("error", "You do not have access to that camp");
+        req.flash("error", "You do not have access to that camp!");
         res.redirect("back");
       }
     }
@@ -27,6 +29,7 @@ function checkCampOwnership (req, res, next) {
 }
 
 function checkCommentOwnership (req, res, next) {
+  console.log(req.params.comment_id);
   Comment.findById(req.params.comment_id, (err, foundComment) => {
     if (err) {
       console.log(err);
@@ -34,7 +37,7 @@ function checkCommentOwnership (req, res, next) {
       if (foundComment.author.id.equals(req.user._id)) {
         next();
       } else {
-        req.flash("error", "You do not have access to that comment");
+        req.flash("error", "You do not have access to that comment!");
         res.redirect("back");
       }
     }
@@ -42,6 +45,6 @@ function checkCommentOwnership (req, res, next) {
 }
 
 middlewareObj.checkCampStack    = [middlewareObj.isLoggedIn, checkCampOwnership];
-middlewareObj.checkCommentStack = [middlewareObj.isLoggedIn, checkCampOwnership];
+middlewareObj.checkCommentStack = [middlewareObj.isLoggedIn, checkCommentOwnership];
 
 module.exports = middlewareObj;

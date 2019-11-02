@@ -42,6 +42,7 @@ router.get("/:comment_id/edit", middleware.checkCommentStack, (req, res) => {
     if (err) {
       console.log(err);
     } else {
+      console.log(req.params.comment_id);
       Comment.findById(req.params.comment_id, (err, foundComment) => {
         res.render("comments/edit", {
           campground: foundCampground, 

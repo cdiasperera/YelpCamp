@@ -38,7 +38,8 @@ router.post(
   passport.authenticate(
     "local",
     {
-      failureRedirect: "/login"
+      failureRedirect: "/login",
+      failureFlash: true
     }),
   (req, res) => {
     var returnTo = req.session.returnTo ? req.session.returnTo : "/campgrounds";
@@ -49,6 +50,8 @@ router.post(
 
 router.get("/logout", (req, res) => {
   req.logout();
+
+  req.flash("success", "Logged out!");
   res.redirect("/");
 })
 
