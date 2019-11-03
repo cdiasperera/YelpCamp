@@ -17,7 +17,9 @@ middlewareObj.isLoggedIn = (req, res, next) => {
     res.redirect("/login");
   }
 }
-
+/**
+ * Middleware to check if the user has authorization, with regards to that camp
+ */
 function checkCampOwnership (req, res, next) {
   Campground.findById(req.params.id, (err, foundCamp) => {
     if (err || !foundCamp) {
@@ -34,6 +36,9 @@ function checkCampOwnership (req, res, next) {
   });
 }
 
+/**
+ * Middleware to check if the user has authorization, with regards to a comment
+ */
 function checkCommentOwnership (req, res, next) {
   console.log(req.params.comment_id);
   Comment.findById(req.params.comment_id, (err, foundComment) => {
@@ -51,6 +56,11 @@ function checkCommentOwnership (req, res, next) {
   })
 }
 
+/**
+ * If we check if the user has authorization to a camp/comment, we must know
+ * if they are logged in, for that request. Hence, we pass both middleware
+ * functions to the request.
+ */
 middlewareObj.checkCampStack    = [middlewareObj.isLoggedIn, checkCampOwnership];
 middlewareObj.checkCommentStack = [middlewareObj.isLoggedIn, checkCommentOwnership];
 

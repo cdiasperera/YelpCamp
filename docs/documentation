@@ -2,8 +2,51 @@
 
 ### Table of Contents
 
--   [displayError][1]
+-   [isLoggedIn][1]
     -   [Parameters][2]
+-   [checkCampStack][3]
+-   [checkCampOwnership][4]
+    -   [Parameters][5]
+-   [checkCommentOwnership][6]
+    -   [Parameters][7]
+-   [displayError][8]
+    -   [Parameters][9]
+
+## isLoggedIn
+
+Function to make sure user is logged in
+
+### Parameters
+
+-   `req`  
+-   `res`  
+-   `next`  
+
+## checkCampStack
+
+If we check if the user has authorization to a camp/comment, we must know
+if they are logged in, for that request. Hence, we pass both middleware
+functions to the request.
+
+## checkCampOwnership
+
+Middleware to check if the user has authorization, with regards to that camp
+
+### Parameters
+
+-   `req`  
+-   `res`  
+-   `next`  
+
+## checkCommentOwnership
+
+Middleware to check if the user has authorization, with regards to a comment
+
+### Parameters
+
+-   `req`  
+-   `res`  
+-   `next`  
 
 ## displayError
 
@@ -16,6 +59,20 @@ ONLY if there exists no pre-existing error. In this case, err is null.
 -   `err`  
 -   `customErrorMessage`  
 
-[1]: #displayerror
+[1]: #isloggedin
 
 [2]: #parameters
+
+[3]: #checkcampstack
+
+[4]: #checkcampownership
+
+[5]: #parameters-1
+
+[6]: #checkcommentownership
+
+[7]: #parameters-2
+
+[8]: #displayerror
+
+[9]: #parameters-3
