@@ -21,24 +21,20 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", middleware.isLoggedIn, (req, res) => {
-    var newCampground = {   
-      name: req.body.name,
-      image:req.body.source,
-      desc: req.body.desc,
-      author: {
-        id: req.user._id,
-        username: req.user.username
-      }
-    };
-    Campground.create(newCampground, (err, campground) => {
-        if (err ||!campground) {
-          helper.displayError(req, err, helper.customErrors.campCreate);
-          res.redirect("/campgrounds");
-        } else {
-          req.flash("success", "Campground Created!");
-          res.redirect("campgrounds/");
-        }
-    });
+  var newCampground = req.body.campground;
+  newCampground.author = {
+    id: req.user._id,
+    username: req.user.username
+  }
+  Campground.create(newCampground, (err, campground) => {
+    if (err ||!campground) {
+      helper.displayError(req, err, helper.customErrors.campCreate);
+      res.redirect("/campgrounds");
+    } else {
+      req.flash("success", "Campground Created!");
+      res.redirect("campgrounds/");
+    }
+  });
 });
 
 router.get("/new", middleware.isLoggedIn, (req, res) => {
