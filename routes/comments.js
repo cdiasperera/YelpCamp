@@ -21,15 +21,15 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 router.post("/", middleware.isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     var newComment = req.body.comment;
-    Comment.create(req.body.comment, (err, comment) => {
-      if (err || !foundCampground) {
+    Comment.create(req.body.newComment, (err, newComment) => {
+      if (err || !newComment) {
         helper.displayError(req, err, helper.customErrors.campId);
         res.redirect("/");
       } else {
-        comment.author.id = req.user._id;
-        comment.author.username = req.user.username;
-        comment.save();
-        campground.comments.push(comment);
+        newComment.author.id = req.user._id;
+        newComment.author.username = req.user.username;
+        newComment.save();
+        campground.comments.push(newComment);
         campground.save();
 
         req.flash("success", "Comment Created!");
@@ -46,7 +46,7 @@ router.get("/:comment_id/edit", middleware.checkCommentStack, (req, res) => {
       res.redirect("back");
     } else {
       Comment.findById(req.params.comment_id, (err, foundComment) => {
-        if (err ||!foundCampground) {
+        if (err ||!foundComment) {
           // Handled in middleware.checkCommentStack
         } else {
           res.render("comments/edit", {
