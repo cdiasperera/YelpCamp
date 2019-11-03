@@ -3,6 +3,14 @@
 A little project app to brush up my NodeJS skills. It basically acts as a review site for campgrounds.
 
 # TODO
+
+# Pre Deployment
+- [ ] Landing Page Refactor
+- [ ] Comment code. (I've been lax!)
+- [ ] Pricing Feature
+- [ ] Deploy to Heroku!
+
+## Post Deployment
 The following is a checklist of items to complete after deployment to Heroku:
 - [ ] CSS3 Background Animation
 - [ ] Fuzzy Search
