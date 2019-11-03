@@ -7,6 +7,9 @@ var Comment     = require("../models/comment");
 var middleware  = require("../middleware");
 var helper      = require("../helper");
 
+/**
+ * Route to page to create a new comment.
+ */
 router.get("/new", middleware.isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err || !foundCampground) {
@@ -18,17 +21,23 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
   });
 });
 
+/**
+ * Route to create a new comment. 
+ */
 router.post("/", middleware.isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
+    // Manually add the comment's user.
     var newComment = req.body.comment;
+    newComment.author = {
+      id: req.user._id,
+      username: req.user.username
+    }
     Comment.create(req.body.newComment, (err, newComment) => {
       if (err || !newComment) {
         helper.displayError(req, err, helper.customErrors.campId);
         res.redirect("/");
       } else {
-        newComment.author.id = req.user._id;
-        newComment.author.username = req.user.username;
-        newComment.save();
+        // After creating the comment, we associate it to the campground.
         campground.comments.push(newComment);
         campground.save();
 

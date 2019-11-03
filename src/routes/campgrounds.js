@@ -7,6 +7,9 @@ var Comment     = require("../models/comment");
 var middleware  = require("../middleware");
 var helper      = require("../helper");
 
+/**
+ * Route for the campgrounds index page
+ */
 router.get("/", (req, res) => {
   Campground.find({}, (err, allCampgrounds) => {
     if (err || !allCampgrounds) {
@@ -20,7 +23,11 @@ router.get("/", (req, res) => {
   });
 });
 
+/**
+ * Route to create a new camp.
+ */
 router.post("/", middleware.isLoggedIn, (req, res) => {
+  // Manually add the user data to the campground
   var newCampground = req.body.campground;
   newCampground.author = {
     id: req.user._id,
@@ -37,10 +44,16 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
   });
 });
 
+/**
+ * Route for the page to create a new camp.
+ */
 router.get("/new", middleware.isLoggedIn, (req, res) => {
     res.render("campgrounds/new");
 });
 
+/**
+ * Route to show a specific camp.
+ */
 router.get("/:id", (req, res) => {
   Campground.findById(req.params.id).populate("comments").exec( 
   (err, foundCampground) => {
@@ -53,6 +66,9 @@ router.get("/:id", (req, res) => {
   });
 });
 
+/**
+ * Route to page to edit a specific camp.
+ */
 router.get("/:id/edit", middleware.checkCampStack, (req, res) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err || !foundCampground) {
@@ -63,6 +79,9 @@ router.get("/:id/edit", middleware.checkCampStack, (req, res) => {
   });
 });
 
+/**
+ * Route to update a camp with submitted information.
+ */
 router.put("/:id", middleware.checkCampStack, (req, res) => {
   Campground.findByIdAndUpdate(
     req.params.id, 
@@ -78,6 +97,9 @@ router.put("/:id", middleware.checkCampStack, (req, res) => {
     }); 
 });
 
+/**
+ * Route to delete a specific camp.
+ */
 router.delete("/:id", middleware.checkCampStack, (req, res) => {
   Campground.findByIdAndRemove(req.params.id, (err, removedCamp) => {
     if (err || !removedCamp) {
