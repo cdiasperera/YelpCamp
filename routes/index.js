@@ -18,7 +18,7 @@ router.post("/register", (req, res) => {
     req.body.password,
     (err, username) => {
       if (err) {
-        req.flash("error", "We were unable to register you :(");
+        req.flash("error", err.message);
         return res.redirect("/register");
       } else {
         passport.authenticate("local")(req, res, () => {

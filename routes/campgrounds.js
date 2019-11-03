@@ -9,7 +9,7 @@ var middleware  = require("../middleware");
 router.get("/", (req, res) => {
   Campground.find({}, (err, allCampgrounds) => {
     if (err) {
-      req.flash("error", "No campgrounds could be reached! Call 911! Help!");
+      req.flash("error", err.message);
       res.redirect("/");
     } else {
       res.render(
@@ -31,7 +31,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     };
     Campground.create(newCampground, (err, campground) => {
         if (err) {
-          req.flash("error", "Whoops! We could not create your camp! Call 911!")
+          req.flash("error", err.message)
           res.redirect("/campgrounds");
         } else {
           req.flash("success", "Campground Created!");
@@ -48,7 +48,7 @@ router.get("/:id", (req, res) => {
     Campground.findById(req.params.id).populate("comments").exec( 
     (err, foundCampground) => {
       if (err) {
-        req.flash("error", "Dios mio! That campground doesn't exist dawg!");
+        req.flash("error", err.message);
         res.redirect("/campgrounds");
       }
         res.render("campgrounds/show", {campground: foundCampground});
@@ -71,7 +71,7 @@ router.put("/:id", middleware.checkCampStack, (req, res) => {
     req.body.campground, 
     (err, updatedCampground) => {
       if (err) {
-        req.flash("error", "Eggo! We couldn't update your campground!");
+        req.flash("error", err.message);
         res.redirect("/campgrounds");
       } else {
         req.flash("success", "Campground Updated!");
@@ -83,12 +83,12 @@ router.put("/:id", middleware.checkCampStack, (req, res) => {
 router.delete("/:id", middleware.checkCampStack, (req, res) => {
   Campground.findByIdAndRemove(req.params.id, (err, campRemoved) => {
     if (err) {
-      req.flash("error", "We couldn't remove your campground???");
+      req.flash("error", err.message);
       res.redirect("back");
     } else {
       Comment.deleteMany( {_id: { $in: campRemoved.comments } }, (err) => {
         if (err) {
-          req.flash("error", "Oh no! Something went wrong deleting the comments!");
+          req.flash("error", err.message);
           res.redirect("back");
         }
         req.flash("success", "Campground Deleted!");
