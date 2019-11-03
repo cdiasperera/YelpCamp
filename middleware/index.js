@@ -1,6 +1,8 @@
 var Campground    = require("../models/campground");
 var Comment       = require("../models/comment");
 
+var helper        = require("../helper");
+
 var middlewareObj = {};
 
 middlewareObj.isLoggedIn = (req, res, next) => {
@@ -15,8 +17,8 @@ middlewareObj.isLoggedIn = (req, res, next) => {
 
 function checkCampOwnership (req, res, next) {
   Campground.findById(req.params.id, (err, foundCamp) => {
-    if (err) {
-      req.flash("error", err.message);
+    if (err || !foundCamp) {
+      helper.displayError(req, err, helper.customErrors.campId);
       res.redirect("/campgrounds");
     } else {
       if (foundCamp.author.id.equals(req.user._id)) {
@@ -32,8 +34,8 @@ function checkCampOwnership (req, res, next) {
 function checkCommentOwnership (req, res, next) {
   console.log(req.params.comment_id);
   Comment.findById(req.params.comment_id, (err, foundComment) => {
-    if (err) {
-      req.flash("error", err.message); 
+    if (err || !foundComment) {
+      helper.displayError(req, err, helper.customErrors.commentId);
       res.redirect("back");
     } else {
       if (foundComment.author.id.equals(req.user._id)) {
