@@ -12,6 +12,10 @@ helperObj.customErrors = {
   commentDelete:  "Eggo! We could not delete your comment for some reason :("
 };
 
+/** 
+ * Function to create flash messages for errors. It passes the custom errors
+ * ONLY if there exists no pre-existing error. In this case, err is null.
+ */
 helperObj.displayError = (req, err, customErrorMessage) => {
   if (err) {
     req.flash("error", err.message);
