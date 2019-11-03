@@ -6,7 +6,7 @@ A little project app to brush up my NodeJS skills. It basically acts as a review
 
 ## Pre Deployment
 - [x] Landing Page Refactor
-- [] Comment code. (I've been lax!)
+- [ ] Comment code. (I've been lax!)
 - [ ] Pricing Feature
 - [ ] Deploy to Heroku!
 
