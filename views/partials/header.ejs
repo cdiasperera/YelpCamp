@@ -1,58 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Bootsrap 3-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <link rel="stylesheet" href="/style.css">
-    <title>YelpCamp</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Bootsrap 3-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/landing.css">
+  <title>YelpCamp</title>
 </head>
 <body>
-    <!-- Navbar-->
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <!-- Navbar brand + toggle-->
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" type="button" 
-                        data-toggle="collapse" data-target="#main-nav"
-                        aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">YelpCamp</a>
-            </div>
+  <!-- Navbar-->
+  <nav class="navbar navbar-default">
+      <div class="container">
+          <!-- Navbar brand + toggle-->
+          <div class="navbar-header">
+              <button class="navbar-toggle collapsed" type="button" 
+                      data-toggle="collapse" data-target="#main-nav"
+                      aria-expanded="false">
+                      <span class="sr-only">Toggle Navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">YelpCamp</a>
+          </div>
 
-            <!-- Navbar content-->
-            <div class="collapse navbar-collapse" id="main-nav">
-                <ul class="nav navbar-nav">
+          <!-- Navbar content-->
+          <div class="collapse navbar-collapse" id="main-nav">
+              <ul class="nav navbar-nav">
 
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <% if (!currentUser) { %>
-                      <li><a href="/login">Login</a></li>
-                      <li><a href="/register">Sign Up</a></li>
-                    <% } else { %>
-                      <li><a href=""><%= currentUser.username%></a></li>
-                      <li><a href="/logout">Logout</a></li>
-                    <% } %>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-      <% if (error && error.length > 0) { %>
-      <div class="alert alert-danger" role="alert">
-        <%= error %>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <% if (!currentUser) { %>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Sign Up</a></li>
+                  <% } else { %>
+                    <li><a href=""><%= currentUser.username%></a></li>
+                    <li><a href="/logout">Logout</a></li>
+                  <% } %>
+              </ul>
+          </div>
       </div>
-      <% } %>
-      <% if (success && success.length > 0) { %>
-      <div class="alert alert-success" role="alert">
-        <%= success %>
-      </div>
-      <% } %>
+  </nav>
+
+  <div class="container">
+    <% if (error && error.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= error %>
     </div>
+    <% } %>
+    <% if (success && success.length > 0) { %>
+    <div class="alert alert-success" role="alert">
+      <%= success %>
+    </div>
+    <% } %>
+  </div>
