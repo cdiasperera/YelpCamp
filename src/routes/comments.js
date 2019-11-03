@@ -22,23 +22,23 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 });
 
 /**
- * Route to create a new comment. 
+ * Route to create a new comment. n the  
  */
 router.post("/", middleware.isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
-    // Manually add the comment's user.
+    // Manually add user information
     var newComment = req.body.comment;
     newComment.author = {
-      id: req.user._id,
-      username: req.user.username
-    }
-    Comment.create(req.body.newComment, (err, newComment) => {
-      if (err || !newComment) {
+        id: req.user._id,
+        username: req.user.username
+      }
+    Comment.create(newComment, (err, createdComment) => {
+      if (err || !createdComment) {
         helper.displayError(req, err, helper.customErrors.campId);
         res.redirect("/");
       } else {
-        // After creating the comment, we associate it to the campground.
-        campground.comments.push(newComment);
+        // Once the comment is created, associate it to the campground.
+        campground.comments.push(createdComment);
         campground.save();
 
         req.flash("success", "Comment Created!");
@@ -48,6 +48,9 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
   });
 });
 
+/**
+ * Route to the page to edit a comment.
+ */
 router.get("/:comment_id/edit", middleware.checkCommentStack, (req, res) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err || !foundCampground) {
@@ -68,6 +71,9 @@ router.get("/:comment_id/edit", middleware.checkCommentStack, (req, res) => {
   });
 });
 
+/**
+ * Route to edit a comment.
+ */
 router.put("/:comment_id", middleware.checkCommentStack, (req, res) => {
   Comment.findByIdAndUpdate(
     req.params.comment_id, 
@@ -83,6 +89,9 @@ router.put("/:comment_id", middleware.checkCommentStack, (req, res) => {
   })
 });
 
+/**
+ * Route to delete a comment.
+ */
 router.delete("/:comment_id", middleware.checkCommentStack, (req, res) => {
   Comment.findByIdAndRemove(req.params.comment_id, (err, removedComment) => {
     if (err || !removedComment) {
