@@ -1,9 +1,9 @@
-var Campground    = require("../models/campground");
-var Comment       = require("../models/comment");
+const Campground    = require("../models/campground");
+const Comment       = require("../models/comment");
 
-var helper        = require("../helper");
+const helper        = require("../helper");
 
-var middlewareObj = {};
+const middlewareObj = {};
 
 /**
  * Function to make sure user is logged in

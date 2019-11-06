@@ -1,4 +1,4 @@
-var helperObj = {};
+const helperObj = {};
 
 helperObj.customErrors = {
   campsMiss:      "Uh oh! We could not find out campgrounds",

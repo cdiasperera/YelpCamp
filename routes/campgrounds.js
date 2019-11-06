@@ -1,11 +1,11 @@
-var express     = require("express");
-var router      = express.Router({mergeParams: true});
+const express     = require("express");
+const router      = express.Router({mergeParams: true});
 
-var Campground  = require("../models/campground");
-var Comment     = require("../models/comment");
+const Campground  = require("../models/campground");
+const Comment     = require("../models/comment");
 
-var middleware  = require("../middleware");
-var helper      = require("../helper");
+const middleware  = require("../middleware");
+const helper      = require("../helper");
 
 /**
  * Route for the campgrounds index page

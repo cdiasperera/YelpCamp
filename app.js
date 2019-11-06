@@ -1,30 +1,30 @@
 // IMPORTS
-var express               = require("express");
-var bodyParser            = require("body-parser");
-var mongoose              = require("mongoose");
-var passport              = require("passport");
-var LocalStrategy         = require("passport-local");
-var passportLocalMongoose = require("passport-local-mongoose");
-var session               = require("express-session");
-var methodOverride        = require("method-override");
-var flash                 = require("connect-flash");
+const express               = require("express");
+const bodyParser            = require("body-parser");
+const mongoose              = require("mongoose");
+const passport              = require("passport");
+const LocalStrategy         = require("passport-local");
+const passportLocalMongoose = require("passport-local-mongoose");
+const session               = require("express-session");
+const methodOverride        = require("method-override");
+const flash                 = require("connect-flash");
 
-var Campground            = require("./models/campground");
-var Comment               = require("./models/comment");
-var User                  = require("./models/user");
+const Campground            = require("./models/campground");
+const Comment               = require("./models/comment");
+const User                  = require("./models/user");
 
-var campgroundRoutes      = require("./routes/campgrounds");
-var commentRoutes         = require("./routes/comments");
-var indexRoutes           = require("./routes/index");
+const campgroundRoutes      = require("./routes/campgrounds");
+const commentRoutes         = require("./routes/comments");
+const indexRoutes           = require("./routes/index");
 
-var seedDB                = require("./seeds");
+const seedDB                = require("./seeds");
 // Load secret
 try {
-  var sessionSecret       = require("./secret");
+  const sessionSecret       = require("./secret");
 } catch (err) {
   if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
     // Process Env in this case should be heroku
-    var sessionSecret     = process.env.SECRET; 
+    const sessionSecret     = process.env.SECRET; 
   }
 }
 
