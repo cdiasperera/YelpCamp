@@ -1,3 +1,4 @@
+"use strict";
 // IMPORTS
 const express               = require("express");
 const bodyParser            = require("body-parser");
@@ -25,7 +26,7 @@ const dotenv                = (require('dotenv').config(
 const sessionSecret     = process.env.SESS_SECRET; 
 
 // CONFIG APP
-app = express();
+var app = express();
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
@@ -80,7 +81,7 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 // Start server
-port = process.env.PORT || 3000;
+var port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log("YelpCamp server is running.")
 });

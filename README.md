@@ -8,10 +8,13 @@ A little project app to brush up my NodeJS skills. It basically acts as a review
 - [x] Landing Page Refactor
 - [x] Commenting Catch Up.
 - [x] Pricing Feature
-- [ ] Deploy to Heroku!
+- [x] Deploy to Heroku!
+
+Woohoo!
 
 ## Post Deployment
 The following is a checklist of items to complete after deployment to Heroku:
+- [x] Make app strict compliant
 - [ ] CSS3 Background Animation
 - [ ] Fuzzy Search
 - [ ] Campground location 
