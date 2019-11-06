@@ -18,7 +18,15 @@ var commentRoutes         = require("./routes/comments");
 var indexRoutes           = require("./routes/index");
 
 var seedDB                = require("./seeds");
-var sessionSecret         = require("./secret.js");
+// Load secret
+try {
+  var sessionSecret       = require("./secret");
+} catch (err) {
+  if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
+    // Process Env in this case should be heroku
+    var sessionSecret     = process.env.SECRET; 
+  }
+}
 
 // CONFIG APP
 app = express();
