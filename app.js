@@ -8,7 +8,6 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const session               = require("express-session");
 const methodOverride        = require("method-override");
 const flash                 = require("connect-flash");
-
 const Campground            = require("./models/campground");
 const Comment               = require("./models/comment");
 const User                  = require("./models/user");
@@ -18,15 +17,11 @@ const commentRoutes         = require("./routes/comments");
 const indexRoutes           = require("./routes/index");
 
 const seedDB                = require("./seeds");
-// Load secret
-try {
-  const sessionSecret       = require("./secret");
-} catch (err) {
-  if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
-    // Process Env in this case should be heroku
-    const sessionSecret     = process.env.SECRET; 
-  }
-}
+
+const dotenv                = (require('dotenv').config(
+  { silent: process.env.NODE_ENV === 'production' }))
+
+const sessionSecret     = process.env.SESS_SECRET; 
 
 // CONFIG APP
 app = express();
@@ -60,7 +55,9 @@ app.use((req, res, next) => {
 
 // DB CONFIG
 mongoose.connect(
-  "mongodb://localhost:27017/yelp_camp", 
+  "mongodb+srv://yelpcampadmin:" +
+    process.env.DB_PASS + 
+    "@cluster0-uqaxm.mongodb.net/test?retryWrites=true&w=majority",
   {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
