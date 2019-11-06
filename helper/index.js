@@ -26,8 +26,10 @@ helperObj.displayError = (req, err, customErrorMessage) => {
 
 helperObj.makeMongoURI = () => {
   if (process.env.NODE_ENV === "production") {
-    return "mongodb+srv://yelpcampadmin:" + process.env.DB_PASS + 
-    "@cluster0-uqaxm.mongodb.net/test?retryWrites=true&w=majority"; 
+    var uri = "mongodb+srv://yelpcampadmin:";
+    uri += process.env.DB_PASS;
+    uri += "@cluster0-uqaxm.mongodb.net/test?retryWrites=true&w=majority";
+    return uri;
   } else {
     return "mongodb://localhost:27017/yelp_camp";
   }

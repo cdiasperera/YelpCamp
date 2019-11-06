@@ -54,8 +54,6 @@ app.use((req, res, next) => {
 });
 
 const mongoURI = helperObj.makeMongoURI();
-
-console.log(mongoURI);
 // DB CONFIG
 mongoose.connect(
   mongoURI,
@@ -63,7 +61,13 @@ mongoose.connect(
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     useFindAndModify: false}
-);
+).then(() => {
+  console.log("Connected to MongoDB");
+}
+).catch( (err) => {
+  console.log("Connection Issue");
+  console.log(err);
+});
 
 // Reset Database
 // seedDB();
