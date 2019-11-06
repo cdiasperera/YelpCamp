@@ -18,7 +18,7 @@ var commentRoutes         = require("./routes/comments");
 var indexRoutes           = require("./routes/index");
 
 var seedDB                = require("./seeds");
-var sessionSecret         = require("../secret.js");
+var sessionSecret         = require("./secret.js");
 
 // CONFIG APP
 app = express();
