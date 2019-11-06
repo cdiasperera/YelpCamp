@@ -6,6 +6,7 @@ const passport              = require("passport");
 const LocalStrategy         = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
 const session               = require("express-session");
+const MongoStore            = require("connect-mongo")(session);
 const methodOverride        = require("method-override");
 const flash                 = require("connect-flash");
 const Campground            = require("./models/campground");
@@ -32,9 +33,27 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride("_method"));
 app.use(flash());
 
+// DB CONFIG
+const mongoURI = helperObj.makeMongoURI();
+
+mongoose.connect(
+  mongoURI,
+  {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useFindAndModify: false}
+).then(() => {
+  console.log("Connected to MongoDB");
+}
+).catch( (err) => {
+  console.log("Connection Issue");
+  console.log(err);
+});
+
 // PASSPORT CONFIG
 app.use(session({
   secret: sessionSecret,
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
   resave: false,
   saveUninitialized: false
 }));
@@ -51,22 +70,6 @@ app.use((req, res, next) => {
   res.locals.error       = req.flash("error");
   res.locals.success     = req.flash("success");
   next();
-});
-
-const mongoURI = helperObj.makeMongoURI();
-// DB CONFIG
-mongoose.connect(
-  mongoURI,
-  {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true,
-    useFindAndModify: false}
-).then(() => {
-  console.log("Connected to MongoDB");
-}
-).catch( (err) => {
-  console.log("Connection Issue");
-  console.log(err);
 });
 
 // Reset Database
