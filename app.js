@@ -17,10 +17,10 @@ const commentRoutes         = require("./routes/comments");
 const indexRoutes           = require("./routes/index");
 
 const seedDB                = require("./seeds");
+const helperObj             = require("./helper");
 
 const dotenv                = (require('dotenv').config(
   { silent: process.env.NODE_ENV === 'production' }))
-
 const sessionSecret     = process.env.SESS_SECRET; 
 
 // CONFIG APP
@@ -53,11 +53,12 @@ app.use((req, res, next) => {
   next();
 });
 
+const mongoURI = helperObj.makeMongoURI();
+
+console.log(mongoURI);
 // DB CONFIG
 mongoose.connect(
-  "mongodb+srv://yelpcampadmin:" +
-    process.env.DB_PASS + 
-    "@cluster0-uqaxm.mongodb.net/test?retryWrites=true&w=majority",
+  mongoURI,
   {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
