@@ -28,6 +28,7 @@ Woohoo!
 ### Post Deployment
 The following is a checklist of items to complete after deployment to Heroku:
 - [x] Make app strict compliant
+- [ ] Restriction of passwords for increased security
 - [ ] CSS3 Background Animation
 - [ ] Fuzzy Search
 - [ ] Campground location 
