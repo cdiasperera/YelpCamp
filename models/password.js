@@ -1,0 +1,38 @@
+"use strict";
+const passwordValidator = require("password-validator");
+
+var schema = new passwordValidator();
+
+var invalidPasswordMessages = {
+  "min": "at least 8 characters",
+  "uppercase": "at least 1 uppercase character",
+  "lowercase": "at least 1 lowercase character",
+  "digits": "at least 1 digit"
+}
+
+schema
+  .is().min(8)
+  .has().uppercase()
+  .has().lowercase()
+  .has().digits();
+
+/**
+ * Function to return a string listing the errors in the password. 
+ * */  
+schema.errorMessage = (errors) => {
+  var message = "You need "
+  for (var i = 0; i < errors.length; i++) {
+    message += invalidPasswordMessages[errors[i]]
+    if (i === errors.length - 1) {
+      message += "!";
+    } else if (i === errors.length - 2) {
+      message += " and ";
+    } else {
+      message += ", ";
+    }
+  }
+
+  return message;
+};
+
+ module.exports = schema;
