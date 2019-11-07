@@ -3,6 +3,10 @@ const express           = require("express");
 const router            = express.Router();
 const passport          = require("passport");
 
+const helperObj         = require("../helper");
+
+const passwordSchema    = require("../models/password");
+
 const User = require("../models/user");
 
 /**
@@ -22,14 +26,23 @@ router.get("/register", (req, res) => {
 /**
  * Route which created a user.
  */
+
 router.post("/register", (req, res) => {
   var password = req.body.password;
+
+  // Check if the password is a valid password
+  var passwordErrors = passwordSchema.validate(password, {list: true});
+  if (passwordErrors.length > 0) {
+    req.flash("error", passwordSchema.errorMessage(passwordErrors));
+    return res.redirect("/register"); 
+  }
+
   User.register(
     new User({username: req.body.username}),
     password,
     (err, username) => {
       if (err) {
-        req.flash("error", err.message);
+        helperObj.displayError(req, err, helperObj.customErrors.userCreate);
         return res.redirect("/register");
       } else {
         passport.authenticate("local")(req, res, () => {

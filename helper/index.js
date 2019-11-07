@@ -24,6 +24,7 @@ helperObj.displayError = (req, err, customErrorMessage) => {
     req.flash("error", customErrorMessage);
   }
 }
+
 /**
  * Function to create the appropriate URI, to access the database, depending 
  * on whether the app is in production or development.

@@ -29,11 +29,12 @@ Woohoo!
 ### Post Deployment
 The following is a checklist of items to complete after deployment to Heroku:
 - [x] Make app strict compliant
-- [ ] _Password Validation_
-- [ ] _Dyanmic Password Strength Evaluator_
+- [x] _Server Password Validator_
+- [ ] _Client Real Time Password Validator_
+- [ ] _Refactor Constants_
 - [ ] CSS3 Background Animation
 - [ ] Fuzzy Search
-- [ ] Campground location 
+- [ ] Campground location
 - [ ] Campground cost 
 - [ ] Footer 
 - [ ] Home link in navigation 

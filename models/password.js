@@ -23,6 +23,7 @@ schema.errorMessage = (errors) => {
   var message = "You need "
   for (var i = 0; i < errors.length; i++) {
     message += invalidPasswordMessages[errors[i]]
+    // Choose which type of punctuation is needed, between listing the errors
     if (i === errors.length - 1) {
       message += "!";
     } else if (i === errors.length - 2) {

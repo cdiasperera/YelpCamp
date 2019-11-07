@@ -1,6 +1,7 @@
 <% include ./partials/header %>
 
-<script src="../public/scripts/passwordValidation.js"></script>
+<!-- <script src="/scripts/passwordValidator.js"></script> -->
+
 <div class="container">
   <div class="row">
     <h1 class="formHeader">Sign Up</h1>
@@ -18,6 +19,12 @@
           name="password" 
           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
           placeholder="Password">
+          <ul class="password-requirements">
+            <li>At least one number</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one lowercase letter</li>
+            <li>At least 8 characters long</li>
+          </ul>
       </div>
       <div class="form-group">
         <button class="btn btn-lg btn-primary btn-block" 
