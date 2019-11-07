@@ -4,6 +4,7 @@ A little project app to brush up my NodeJS skills. It basically acts as a review
 
 It was made following [Colt Steeles "The Web Developer Bootcamp"](https://www.udemy.com/course/the-web-developer-bootcamp) on Udemy. Almost all functionality was written following his course, though some changes had to be made. These were either because the lecture's code was depreciated, or because a service he was using moved on.
 
+Any features that are implemented outside of the course are in _italics_.
 ## TODO
 
 ### Pre Deployment
@@ -28,7 +29,8 @@ Woohoo!
 ### Post Deployment
 The following is a checklist of items to complete after deployment to Heroku:
 - [x] Make app strict compliant
-- [ ] Restriction of passwords for increased security
+- [ ] _Password Validation_
+- [ ] _Dyanmic Password Strength Evaluator_
 - [ ] CSS3 Background Animation
 - [ ] Fuzzy Search
 - [ ] Campground location 
@@ -42,12 +44,11 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Password reset 
 - [ ] Image upload with multer and cloudinary 
 - [ ] Migration/upgrade instructions for Bootstrap 4
-- [ ] Redesign CSS for website
+- [ ] _Redesign CSS for website_
 - [ ] Refactor callbacks with Async/Await
 - [ ] In-app notifications
 - [ ] Ratings and Reviews
 - [ ] Pagination
-- [ ] UI Improvements
 - [ ] Google Maps
 - [ ] Rework comments
 - [ ] Like Button

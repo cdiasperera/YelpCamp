@@ -30,16 +30,13 @@
 
           <!-- Navbar content-->
           <div class="collapse navbar-collapse" id="main-nav">
-              <ul class="nav navbar-nav">
-
-              </ul>
               <ul class="nav navbar-nav navbar-right">
                   <% if (!currentUser) { %>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/register">Sign Up</a></li>
+                    <li role="presentation"><a href="/login">Login</a></li>
+                    <li role="presentation"><a href="/register">Sign Up</a></li>
                   <% } else { %>
-                    <li><a href=""><%= currentUser.username%></a></li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li role="presentation"><a href=""><%= currentUser.username%></a></li>
+                    <li role="presentation"><a href="/logout">Logout</a></li>
                   <% } %>
               </ul>
           </div>

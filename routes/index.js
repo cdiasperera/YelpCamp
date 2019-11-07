@@ -1,7 +1,7 @@
 "use strict";
-const express  = require("express");
-const router   = express.Router();
-const passport = require("passport");
+const express           = require("express");
+const router            = express.Router();
+const passport          = require("passport");
 
 const User = require("../models/user");
 
@@ -23,9 +23,10 @@ router.get("/register", (req, res) => {
  * Route which created a user.
  */
 router.post("/register", (req, res) => {
+  var password = req.body.password;
   User.register(
     new User({username: req.body.username}),
-    req.body.password,
+    password,
     (err, username) => {
       if (err) {
         req.flash("error", err.message);
