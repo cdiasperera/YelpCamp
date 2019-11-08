@@ -1,0 +1,51 @@
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
+  <title>YelpCamp</title>
+</head>
+<body>
+  <!-- JQuery and JScripts used for Bootsrap 3-->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+  <!-- Navbar-->
+  <nav class="navbar navbar-default">
+      <div class="container">
+          <!-- Navbar brand + toggle-->
+          <div class="navbar-header">
+              <button class="navbar-toggle collapsed" type="button" 
+                      data-toggle="collapse" data-target="#main-nav"
+                      aria-expanded="false">
+                      <span class="sr-only">Toggle Navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">YelpCamp</a>
+          </div>
+
+          <!-- Navbar content-->
+          <div class="collapse navbar-collapse" id="main-nav">
+              <ul class="nav navbar-nav navbar-right">
+                  <% if (!currentUser) { %>
+                    <li role="presentation"><a href="/login">Login</a></li>
+                    <li role="presentation"><a href="/register">Sign Up</a></li>
+                  <% } else { %>
+                    <li role="presentation"><a href=""><%= currentUser.username%></a></li>
+                    <li role="presentation"><a href="/logout">Logout</a></li>
+                  <% } %>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+  <div class="container">
+    <% if (error && error.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= error %>
+    </div>
+    <% } %>
+    <% if (success && success.length > 0) { %>
+    <div class="alert alert-success" role="alert">
+      <%= success %>
+    </div>
+    <% } %>
+  </div>
