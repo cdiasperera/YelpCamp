@@ -6,7 +6,7 @@ const passport          = require("passport");
 const helperObj         = require("../helper");
 
 const passwordSchema    = require("../models/password");
-
+const usernameSchema    = require("../models/username");
 const User = require("../models/user");
 
 /**
@@ -29,6 +29,12 @@ router.get("/register", (req, res) => {
 
 router.post("/register", (req, res) => {
   var password = req.body.password;
+
+  var usernameErrors = usernameSchema.validate(req.body.username, {list: true});
+  if (usernameErrors.length > 0) {
+    req.flash("error", passwordSchema.errorMessage(usernameErrors));
+    return res.redirect("/register");
+  }
 
   // Check if the password is a valid password
   var passwordErrors = passwordSchema.validate(password, {list: true});
