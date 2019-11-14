@@ -41,32 +41,44 @@ function InputValidator(input, requirementsHTML, rules) {
 // An dictionary that contains functions to validate a rule. The
 // definition of the rule is implicit in the function.
 InputValidator.prototype.rules = {
- // Length Rule
-  length: (currentValue, minLength, maxLength) => { 
+ // Check that the input is within the bounds
+  fitLength: (currentValue, minLength, maxLength) => { 
+    //  Incorrect input checking
     if (minLength === undefined) {
       minLength = 0;
     } else if (maxLength === undefined) {
       maxLength = Infinity;
     }
-    if (currentValue.length > minLength && currentValue.length < maxLength) {
+    if (currentValue.length >= minLength && currentValue.length <= maxLength) {
       return true;
     } else {
       return false;
     }
   },
-  // Special Characters rule
-  specialChar: (currentValue) => {
-    if (/^[A-Za-z0-9_]{1,15}$/.test(currentValue)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  noSpecialChar: (currentValue) => {
+    return /^[A-Za-z0-9_]{1,15}$/.test(currentValue);
+  },
+  // At least one character of type "type", given in th regex format
+  atLeastOne: (currentValue, type) => {
+    return type.test(currentValue);
+  },
 }
 
+// Selects whatever rules are needed from the rules dictionary for the username
 InputValidator.prototype.usernameRules = [
-  bindEndArgs(InputValidator.prototype.rules.length, 1,Infinity),
-  InputValidator.prototype.rules.specialChar
+  bindEndArgs(InputValidator.prototype.rules.fitLength, 2,Infinity),
+  InputValidator.prototype.rules.noSpecialChar
+];
+
+// Selects whatever rules are needed from the rules dictionary for the password
+InputValidator.prototype.passwordRules = [
+  bindEndArgs(InputValidator.prototype.rules.fitLength, 8, Infinity),
+  // At least one number
+  bindEndArgs(InputValidator.prototype.rules.atLeastOne, /\d/),
+  // At least one uppcase letter
+  bindEndArgs(InputValidator.prototype.rules.atLeastOne, /[A-Z]/),
+  // At least one lowercase letter
+  bindEndArgs(InputValidator.prototype.rules.atLeastOne, /[a-z]/)
 ];
 // HELPER FUNCTION
 // A function to toggle class states, depending on toggleAction.
