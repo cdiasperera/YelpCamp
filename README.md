@@ -33,7 +33,6 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Client Real Time Registration Feedback andValidator_
 - [ ] _Refactor Constants_
 - [x] _Refactor header so stylesheet can be chosen by each page_
-- [ ] CSS3 Background Animation
 - [ ] Fuzzy Search
 - [ ] Campground location
 - [ ] Campground cost 

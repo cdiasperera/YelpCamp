@@ -1,7 +1,18 @@
+.valid {
+  color: #2ecc71;
+}
+
+.invalid {
+  color: red;
+}
+
 input + .input-requirements {
   overflow: hidden;
   max-height: 0;
   transition: max-height 1s ease-out;
+  list-style: none;
+  padding-inline-start: 0.7em;
+  margin: 1em 0;
 }
 
 
@@ -23,13 +34,13 @@ input:active + .input-requirements {
 }
 
 .form-control:placeholder-shown {
+  background-color: #DFDFDF;
   border: 1px solid #ccc;
 }
 
-.valid {
-  color: #2ecc71;
+.form-control:focus {
+  box-shadow: none;
+  outline: none;
+  background-color: white;
 }
 
-.invalid {
-  color: red;
-}

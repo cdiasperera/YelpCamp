@@ -41,14 +41,3 @@ img {
 .formHeader {
     text-align: center;
 }
-
-.form-control:placeholder-shown {
-  background-color: #DFDFDF;
-}
-
-.form-control:focus {
-  box-shadow: none;
-  outline: none;
-  background-color: white;
-}
-
