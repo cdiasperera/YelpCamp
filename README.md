@@ -55,4 +55,4 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Rework comments
 - [ ] Like Button
 - [ ] Semantic Campground URLs
-- [ ] Add total feature list to README
+- [x] Add total feature list to README
