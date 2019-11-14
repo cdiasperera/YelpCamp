@@ -66,7 +66,7 @@ InputValidator.prototype.rules = {
 
 // Selects whatever rules are needed from the rules dictionary for the username
 InputValidator.prototype.usernameRules = [
-  bindEndArgs(InputValidator.prototype.rules.fitLength, 2,Infinity),
+  bindEndArgs(InputValidator.prototype.rules.fitLength, 2, 15),
   InputValidator.prototype.rules.noSpecialChar
 ];
 

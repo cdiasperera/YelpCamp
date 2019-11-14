@@ -17,6 +17,15 @@ input:active + .input-requirements {
   border-width: 0.15em;
 }
 
+.form-control:invalid {
+  border-color: red;
+  border-width: 0.15em;
+}
+
+.form-control:placeholder-shown {
+  border: 1px solid #ccc;
+}
+
 .valid {
   color: #2ecc71;
 }
