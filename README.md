@@ -33,7 +33,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Client Real Time Registration Feedback andValidator_
 - [ ] _Refactor Constants_
 - [x] _Refactor header so stylesheet can be chosen by each page_
-- [ ] Fuzzy Search
+- [x] Fuzzy Search
 - [ ] Campground location
 - [ ] Campground cost 
 - [ ] Footer 
@@ -54,4 +54,5 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Rework comments
 - [ ] Like Button
 - [ ] Semantic Campground URLs
+- [ ] Refactor Callback Hell!!!
 - [x] Add total feature list to README

@@ -1,27 +1,39 @@
 "use strict";
 const express     = require("express");
 const router      = express.Router({mergeParams: true});
-
 const Campground  = require("../models/campground");
 const Comment     = require("../models/comment");
 
 const middleware  = require("../middleware");
 const helper      = require("../helper");
-
 /**
  * Route for the campgrounds index page
  */
 router.get("/", (req, res) => {
-  Campground.find({}, (err, allCampgrounds) => {
-    if (err || !allCampgrounds) {
-      helper.displayError(req, err, helper.customErrors.campsMiss);
-      res.redirect("/");
-    } else {
-      res.render(
-        "campgrounds/index",
-        {campgrounds: allCampgrounds});
+  // Request could come from a campground search or directly.
+  if (req.query.search) {
+    var regexSearch = {$regex: req.query.search, $options: "i"};
+    Campground.find({name: regexSearch}, (err, foundCamps) => {
+      if (err || !foundCamps) {
+        helper.displayError(req, err, helper.customErrors.campsMiss);
+        res.redirect("/");
+      } else {
+        res.render("campgrounds/index", {campgrounds: foundCamps});
       }
-  });
+    });
+  } else {
+     // Otherwise, show all campgrounds
+    Campground.find({}, (err, allCamps) => {
+      if (err || !allCamps) {
+        helper.displayError(req, err, helper.customErrors.campsMiss);
+        res.redirect("/");
+      } else {
+        res.render(
+          "campgrounds/index",
+          {campgrounds: allCamps});
+        }
+    });
+  }
 });
 
 /**
