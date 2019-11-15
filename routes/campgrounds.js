@@ -10,6 +10,8 @@ const helper      = require("../helper");
  * Route for the campgrounds index page
  */
 router.get("/", (req, res) => {
+  // Local paramters for the index page
+  var locals = {};
   // Request could come from a campground search or directly.
   if (req.query.search) {
     var regexSearch = {$regex: req.query.search, $options: "i"};
@@ -18,7 +20,8 @@ router.get("/", (req, res) => {
         helper.displayError(req, err, helper.customErrors.campsMiss);
         res.redirect("/");
       } else {
-        res.render("campgrounds/index", {campgrounds: foundCamps});
+        res.render("campgrounds/index", 
+                  {campgrounds: foundCamps, search: req.query.search});
       }
     });
   } else {
@@ -30,10 +33,11 @@ router.get("/", (req, res) => {
       } else {
         res.render(
           "campgrounds/index",
-          {campgrounds: allCamps});
+          {campgrounds: allCamps, search: ""});
         }
     });
   }
+
 });
 
 /**
