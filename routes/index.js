@@ -17,6 +17,19 @@ router.get("/", (req, res) => {
 });
 
 /**
+ * Route to the about page of the website.
+ */
+router.get("/about", (req, res) => {
+  res.render("about");
+});
+
+/**
+ * Route to the changelog page of the website.
+ */
+router.get("/changelog", (req, res) => {
+  res.render("changelog");
+});
+/**
  * Route to the register page.
  */
 router.get("/register", (req, res) => {

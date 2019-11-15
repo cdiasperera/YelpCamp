@@ -1,3 +1,16 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1 0 auto;
+}
+
 img {
     width: 50%;
 }
@@ -40,4 +53,25 @@ img {
 
 .formHeader {
     text-align: center;
+}
+
+.footer {
+  height: 10em;
+  width: 100%;
+  flex-shrink: 0;
+  background-color: #eee;
+  border-top: 0.2em solid #d0d0d0;
+}
+
+.footer-list {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.footer-list li {
+  margin: 0.2em 0;
+}
+
+.footer-header {
+
 }
