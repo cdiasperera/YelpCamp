@@ -72,6 +72,6 @@ img {
   margin: 0.2em 0;
 }
 
-.footer-header {
-
+.container.paragraphs {
+  max-width: 70em;
 }
