@@ -23,22 +23,22 @@ input:active + .input-requirements {
   transition: max-height 1s ease-in;
 }
 
-.form-control:valid {
+.sign-up:valid {
   border-color: #2ecc71;
   border-width: 0.15em;
 }
 
-.form-control:invalid {
+.sign-up:invalid {
   border-color: red;
   border-width: 0.15em;
 }
 
-.form-control:placeholder-shown {
+.sign-up:placeholder-shown {
   background-color: #DFDFDF;
   border: 1px solid #ccc;
 }
 
-.form-control:focus {
+.sigup:focus {
   box-shadow: none;
   outline: none;
   background-color: white;
