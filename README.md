@@ -35,7 +35,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Refactor header so stylesheet can be chosen by each page_
 - [x] Fuzzy Search
 - [ ] Campground location
-- [ ] Footer 
+- [x] Footer 
 - [ ] Home link in navigation 
 - [ ] Authentication flash messages 
 - [ ] Display time since post was created 
