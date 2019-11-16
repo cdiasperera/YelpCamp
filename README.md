@@ -32,20 +32,19 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Server Registration Validator_
 - [x] _Client Real Time Registration Feedback andValidator_
 - [ ] _Refactor Constants_
+- [ ] _Refactor Callbacks_
 - [x] _Refactor header so stylesheet can be chosen by each page_
 - [x] Fuzzy Search
 - [ ] Campground location
 - [x] Footer 
-- [ ] Home link in navigation 
-- [ ] Authentication flash messages 
 - [ ] Display time since post was created 
 - [ ] User profile
 - [ ] User Roles 
 - [ ] Password reset 
 - [ ] Image upload with multer and cloudinary 
-- [ ] Migration/upgrade instructions for Bootstrap 4
+- [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3.
 - [ ] _Redesign CSS for website_
-- [ ] Refactor callbacks with Async/Await
+- [ ] Refactor callbacks in seeds.js with Async/Await
 - [ ] In-app notifications
 - [ ] Ratings and Reviews
 - [ ] Pagination
@@ -53,5 +52,4 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Rework comments
 - [ ] Like Button
 - [ ] Semantic Campground URLs
-- [ ] Refactor Callback Hell!!!
 - [x] Add total feature list to README

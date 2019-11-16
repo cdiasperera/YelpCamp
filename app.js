@@ -22,7 +22,7 @@ const seedDB                = require("./seeds");
 const helperObj             = require("./helper");
 
 const dotenv                = (require('dotenv').config(
-  { silent: process.env.NODE_ENV === 'production' }))
+  { silent: process.env.NODE_ENV === "production" }))
 const sessionSecret     = process.env.SESS_SECRET; 
 
 // CONFIG APP
@@ -74,8 +74,13 @@ app.use((req, res, next) => {
 });
 
 // Reset Database
-// seedDB();
-
+// Safety check to only run code in dev, not production.
+if (process.env.NODE_ENV === "production") {
+  // Do nothing.
+} else {
+  // Not in production, so we can run seedDB, if needed.
+  seedDB();
+}
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);

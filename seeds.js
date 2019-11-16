@@ -2,7 +2,7 @@
 var mongoose    = require("mongoose");
 var Campground  = require("./models/campground");
 var Comment     = require("./models/comment");
-
+var User        = require("./models/user");
 // Data to reseed the "campground
 var data = [
   {
@@ -32,6 +32,21 @@ function seedDB() {
     }
   });
 
+  Comment.deleteMany({}, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("removed comments");
+    }
+  });
+
+  User.deleteMany({}, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("removed users"); 
+    }
+  });
   // // Add "campgrounds
   // data.forEach((campground) => {
   //   Campground.create(campground, (err, campground) => {
