@@ -4,71 +4,47 @@ var Campground  = require("./models/campground");
 var Comment     = require("./models/comment");
 var User        = require("./models/user");
 // Data to reseed the "campground
-var data = [
+var seeds = [
   {
     name: "campOne",
+    price: 10,
     image: "https://images.unsplash.com/photo-1497900304864-273dfb3aae33?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1388&q=80",
     desc: "A hella sick camp." 
   },
   {
     name: "campTwo",
+    price: 10,
     image: "https://images.unsplash.com/photo-1476041800959-2f6bb412c8ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
     desc: "A so, so camp." 
   }, 
   {
     name: "campThree",
+    price: 10,
     image: "https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
     desc: "The worst of the worst."
   },
 ];
 
-function seedDB() {
-  // Removed all "campgrounds
-  Campground.deleteMany({}, (err) =>{
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("removed campgounds");
-    }
-  });
+var testComment = {
+  text: "This is test comment. I really hope this isn't in production",
+  author: "notARealUser"
+}
 
-  Comment.deleteMany({}, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("removed comments");
-    }
-  });
+async function seedDB() {
+  try {
+    await Comment.deleteMany({});
+    await Campground.deleteMany({});
+    await User.deleteMany({});
 
-  User.deleteMany({}, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("removed users"); 
-    }
-  });
-  // // Add "campgrounds
-  // data.forEach((campground) => {
-  //   Campground.create(campground, (err, campground) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(campground);
-  //       Comment.create({
-  //         text: "Wassup dawg, this be a hella sick comment.",
-  //         author: "Ya boi",
-  //       }, (err, comment) => {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //           campground.comments.push(comment);
-  //           campground.save();
-  //           console.log("created a new comment"); 
-  //         }
-  //       });
-  //     }
-  //   });
-  // })
+    seeds.forEach(async (seed) => {
+      let campground  = await Campground.create(seed);
+      let comment     = await Comment.create(testComment);
+      campground.comments.push(comment);
+      campground.save();
+    });
+  } catch (err) {
+  console.log(err);
+  }
 }
 
 module.exports = seedDB;
