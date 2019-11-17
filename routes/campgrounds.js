@@ -52,15 +52,15 @@ router.get("/", async (req, res) => {
  */
 router.post("/", middleware.isLoggedIn, async (req, res) => {
   // Manually add the user data to the campground
-  let newCampground = req.body.campground;
-  newCampground.author = {id: req.user._id, username: req.user.username};
+  let newCamp = req.body.camp;
+  newCamp.author = {id: req.user._id, username: req.user.username};
   try {
-    let camp = await Campground.create(newCampground);
+    let camp = await Campground.create(newCamp);
     if (isEmpty(camp)) {
       throw helper.customErrors.campsCreate;
     }
     req.flash("success", "Campground Created!");
-    req.redirect("/campgrounds");
+    res.redirect("/campgrounds");
   } catch (err) {
     helper.displayError(req, err);
     res.redirect("/campgrounds");
@@ -86,11 +86,9 @@ router.get("/:id", (req, res) => {
 
   }
  
- 
- 
   Campground.findById(req.params.id).populate("comments").exec( 
-  (err, foundCampground) => {
-    if (err || !foundCampground) {
+  (err, foundCamp) => {
+    if (err || !foundCamp) {
       helper.displayError(req, err, helper.customErrors.campId);
       res.redirect("/campgrounds");
     } else {
@@ -103,7 +101,7 @@ router.get("/:id", (req, res) => {
  * Route to page to edit a specific camp.
  */
 router.get("/:id/edit", middleware.checkCampStack, (req, res) => {
-  Camp.findById(req.params.id, (err, foundCamp) => {
+  Campground.findById(req.params.id, (err, foundCamp) => {
     if (err || !foundCamp) {
       // Handled in middleware.checkCampStack
     } else {
