@@ -15,35 +15,29 @@ let isEmpty       = lodash.isEmpty;
  */
 router.get("/", async (req, res) => {
   // Request could come from a campground search or directly.
+  let search, dbSearchParams;
   if (req.query.search) {
+    // If the request came from a serach, form the search regex.
     let regexSearch = {$regex: req.query.search, $options: "i"};
-    try {
-      // Find matching campgrounds
-      let foundCamps = await Campground.find({name: regexSearch});
-      if (isEmpty(foundCamps)) { 
-        throw helper.customErrors.campsMiss;
-      }
-
-      let locals = {camps: foundCamps, search: req.query.search};
-      res.render( "campgrounds/index", locals)
-    } catch (err) {
-        helper.displayError(req, err);
-        res.redirect("/");
-    } 
+    dbSearchParams = {name: regexSearch};
+    search = req.query.search;
   } else {
-    // Otherwise, show all campgrounds
-    try {
-      let allCamps = await Campground.find({});
-      if (isEmpty(allCamps)) {
-        throw helper.customErrors.campsMiss;
-      }
-      let locals = {camps: allCamps, search: ""};
-      res.render(
-        "campgrounds/index", locals);
-    } catch (err) {
+    // Otherwise set the regex to find all the camps.
+    dbSearchParams = {};
+    search ="";
+  }
+
+  try {
+    let foundCamps = await Campground.find(dbSearchParams);
+    if (isEmpty(foundCamps)) { 
+      throw helper.customErrors.campsMiss;
+    }
+
+    let locals = {camps: foundCamps, search: search};
+    res.render( "campgrounds/index", locals)
+  } catch (err) {
       helper.displayError(req, err);
       res.redirect("/");
-    }
   } 
 });
 

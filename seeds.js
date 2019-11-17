@@ -40,7 +40,7 @@ async function seedDB() {
       let camp    = await Campground.create(seed);
       let comment = await Comment.create(testComment);
       camp.comments.push(comment);
-      campground.save();
+      camp.save();
     });
   } catch (err) {
   console.log(err);
