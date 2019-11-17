@@ -23,7 +23,8 @@ router.get("/", async (req, res) => {
       if (isEmpty(foundCamps)) { 
         throw helper.customErrors.campsMiss;
       }
-      let locals = {campgrounds: foundCamps, search: req.query.search};
+
+      let locals = {camps: foundCamps, search: req.query.search};
       res.render( "campgrounds/index", locals)
     } catch (err) {
         helper.displayError(req, err);
@@ -36,7 +37,7 @@ router.get("/", async (req, res) => {
       if (isEmpty(allCamps)) {
         throw helper.customErrors.campsMiss;
       }
-      let locals = {campgrounds: allCamps, search: ""};
+      let locals = {camps: allCamps, search: ""};
       res.render(
         "campgrounds/index", locals);
     } catch (err) {
@@ -54,8 +55,8 @@ router.post("/", middleware.isLoggedIn, async (req, res) => {
   let newCampground = req.body.campground;
   newCampground.author = {id: req.user._id, username: req.user.username};
   try {
-    let campground = await Campground.create(newCampground);
-    if (isEmpty(campground)) {
+    let camp = await Campground.create(newCampground);
+    if (isEmpty(camp)) {
       throw helper.customErrors.campsCreate;
     }
     req.flash("success", "Campground Created!");
@@ -78,13 +79,22 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
  * Route to show a specific camp.
  */
 router.get("/:id", (req, res) => {
+
+  try {
+    foundCamp
+  } catch (err) {
+
+  }
+ 
+ 
+ 
   Campground.findById(req.params.id).populate("comments").exec( 
   (err, foundCampground) => {
     if (err || !foundCampground) {
       helper.displayError(req, err, helper.customErrors.campId);
       res.redirect("/campgrounds");
     } else {
-      res.render("campgrounds/show", {campground: foundCampground});
+      res.render("campgrounds/show", {camp: foundCamp});
     }
   });
 });
@@ -93,11 +103,11 @@ router.get("/:id", (req, res) => {
  * Route to page to edit a specific camp.
  */
 router.get("/:id/edit", middleware.checkCampStack, (req, res) => {
-  Campground.findById(req.params.id, (err, foundCampground) => {
-    if (err || !foundCampground) {
+  Camp.findById(req.params.id, (err, foundCamp) => {
+    if (err || !foundCamp) {
       // Handled in middleware.checkCampStack
     } else {
-      res.render("campgrounds/edit", {campground: foundCampground});
+      res.render("campgrounds/edit", {camp: foundCamp});
     }
   });
 });
@@ -108,9 +118,9 @@ router.get("/:id/edit", middleware.checkCampStack, (req, res) => {
 router.put("/:id", middleware.checkCampStack, (req, res) => {
   Campground.findByIdAndUpdate(
     req.params.id, 
-    req.body.campground, 
-    (err, updatedCampground) => {
-      if (err || !updatedCampground) {
+    req.body.camp, 
+    (err, updatedCamp) => {
+      if (err || !updatedCamp) {
         helper.displayError(req, err, helper.customErrors.campUpdate);
         res.redirect("/campgrounds");
       } else {

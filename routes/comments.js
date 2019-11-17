@@ -12,12 +12,12 @@ const helper      = require("../helper");
  * Route to page to create a new comment.
  */
 router.get("/new", middleware.isLoggedIn, (req, res) => {
-  Campground.findById(req.params.id, (err, foundCampground) => {
-    if (err || !foundCampground) {
+  Campground.findById(req.params.id, (err, foundCamp) => {
+    if (err || !foundCamp) {
       helper.displayError(req, err, helper.customErrors.campId);
       res.render("back");
     } else {
-      res.render("comments/new", {campground: foundCampground});
+      res.render("comments/new", {camp: foundCamp});
     }
   });
 });
@@ -26,7 +26,7 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
  * Route to create a new comment. n the  
  */
 router.post("/", middleware.isLoggedIn, (req, res) => {
-  Campground.findById(req.params.id, (err, campground) => {
+  Campground.findById(req.params.id, (err, camp) => {
     // Manually add user information
     let newComment = req.body.comment;
     newComment.author = {
@@ -39,11 +39,11 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
         res.redirect("/");
       } else {
         // Once the comment is created, associate it to the campground.
-        campground.comments.push(createdComment);
-        campground.save();
+        camp.comments.push(createdComment);
+        camp.save();
 
         req.flash("success", "Comment Created!");
-        res.redirect("/campgrounds/" + campground._id);
+        res.redirect("/campgrounds/" + camp._id);
       }
     });
   });
@@ -53,8 +53,8 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
  * Route to the page to edit a comment.
  */
 router.get("/:comment_id/edit", middleware.checkCommentStack, (req, res) => {
-  Campground.findById(req.params.id, (err, foundCampground) => {
-    if (err || !foundCampground) {
+  Campground.findById(req.params.id, (err, foundCamp) => {
+    if (err || !foundCamp) {
       helper.displayError(req, err, helper.customErrors.campId);
       res.redirect("back");
     } else {
@@ -63,7 +63,7 @@ router.get("/:comment_id/edit", middleware.checkCommentStack, (req, res) => {
           // Handled in middleware.checkCommentStack
         } else {
           res.render("comments/edit", {
-            campground: foundCampground, 
+            camp: foundCamp, 
             comment: foundComment
           });
         }
