@@ -1,7 +1,7 @@
 "use strict";
 const mongoose = require('mongoose');
 
-var campgroundSchema = new mongoose.Schema({
+let campgroundSchema = new mongoose.Schema({
     name: String,
     image: String,
     desc: String,

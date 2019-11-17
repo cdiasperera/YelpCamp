@@ -11,10 +11,10 @@ const helper      = require("../helper");
  */
 router.get("/", (req, res) => {
   // Local paramters for the index page
-  var locals = {};
+  let locals = {};
   // Request could come from a campground search or directly.
   if (req.query.search) {
-    var regexSearch = {$regex: req.query.search, $options: "i"};
+    let regexSearch = {$regex: req.query.search, $options: "i"};
     Campground.find({name: regexSearch}, (err, foundCamps) => {
       if (err || !foundCamps) {
         helper.displayError(req, err, helper.customErrors.campsMiss);
@@ -45,7 +45,7 @@ router.get("/", (req, res) => {
  */
 router.post("/", middleware.isLoggedIn, (req, res) => {
   // Manually add the user data to the campground
-  var newCampground = req.body.campground;
+  let newCampground = req.body.campground;
   newCampground.author = {
     id: req.user._id,
     username: req.user.username

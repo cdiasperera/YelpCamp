@@ -1,10 +1,10 @@
 "use strict";
-var mongoose    = require("mongoose");
-var Campground  = require("./models/campground");
-var Comment     = require("./models/comment");
-var User        = require("./models/user");
+let mongoose    = require("mongoose");
+let Campground  = require("./models/campground");
+let Comment     = require("./models/comment");
+let User        = require("./models/user");
 // Data to reseed the "campground
-var seeds = [
+let seeds = [
   {
     name: "campOne",
     price: 10,
@@ -25,7 +25,7 @@ var seeds = [
   },
 ];
 
-var testComment = {
+let testComment = {
   text: "This is test comment. I really hope this isn't in production",
   author: "notARealUser"
 }

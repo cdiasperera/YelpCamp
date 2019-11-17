@@ -1,7 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
 
-var commentSchema = mongoose.Schema({
+let commentSchema = mongoose.Schema({
   text: String,
   // Referenced User
   author: {

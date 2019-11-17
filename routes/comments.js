@@ -28,7 +28,7 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 router.post("/", middleware.isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     // Manually add user information
-    var newComment = req.body.comment;
+    let newComment = req.body.comment;
     newComment.author = {
         id: req.user._id,
         username: req.user.username

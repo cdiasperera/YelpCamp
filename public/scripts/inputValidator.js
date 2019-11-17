@@ -13,7 +13,7 @@ function InputValidator(input, requirementsHTML, rules) {
   }
 
   this.checkValidation = (event) => {
-    var currentInput = event.target.value;
+    let currentInput = event.target.value;
 
     if (currentInput === "") {
       this.prevValue = currentInput;
@@ -31,8 +31,8 @@ function InputValidator(input, requirementsHTML, rules) {
 
   this.checkRules = (currentInput) => {
     this.rules.forEach((rule, index) => {
-      var targetClassList = requirementsHTML[index].classList;
-      var toggleAction = rule(currentInput);
+      let targetClassList = requirementsHTML[index].classList;
+      let toggleAction = rule(currentInput);
       toggleClasses(targetClassList, toggleAction, "valid", "invalid");
     }) 
   }
@@ -100,13 +100,13 @@ function bindEndArgs(fn, ...boundArgs) {
   }
 }
 
-var usernameValidator = new InputValidator(
+let usernameValidator = new InputValidator(
   document.querySelector("input[name=username]"),
   document.querySelectorAll("input[name=username] + .input-requirements li"),
   InputValidator.prototype.usernameRules  
 );
 
-var passwordValidator = new InputValidator(
+let passwordValidator = new InputValidator(
   document.querySelector("input[name=password]"),
   document.querySelectorAll("input[name=password] + .input-requirements li"),
   InputValidator.prototype.passwordRules

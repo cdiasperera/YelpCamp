@@ -41,16 +41,16 @@ router.get("/register", (req, res) => {
  */
 
 router.post("/register", (req, res) => {
-  var password = req.body.password;
+  let password = req.body.password;
 
-  var usernameErrors = usernameSchema.validate(req.body.username, {list: true});
+  let usernameErrors = usernameSchema.validate(req.body.username, {list: true});
   if (usernameErrors.length > 0) {
     req.flash("error", passwordSchema.errorMessage(usernameErrors));
     return res.redirect("/register");
   }
 
   // Check if the password is a valid password
-  var passwordErrors = passwordSchema.validate(password, {list: true});
+  let passwordErrors = passwordSchema.validate(password, {list: true});
   if (passwordErrors.length > 0) {
     req.flash("error", passwordSchema.errorMessage(passwordErrors));
     return res.redirect("/register"); 
@@ -92,7 +92,7 @@ router.post(
     }),
   (req, res) => {
     // Return to the previous page, if previous page is know. Otherwise, go to the index.
-    var returnTo = req.session.returnTo ? req.session.returnTo : "/campgrounds";
+    let returnTo = req.session.returnTo ? req.session.returnTo : "/campgrounds";
     delete req.session.returnTo;
     res.redirect(returnTo);
   }

@@ -31,7 +31,7 @@ helperObj.displayError = (req, err, customErrorMessage) => {
  */
 helperObj.makeMongoURI = () => {
   if (process.env.NODE_ENV === "production") {
-    var uri = "mongodb+srv://yelpcampadmin:";
+    let uri = "mongodb+srv://yelpcampadmin:";
     uri += process.env.DB_PASS;
     uri += "@cluster0-uqaxm.mongodb.net/test?retryWrites=true&w=majority";
     return uri;

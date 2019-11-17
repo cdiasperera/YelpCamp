@@ -1,9 +1,9 @@
 "use strict";
 const passwordValidator = require("password-validator");
 
-var schema = new passwordValidator();
+let schema = new passwordValidator();
 
-var invalidPasswordMessages = {
+let invalidPasswordMessages = {
   "min": "at least 8 characters",
   "uppercase": "at least 1 uppercase character",
   "lowercase": "at least 1 lowercase character",
@@ -20,8 +20,8 @@ schema
  * Function to return a string listing the errors in the password. 
  * */  
 schema.errorMessage = (errors) => {
-  var message = "You need "
-  for (var i = 0; i < errors.length; i++) {
+  let message = "You need "
+  for (let i = 0; i < errors.length; i++) {
     message += invalidPasswordMessages[errors[i]]
     // Choose which type of punctuation is needed, between listing the errors
     if (i === errors.length - 1) {

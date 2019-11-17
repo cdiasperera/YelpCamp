@@ -1,9 +1,9 @@
 "use strict";
 const passwordValidator = require("password-validator");
 
-var schema = new passwordValidator();
+let schema = new passwordValidator();
 
-var invalidUsernameMessages = {
+let invalidUsernameMessages = {
   "min": "at least 2 characters",
   "symbol": "no symbols",
   "spaces": "no spaces"

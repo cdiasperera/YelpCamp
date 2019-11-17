@@ -26,7 +26,7 @@ const dotenv                = (require('dotenv').config(
 const sessionSecret     = process.env.SESS_SECRET; 
 
 // CONFIG APP
-var app = express();
+let app = express();
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
@@ -79,14 +79,14 @@ if (process.env.NODE_ENV === "production") {
   // Do nothing.
 } else {
   // Not in production, so we can run seedDB, if needed.
-  seedDB();
+  // seedDB();
 }
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 // Start server
-var port = process.env.PORT || 3000;
+let port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log("YelpCamp server is running.")
 });
