@@ -3,62 +3,68 @@ const express     = require("express");
 const router      = express.Router({mergeParams: true});
 const Campground  = require("../models/campground");
 const Comment     = require("../models/comment");
+const lodash      = require("lodash");
 
 const middleware  = require("../middleware");
 const helper      = require("../helper");
+
+let isEmpty       = lodash.isEmpty;
+
 /**
  * Route for the campgrounds index page
  */
-router.get("/", (req, res) => {
-  // Local paramters for the index page
-  let locals = {};
+router.get("/", async (req, res) => {
   // Request could come from a campground search or directly.
   if (req.query.search) {
     let regexSearch = {$regex: req.query.search, $options: "i"};
-    Campground.find({name: regexSearch}, (err, foundCamps) => {
-      if (err || !foundCamps) {
-        helper.displayError(req, err, helper.customErrors.campsMiss);
-        res.redirect("/");
-      } else {
-        res.render("campgrounds/index", 
-                  {campgrounds: foundCamps, search: req.query.search});
+    try {
+      // Find matching campgrounds
+      let foundCamps = await Campground.find({name: regexSearch});
+      if (isEmpty(foundCamps)) { 
+        throw helper.customErrors.campsMiss;
       }
-    });
-  } else {
-     // Otherwise, show all campgrounds
-    Campground.find({}, (err, allCamps) => {
-      if (err || !allCamps) {
-        helper.displayError(req, err, helper.customErrors.campsMiss);
+      let locals = {campgrounds: foundCamps, search: req.query.search};
+      res.render( "campgrounds/index", locals)
+    } catch (err) {
+        helper.displayError(req, err);
         res.redirect("/");
-      } else {
-        res.render(
-          "campgrounds/index",
-          {campgrounds: allCamps, search: ""});
-        }
-    });
-  }
-
+    } 
+  } else {
+    // Otherwise, show all campgrounds
+    try {
+      let allCamps = await Campground.find({});
+      if (isEmpty(allCamps)) {
+        throw helper.customErrors.campsMiss;
+      }
+      let locals = {campgrounds: allCamps, search: ""};
+      res.render(
+        "campgrounds/index", locals);
+    } catch (err) {
+      helper.displayError(req, err);
+      res.redirect("/");
+    }
+  } 
 });
 
 /**
  * Route to create a new camp.
  */
-router.post("/", middleware.isLoggedIn, (req, res) => {
+router.post("/", middleware.isLoggedIn, async (req, res) => {
   // Manually add the user data to the campground
   let newCampground = req.body.campground;
-  newCampground.author = {
-    id: req.user._id,
-    username: req.user.username
-  }
-  Campground.create(newCampground, (err, campground) => {
-    if (err ||!campground) {
-      helper.displayError(req, err, helper.customErrors.campCreate);
-      res.redirect("/campgrounds");
-    } else {
-      req.flash("success", "Campground Created!");
-      res.redirect("campgrounds/");
+  newCampground.author = {id: req.user._id, username: req.user.username};
+  try {
+    let campground = await Campground.create(newCampground);
+    if (isEmpty(campground)) {
+      throw helper.customErrors.campsCreate;
     }
-  });
+    req.flash("success", "Campground Created!");
+    req.redirect("/campgrounds");
+  } catch (err) {
+    helper.displayError(req, err);
+    res.redirect("/campgrounds");
+  }
+  
 });
 
 /**

@@ -37,9 +37,9 @@ async function seedDB() {
     await User.deleteMany({});
 
     seeds.forEach(async (seed) => {
-      let campground  = await Campground.create(seed);
-      let comment     = await Comment.create(testComment);
-      campground.comments.push(comment);
+      let camp    = await Campground.create(seed);
+      let comment = await Comment.create(testComment);
+      camp.comments.push(comment);
       campground.save();
     });
   } catch (err) {

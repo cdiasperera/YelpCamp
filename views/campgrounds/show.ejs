@@ -11,14 +11,14 @@
     </div>
     <div class="col-md-9">
       <div class="thumbnail">
-        <img class="img-responsive" src="<%= campground.image%>" alt="campground">
+        <img class="img-responsive" src="<%= camp.image%>" alt="campground">
         <div class="caption-full">
-          <h4 class="pull-right"> $<%= campground.price%>/night</h4>
-          <h4><a href=""><%= campground.name%></a></h4>
-          <p><%= campground.desc%> </p>
-          <p>Submitted by <%= campground.author.username%></p>
-          <% if (currentUser && campground.author.id.equals(currentUser._id)) { %>
-            <a href="<%= campground._id%>/edit" class="btn btn-warning">Edit</a>
+          <h4 class="pull-right"> $<%= camp.price%>/night</h4>
+          <h4><a href=""><%= camp.name%></a></h4>
+          <p><%= camp.desc%> </p>
+          <p>Submitted by <%= camp.author.username%></p>
+          <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
+            <a href="<%= camp._id%>/edit" class="btn btn-warning">Edit</a>
             <form class="pull-right" action="?_method=DELETE" method="POST">
               <button class="btn btn-danger">Delete</button>
             </form>
@@ -27,7 +27,7 @@
       </div>
       <div class="well">
         <div class="text-right">
-          <a class="btn btn-success" href="./<%= campground._id%>/comments/new">Create a comment</a>
+          <a class="btn btn-success" href="./<%= camp._id%>/comments/new">Create a comment</a>
         </div>
         <hr>
         <% include ../comments/index %>

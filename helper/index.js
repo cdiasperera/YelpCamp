@@ -17,12 +17,8 @@ helperObj.customErrors = {
  * Function to create flash messages for errors. It passes the custom errors
  * ONLY if there exists no pre-existing error. In this case, err is null.
  */
-helperObj.displayError = (req, err, customErrorMessage) => {
-  if (err) {
+helperObj.displayError = (req, err) => {
     req.flash("error", err.message);
-  } else {
-    req.flash("error", customErrorMessage);
-  }
 }
 
 /**

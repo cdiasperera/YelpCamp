@@ -1,8 +1,8 @@
 <% include ../partials/header %>
 <div class="container">
-  <h1 class="formHeader">Create a comment for <%= campground.name%></h1>
+  <h1 class="formHeader">Create a comment for <%= camp.name%></h1>
   <div class="new-form">
-    <form action="/campgrounds/<%= campground._id%>/comments" method="POST">
+    <form action="/campgrounds/<%= camp._id%>/comments" method="POST">
       <div class="form-group">
         <input class="form-control" 
         type="text" 
@@ -16,7 +16,7 @@
       </button>
       </div>
     </form>
-    <a href="/campgrounds/<%= campground._id%>">Go back</a>
+    <a href="/campgrounds/<%= camp._id%>">Go back</a>
   </div>
 </div>
 <% include ../partials/footer %>

@@ -1,4 +1,4 @@
-<% campground.comments.forEach((comment) => { %>
+<% camp.comments.forEach((comment) => { %>
         <div class="row">
           <div class="col-md-12 comment">
               <strong><%= comment.author.username %></strong>
@@ -7,12 +7,12 @@
                 <p class="comment-text inline"><%= comment.text%></p>
                 <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
                 <span class="pull-right">
-                  <a href="<%=campground._id%>/comments/<%=comment._id%>/edit" 
+                  <a href="<%=camp._id%>/comments/<%=comment._id%>/edit" 
                     class="btn btn-xs btn-warning">
                       Edit
                   </a>
                   <form class="inline" 
-                    action="<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" 
+                    action="<%=camp._id%>/comments/<%=comment._id%>?_method=DELETE" 
                     method="post">
                       <button class="btn btn-xs btn-danger">Delete</button>
                   </form>
