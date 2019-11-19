@@ -2,6 +2,9 @@
 const express     = require("express");
 const router      = express.Router({mergeParams: true});
 
+const lodash      = require("lodash")
+const isEmpty     = lodash.isEmpty;
+
 const Campground  = require("../models/campground");
 const Comment     = require("../models/comment");
 
@@ -11,42 +14,52 @@ const helper      = require("../helper");
 /**
  * Route to page to create a new comment.
  */
-router.get("/new", middleware.isLoggedIn, (req, res) => {
-  Campground.findById(req.params.id, (err, foundCamp) => {
-    if (err || !foundCamp) {
-      helper.displayError(req, err, helper.customErrors.campId);
-      res.render("back");
-    } else {
-      res.render("comments/new", {camp: foundCamp});
+router.get("/new", middleware.isLoggedIn, async (req, res) => {
+  try{
+    let foundCamp = await Campground.findById(req.params.id);
+    if (isEmpty(foundCamp)) {
+      throw helper.customErrors.campMiss
     }
-  });
+
+    res.render("comments/new", {camp: foundCamp});
+  } catch (err) {
+    helper.displayError(req, err);
+    res.render("back");
+  }
 });
 
 /**
  * Route to create a new comment. n the  
  */
-router.post("/", middleware.isLoggedIn, (req, res) => {
-  Campground.findById(req.params.id, (err, camp) => {
-    // Manually add user information
-    let newComment = req.body.comment;
-    newComment.author = {
-        id: req.user._id,
-        username: req.user.username
-      }
-    Comment.create(newComment, (err, createdComment) => {
-      if (err || !createdComment) {
-        helper.displayError(req, err, helper.customErrors.campId);
-        res.redirect("/");
-      } else {
-        // Once the comment is created, associate it to the campground.
-        camp.comments.push(createdComment);
-        camp.save();
+router.post("/", middleware.isLoggedIn, async (req, res) => {
+  try {
+    // Template for the new comment
+    let newCommentTemp = req.body.comment;
+    newCommentTemp.author = {
+      id: req.user._id,
+      username: req.user.username
+    }
 
-        req.flash("success", "Comment Created!");
-        res.redirect("/campgrounds/" + camp._id);
-      }
-    });
-  });
+    let [camp, newComment] = await Promise.all([
+      Campground.findById(req.params.id),
+      Comment.create(newCommentTemp)
+    ]);
+
+    if (isEmpty(camp)) {
+      throw helper.customErrors.commentMiss;
+    } else if (isEmpty(newComment)) {
+      throw helper.customErrors.commentMiss;
+    }
+
+    camp.comments.push(newComment);
+    camp.save();
+
+    req.flash("success", "Comment Created!");
+    res.redirect("/campgrounds/" + camp.id);
+  } catch (err) {
+    helper.displayError(req, err);
+    res.redirect("/");
+  }
 });
 
 /**

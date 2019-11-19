@@ -2,13 +2,12 @@
 const helperObj = {};
 
 helperObj.customErrors = {
-  campsMiss:      "Uh oh! We could not find out campgrounds",
   campCreate:     "We could not create your camp! :((",
-  campId:         "We could not find that campground matey!",
+  campMiss:      "Uh oh! We could not find out campgrounds",
   campUpdate:     "Huh??? We could not update your camp for some reason",
   campDelete:     "Que??? We could not delete your camp",
+  commentMiss:      "Dios Mio! We could not find that comment",
   commenCreate:   "Whoops! We could not create your comment for some reason",
-  commentId:      "Dios Mio! We could not find that comment",
   commentUpdate:  "Alas! We could not update your comment!!",
   commentDelete:  "Eggo! We could not delete your comment for some reason :("
 };
