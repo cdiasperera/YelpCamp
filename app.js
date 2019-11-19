@@ -79,7 +79,7 @@ if (process.env.NODE_ENV === "production") {
   // Do nothing.
 } else {
   // Not in production, so we can run seedDB, if needed.
-  // seedDB();
+  seedDB();
 }
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);

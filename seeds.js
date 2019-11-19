@@ -1,10 +1,11 @@
 "use strict";
-let mongoose    = require("mongoose");
-let Campground  = require("./models/campground");
-let Comment     = require("./models/comment");
-let User        = require("./models/user");
+const mongoose    = require("mongoose");
+const Campground  = require("./models/campground");
+const Comment     = require("./models/comment");
+const User        = require("./models/user");
+
 // Data to reseed the "campground
-let seeds = [
+let seedCamps = [
   {
     name: "campOne",
     price: 10,
@@ -25,22 +26,43 @@ let seeds = [
   },
 ];
 
-let testComment = {
+let seedComment = {
   text: "This is test comment. I really hope this isn't in production",
   author: "notARealUser"
 }
 
+let seedUser = {
+  username: "a",
+  password: "a"
+}
+
 async function seedDB() {
   try {
+    // Clean up DB
     await Comment.deleteMany({});
     await Campground.deleteMany({});
     await User.deleteMany({});
 
-    seeds.forEach(async (seed) => {
-      let camp    = await Campground.create(seed);
-      let comment = await Comment.create(testComment);
-      camp.comments.push(comment);
-      camp.save();
+    // Create user using passport.
+
+    let user = await User.register(
+      new User({username: seedUser.username}),
+      seedUser.password);
+
+    seedCamps.forEach(async (seedCamp) => {
+      try{
+        let camp = await Campground.create(seedCamp);
+        let comment = await Comment.create(seedComment);
+
+        comment.author.id = user._id;
+        comment.author.username = user.username;
+        comment.save();
+
+        camp.comments.push(comment);
+        camp.save();
+      } catch (err) {
+        console.log(err);
+      }
     });
   } catch (err) {
   console.log(err);

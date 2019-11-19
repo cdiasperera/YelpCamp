@@ -72,75 +72,67 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 /**
  * Route to show a specific camp.
  */
-router.get("/:id", (req, res) => {
-
-  try {
-    foundCamp
-  } catch (err) {
-
-  }
+router.get("/:id", async (req, res) => {
  
-  Campground.findById(req.params.id).populate("comments").exec( 
-  (err, foundCamp) => {
-    if (err || !foundCamp) {
-      helper.displayError(req, err, helper.customErrors.campId);
-      res.redirect("/campgrounds");
-    } else {
-      res.render("campgrounds/show", {camp: foundCamp});
-    }
-  });
+  try {
+    let foundCamp    = await Campground .findById(req.params.id)
+                                        .populate("comments");
+
+    res.render("campgrounds/show", {camp: foundCamp});
+  } catch (err) {
+    helper.displayError(req, err);
+    res.redirect("/campgrounds");
+  }
 });
 
 /**
  * Route to page to edit a specific camp.
  */
-router.get("/:id/edit", middleware.checkCampStack, (req, res) => {
-  Campground.findById(req.params.id, (err, foundCamp) => {
-    if (err || !foundCamp) {
-      // Handled in middleware.checkCampStack
-    } else {
-      res.render("campgrounds/edit", {camp: foundCamp});
-    }
-  });
+router.get("/:id/edit", middleware.checkCampStack, async (req, res) => {
+  try {
+    let foundCamp = await Campground.findById(req.params.id);
+    res.render("campgrounds/edit", {camp: foundCamp});
+  } catch (err) {
+    // Handled in middleware.checkCampStack
+  }
 });
 
 /**
  * Route to update a camp with submitted information.
  */
-router.put("/:id", middleware.checkCampStack, (req, res) => {
-  Campground.findByIdAndUpdate(
-    req.params.id, 
-    req.body.camp, 
-    (err, updatedCamp) => {
-      if (err || !updatedCamp) {
-        helper.displayError(req, err, helper.customErrors.campUpdate);
-        res.redirect("/campgrounds");
-      } else {
-        req.flash("success", "Campground Updated!");
-        res.redirect("/campgrounds/" + req.params.id);
-      }
-    }); 
+router.put("/:id", middleware.checkCampStack, async (req, res) => {
+  try {
+    let updatedCamp = await Campground.findByIdAndUpdate( req.params.id,
+                                                          req.body.camp);
+    if (isEmpty(updatedCamp)) {
+      throw helper.customErrors.campUpdate;
+    }
+    req.flash("success", "Campground Updated!");
+    red.redirect("/campgrounds/" + req.params.id);
+  } catch (err) {
+    helper.displayError(req, err);
+    res.redirect("/campgrounds");
+  }
 });
 
 /**
  * Route to delete a specific camp.
  */
-router.delete("/:id", middleware.checkCampStack, (req, res) => {
-  Campground.findByIdAndRemove(req.params.id, (err, removedCamp) => {
-    if (err || !removedCamp) {
-      helper.displayError(req, err, helper.customErrors.campDelete);
-      res.redirect("back");
-    } else {
-      Comment.deleteMany( {_id: { $in: removedCamp.comments } }, (err) => {
-        if (err) {
-          req.flash("error", err.message);
-          res.redirect("back");
-        }
-        req.flash("success", "Campground Deleted!");
-        res.redirect("/campgrounds"); 
-      })
-    }
-  })
+router.delete("/:id", middleware.checkCampStack, async (req, res) => {
+  try {
+    let debug = 1;
+    let removedCamp = await Campground.findByIdAndRemove(req.params.id); 
+    await Comment.deleteMany(
+      {_id: {$in: removedCamp.comments}}
+    );
+
+    req.flah("success", "Campground Deleted!");
+    res.redirect("/campgrounds");
+  } catch (err) {
+    console.log(err);
+    helper.displayError(req, err);
+    res.redirect("back");
+  } 
 });
 
 module.exports = router;
