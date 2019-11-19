@@ -65,56 +65,65 @@ router.post("/", middleware.isLoggedIn, async (req, res) => {
 /**
  * Route to the page to edit a comment.
  */
-router.get("/:comment_id/edit", middleware.checkCommentStack, (req, res) => {
-  Campground.findById(req.params.id, (err, foundCamp) => {
-    if (err || !foundCamp) {
-      helper.displayError(req, err, helper.customErrors.campId);
-      res.redirect("back");
-    } else {
-      Comment.findById(req.params.comment_id, (err, foundComment) => {
-        if (err ||!foundComment) {
-          // Handled in middleware.checkCommentStack
-        } else {
-          res.render("comments/edit", {
-            camp: foundCamp, 
-            comment: foundComment
-          });
-        }
-      });
+router.get("/:comment_id/edit", middleware.checkCommentStack, async (req, res) => {
+  try {
+    let [foundCamp, foundComment] = await Promise.all([
+      Campground.findById(req.params.id),
+      Comment.findById(req.params.comment_id)
+    ]);
+
+    if (isEmpty(foundCamp)) {
+      throw helper.customErrors.campMiss;
     }
-  });
+    // Missing comment error handled in middleware
+
+    console.log(foundComment);
+    res.render("comments/edit", {camp: foundCamp, comment: foundComment})
+  } catch (err) {
+    helper.displayError(req, err);
+    res.redirect("back");
+  }
 });
 
 /**
  * Route to edit a comment.
  */
-router.put("/:comment_id", middleware.checkCommentStack, (req, res) => {
-  Comment.findByIdAndUpdate(
-    req.params.comment_id, 
-    {text: req.body.comment.text}, 
-    (err, updatedComment) => {
-      if (err || !updatedComment) {
-        helper.displayError(req, err, helper.customErrors.commentUpdate);
-        res.redirect("/campgrounds/" + req.params.id);
-      } else {
-        req.flash("success", "Comment Updated!");
-        res.redirect("/campgrounds/" + req.params.id);
-      }
-  })
+router.put("/:comment_id", middleware.checkCommentStack, async (req, res) => {
+  try {
+    let updatedComment= await Comment.findByIdAndUpdate(
+      req.params.comment_id,
+      {text: req.body.comment.text}
+    );
+
+    if (isEmpty(updatedComment)) {
+      throw helper.customErrors.commentUpdate;
+    }
+
+    req.flash("success", "Comment Updated!");
+    // Go back to the original campground show page
+    res.redirect("/campgrounds/" + req.params.id);
+  } catch (err) {
+    helper.displayError(req, err);
+    // Go back to the original campground show page
+    res.redirect("/campgrounds/" + req.params.id);
+  }
 });
 
 /**
  * Route to delete a comment.
  */
-router.delete("/:comment_id", middleware.checkCommentStack, (req, res) => {
-  Comment.findByIdAndRemove(req.params.comment_id, (err, removedComment) => {
-    if (err || !removedComment) {
-      helper.displayError(req, err, helper.customErrors.commentDelete);
-      res.redirect("/campgrounds/" + req.params.id);
-    } else {
-      res.redirect("/campgrounds/" + req.params.id);
+router.delete("/:comment_id", middleware.checkCommentStack, async (req, res) => {
+  try {
+    let removedComment = await Comment.findByIdAndRemove(req.params.comment_id);
+    if (isEmpty(removedComment)) {
+      throw helper.customErrors.commentDelete;
     }
-  });
+
+    res.redirect("/campgrounds/" + req.params.id);
+  } catch (err) {
+    helper.displayError(req, err);
+    res.redirect("/campgrounds/" + req.params.id);
+  }
 });
 
 module.exports = router;
