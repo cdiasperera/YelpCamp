@@ -44,7 +44,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Image upload with multer and cloudinary 
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3.
 - [ ] _Redesign CSS for website_
-- [x] Refactor callbacks in seeds.js with Async/Await
+- [x] Refactor callbacks in most functions with Async/Await
 - [ ] In-app notifications
 - [ ] Ratings and Reviews
 - [ ] Pagination
