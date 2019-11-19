@@ -51,13 +51,16 @@ async function seedDB() {
 
     seedCamps.forEach(async (seedCamp) => {
       try{
-        let camp = await Campground.create(seedCamp);
-        let comment = await Comment.create(seedComment);
+        let [camp, comment] = await Promise.all(
+          [Campground.create(seedCamp),
+          Comment.create(seedComment)]
+        );
 
         comment.author.id = user._id;
         comment.author.username = user.username;
         comment.save();
 
+        camp.author.id = user._id;
         camp.comments.push(comment);
         camp.save();
       } catch (err) {

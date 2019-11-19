@@ -126,7 +126,7 @@ router.delete("/:id", middleware.checkCampStack, async (req, res) => {
       {_id: {$in: removedCamp.comments}}
     );
 
-    req.flah("success", "Campground Deleted!");
+    req.flash("success", "Campground Deleted!");
     res.redirect("/campgrounds");
   } catch (err) {
     console.log(err);
