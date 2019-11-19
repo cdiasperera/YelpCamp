@@ -40,7 +40,7 @@ router.get("/register", (req, res) => {
  * Route which created a user.
  */
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   let password = req.body.password;
 
   let usernameErrors = usernameSchema.validate(req.body.username, {list: true});
@@ -56,20 +56,18 @@ router.post("/register", (req, res) => {
     return res.redirect("/register"); 
   }
 
-  User.register(
-    new User({username: req.body.username}),
-    password,
-    (err, username) => {
-      if (err) {
-        helperObj.displayError(req, err, helperObj.customErrors.userCreate);
-        return res.redirect("/register");
-      } else {
-        passport.authenticate("local")(req, res, () => {
-          req.flash("success", "Welcome Aboard!");
-          res.redirect("/campgrounds");
-        })
-      }
-    });
+  try {
+    let userTemplate = await new User({username: req.body.username})
+    
+    let user = await User.register(userTemplate, password)
+
+    req.flash("success", "Welcome Aboard!");
+    res.redirect("/campgrounds");
+  
+  } catch (err) {
+    helperObj.displayError(req, err);
+    return res.redirect("/register");
+  }
 });
 
 /**
