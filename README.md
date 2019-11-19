@@ -37,7 +37,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] Fuzzy Search
 - [ ] Campground location
 - [x] Footer 
-- [ ] Display time since post was created 
+- [x] Display time since post was created 
 - [ ] User profile
 - [ ] User Roles 
 - [ ] Password reset 

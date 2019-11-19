@@ -1,3 +1,4 @@
+"use strict";
 // REMOVE POPUP FOR FORMS
 $(disableValidationPopup);
 $(clearFormOnInvalid);

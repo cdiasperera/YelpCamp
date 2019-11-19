@@ -51,6 +51,8 @@ mongoose.connect(
   console.log(err);
 });
 
+// MOMENT CONFIG
+app.locals.moment = require("moment");
 // PASSPORT CONFIG
 app.use(session({
   secret: sessionSecret,
@@ -79,7 +81,7 @@ if (process.env.NODE_ENV === "production") {
   // Do nothing.
 } else {
   // Not in production, so we can run seedDB, if needed.
-  // seedDB();
+  seedDB();
 }
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);

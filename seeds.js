@@ -61,6 +61,7 @@ async function seedDB() {
         comment.save();
 
         camp.author.id = user._id;
+        camp.author.username = user.username;
         camp.comments.push(comment);
         camp.save();
       } catch (err) {

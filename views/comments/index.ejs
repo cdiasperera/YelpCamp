@@ -2,7 +2,12 @@
         <div class="row">
           <div class="col-md-12 comment">
               <strong><%= comment.author.username %></strong>
-              <span class="pull-right">10 days ago</span>
+              <% let timeString = moment(comment.createdAt).fromNow(); %>
+              <% if (/^[a-z]/.test(timeString)) { %>
+                <% // First letter is lowercase and must be capitalized %>
+                <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
+              <% } %>
+              <span class="pull-right"><%= timeString %></span>
               <div> 
                 <p class="comment-text inline"><%= comment.text%></p>
                 <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>

@@ -1,4 +1,6 @@
 <% include ../partials/header %>
+<script src="/scripts/formatCreationTimes.js"></script>
+
 <div class="container">
   <div class="row">
     <div class="col-md-3">
@@ -16,7 +18,14 @@
           <h4 class="pull-right"> $<%= camp.price%>/night</h4>
           <h4><a href=""><%= camp.name%></a></h4>
           <p><%= camp.desc%> </p>
-          <p>Submitted by <%= camp.author.username%></p>
+          <% let timeString = moment(camp.createdAt).fromNow(); %>
+          <% if (/^[a-z]/.test(timeString)) { %>
+            <% // First letter is lowercase and must be capitalized %>
+            <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
+          <% } %>
+          <p>Submitted by <strong><%= camp.author.username%></strong>,
+          <%= timeString%></p>
+
           <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
             <a href="<%= camp._id%>/edit" class="btn btn-warning">Edit</a>
             <form class="pull-right" action="?_method=DELETE" method="POST">
@@ -36,3 +45,4 @@
   </div>
 </div>
 <% include ../partials/footer %>
+
