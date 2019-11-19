@@ -76,3 +76,8 @@ img {
 .container.paragraphs {
   max-width: 70em;
 }
+
+.time-since {
+  font-style: italic;;
+  color: grey;
+}

@@ -7,7 +7,7 @@
                 <% // First letter is lowercase and must be capitalized %>
                 <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
               <% } %>
-              <span class="pull-right"><%= timeString %></span>
+              <span class="time-since pull-right"><%= timeString %></span>
               <div> 
                 <p class="comment-text inline"><%= comment.text%></p>
                 <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
