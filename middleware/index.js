@@ -1,21 +1,21 @@
-"use strict";
-const Campground    = require("../models/campground");
-const Comment       = require("../models/comment");
+'use strict'
+const Campground = require('../models/campground')
+const Comment = require('../models/comment')
 
-const helper        = require("../helper");
+const helper = require('../helper')
 
-const middlewareObj = {};
+const middlewareObj = {}
 
 /**
  * Function to make sure user is logged in
  */
 middlewareObj.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
-    return next();
+    return next()
   } else {
-    req.session.returnTo = req.originalUrl;
-    req.flash("error", "You need to be logged in, matey!");
-    res.redirect("/login");
+    req.session.returnTo = req.originalUrl
+    req.flash('error', 'You need to be logged in, matey!')
+    res.redirect('/login')
   }
 }
 /**
@@ -24,34 +24,34 @@ middlewareObj.isLoggedIn = (req, res, next) => {
 function checkCampOwnership (req, res, next) {
   Campground.findById(req.params.id, (err, foundCamp) => {
     if (err || !foundCamp) {
-      helper.displayError(req, err, helper.customErrors.campId);
-      res.redirect("/campgrounds");
+      helper.displayError(req, err, helper.customErrors.campId)
+      res.redirect('/campgrounds')
     } else {
       if (foundCamp.author.id.equals(req.user._id)) {
-        next();
+        next()
       } else {
-        req.flash("error", "You do not have access to that camp! Sneaky!");
-        res.redirect("back");
+        req.flash('error', 'You do not have access to that camp! Sneaky!')
+        res.redirect('back')
       }
     }
-  });
+  })
 }
 
 /**
  * Middleware to check if the user has authorization, with regards to a comment
  */
 function checkCommentOwnership (req, res, next) {
-  console.log(req.params.comment_id);
+  console.log(req.params.comment_id)
   Comment.findById(req.params.comment_id, (err, foundComment) => {
     if (err || !foundComment) {
-      helper.displayError(req, err, helper.customErrors.commentId);
-      res.redirect("back");
+      helper.displayError(req, err, helper.customErrors.commentId)
+      res.redirect('back')
     } else {
       if (foundComment.author.id.equals(req.user._id)) {
-        next();
+        next()
       } else {
-        req.flash("error", "You do not have access to that comment! Crafty!");
-        res.redirect("back");
+        req.flash('error', 'You do not have access to that comment! Crafty!')
+        res.redirect('back')
       }
     }
   })
@@ -62,7 +62,7 @@ function checkCommentOwnership (req, res, next) {
  * if they are logged in, for that request. Hence, we pass both middleware
  * functions to the request.
  */
-middlewareObj.checkCampStack    = [middlewareObj.isLoggedIn, checkCampOwnership];
-middlewareObj.checkCommentStack = [middlewareObj.isLoggedIn, checkCommentOwnership];
+middlewareObj.checkCampStack = [middlewareObj.isLoggedIn, checkCampOwnership]
+middlewareObj.checkCommentStack = [middlewareObj.isLoggedIn, checkCommentOwnership]
 
-module.exports = middlewareObj;
+module.exports = middlewareObj

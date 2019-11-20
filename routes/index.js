@@ -1,109 +1,108 @@
-"use strict";
-const express           = require("express");
-const router            = express.Router();
-const passport          = require("passport");
+'use strict'
+const express = require('express')
+const router = express.Router()
+const passport = require('passport')
 
-const helperObj         = require("../helper");
+const helperObj = require('../helper')
 
-const passwordSchema    = require("../models/password");
-const usernameSchema    = require("../models/username");
-const User = require("../models/user");
+const passwordSchema = require('../models/password')
+const usernameSchema = require('../models/username')
+const User = require('../models/user')
 
 /**
  * Route to the landing page.
  */
-router.get("/", (req, res) => {
-    res.render("landing");
-});
+router.get('/', (req, res) => {
+  res.render('landing')
+})
 
 /**
  * Route to the about page of the website.
  */
-router.get("/about", (req, res) => {
-  res.render("about");
-});
+router.get('/about', (req, res) => {
+  res.render('about')
+})
 
 /**
  * Route to the changelog page of the website.
  */
-router.get("/changelog", (req, res) => {
-  res.render("changelog");
-});
+router.get('/changelog', (req, res) => {
+  res.render('changelog')
+})
 /**
  * Route to the register page.
  */
-router.get("/register", (req, res) => {
-  res.render("register");
-});
+router.get('/register', (req, res) => {
+  res.render('register')
+})
 
 /**
  * Route which created a user.
  */
 
-router.post("/register", async (req, res) => {
-  let password = req.body.password;
+router.post('/register', async (req, res) => {
+  const password = req.body.password
 
-  let usernameErrors = usernameSchema.validate(req.body.username, {list: true});
+  const usernameErrors = usernameSchema.validate(req.body.username, { list: true })
   if (usernameErrors.length > 0) {
-    req.flash("error", passwordSchema.errorMessage(usernameErrors));
-    return res.redirect("/register");
+    req.flash('error', passwordSchema.errorMessage(usernameErrors))
+    return res.redirect('/register')
   }
 
   // Check if the password is a valid password
-  let passwordErrors = passwordSchema.validate(password, {list: true});
+  const passwordErrors = passwordSchema.validate(password, { list: true })
   if (passwordErrors.length > 0) {
-    req.flash("error", passwordSchema.errorMessage(passwordErrors));
-    return res.redirect("/register"); 
+    req.flash('error', passwordSchema.errorMessage(passwordErrors))
+    return res.redirect('/register')
   }
 
   try {
-    let userTemplate = await new User({username: req.body.username})
-    
-    let user = await User.register(userTemplate, password)
+    const userTemplate = await new User({ username: req.body.username })
 
-    req.flash("success", "Welcome Aboard!");
-    res.redirect("/campgrounds");
-  
+    const user = await User.register(userTemplate, password)
+
+    req.flash('success', 'Welcome Aboard!')
+    res.redirect('/campgrounds')
   } catch (err) {
-    helperObj.displayError(req, err);
-    return res.redirect("/register");
+    helperObj.displayError(req, err)
+    return res.redirect('/register')
   }
-});
+})
 
 /**
  * Route to the login page.
  */
-router.get("/login", (req, res) => {
-  res.render("login");
-});
+router.get('/login', (req, res) => {
+  res.render('login')
+})
 
 /**
  * Route to login.
  */
 router.post(
-  "/login",
+  '/login',
   passport.authenticate(
-    "local",
+    'local',
     {
-      failureRedirect: "/login",
+      failureRedirect: '/login',
       failureFlash: true
     }),
   (req, res) => {
     // Return to the previous page, if previous page is know. Otherwise, go to the index.
-    let returnTo = req.session.returnTo ? req.session.returnTo : "/campgrounds";
-    delete req.session.returnTo;
-    res.redirect(returnTo);
+    const returnTo = req.session.returnTo ? req.session.returnTo : '/campgrounds'
+    delete req.session.returnTo
+    res.redirect(returnTo)
   }
-);
+)
 
 /**
  * Route to log out.
  */
-router.get("/logout", (req, res) => {
-  req.logout();
+router.get('/logout', (req, res) => {
+  req.logout()
 
-  req.flash("success", "Logged out!");
-  res.redirect("/campgrounds");
+  req.flash('success', 'Logged out!')
+  res.redirect('/campgrounds')
 })
 
-module.exports = router;
+module.exports = router

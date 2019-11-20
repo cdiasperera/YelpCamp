@@ -1,19 +1,19 @@
-"use strict";
+'use strict'
 // REMOVE POPUP FOR FORMS
-$(disableValidationPopup);
-$(clearFormOnInvalid);
+$(disableValidationPopup)
+$(clearFormOnInvalid)
 
-function disableValidationPopup() {
-  document.addEventListener("invalid", (function () {
+function disableValidationPopup () {
+  document.addEventListener('invalid', (function () {
     return function (e) {
-      $("input").focus();
-      e.preventDefault();
-    };
-  })(), true);
+      $('input').focus()
+      e.preventDefault()
+    }
+  })(), true)
 }
 
-function clearFormOnInvalid() {
-  $("input").on("invalid", function() {
-    this.value = "";
-  });
+function clearFormOnInvalid () {
+  $('input').on('invalid', function () {
+    this.value = ''
+  })
 }

@@ -1,13 +1,13 @@
-"use strict";
-const mongoose = require("mongoose");
+'use strict'
+const mongoose = require('mongoose')
 
-let commentSchema = mongoose.Schema({
+const commentSchema = mongoose.Schema({
   text: String,
   // Referenced User
   author: {
     id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: 'User'
     },
     username: String
   },
@@ -15,6 +15,6 @@ let commentSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   }
-});
+})
 
-module.exports = mongoose.model("Comment", commentSchema);
+module.exports = mongoose.model('Comment', commentSchema)

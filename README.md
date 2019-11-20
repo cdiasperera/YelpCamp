@@ -1,3 +1,5 @@
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 # YelpCamp
 
 A little project app to brush up my NodeJS skills. It basically acts as a review site for campgrounds. "Yelp for camps", as it were.
@@ -32,7 +34,6 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Server Registration Validator_
 - [x] _Client Real Time Registration Feedback andValidator_
 - [ ] _Refactor Constants_
-- [ ] _Refactor Callbacks_
 - [x] _Refactor header so stylesheet can be chosen by each page_
 - [x] Fuzzy Search
 - [ ] Campground location
@@ -44,11 +45,10 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Image upload with multer and cloudinary 
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3.
 - [ ] _Redesign CSS for website_
-- [x] Refactor callbacks in most functions with Async/Await
+- [x] _Refactor callbacks in most functions with Async/Await_
 - [ ] In-app notifications
 - [ ] Ratings and Reviews
 - [ ] Pagination
-- [ ] Google Maps
 - [ ] Rework comments
 - [ ] Like Button
 - [ ] Semantic Campground URLs

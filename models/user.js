@@ -1,11 +1,11 @@
-"use strict";
-const mongoose = require("mongoose");
-const passportLocalMongoose = require("passport-local-mongoose");
+'use strict'
+const mongoose = require('mongoose')
+const passportLocalMongoose = require('passport-local-mongoose')
 
-let UserSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema({
   username: String,
   password: String
-});
+})
 
-UserSchema.plugin(passportLocalMongoose);
-module.exports = mongoose.model("User", UserSchema);
+UserSchema.plugin(passportLocalMongoose)
+module.exports = mongoose.model('User', UserSchema)

@@ -1,12 +1,12 @@
-"use strict";
-const passwordValidator = require("password-validator");
+'use strict'
+const passwordValidator = require('password-validator')
 
-let schema = new passwordValidator();
+const schema = new passwordValidator()
 
-let invalidUsernameMessages = {
-  "min": "at least 2 characters",
-  "symbol": "no symbols",
-  "spaces": "no spaces"
+const invalidUsernameMessages = {
+  min: 'at least 2 characters',
+  symbol: 'no symbols',
+  spaces: 'no spaces'
 }
 
 schema
@@ -14,4 +14,4 @@ schema
   .has().not().spaces()
   .has().not().symbols()
 
- module.exports = schema;
+module.exports = schema
