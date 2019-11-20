@@ -6,7 +6,7 @@ const UserSchema = mongoose.Schema({
   username: String,
   password: String,
   lastLogin: Date,
-  notifications: [{
+  notifs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Notification'
   }]

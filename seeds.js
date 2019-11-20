@@ -2,7 +2,7 @@
 const Campground = require('./models/campground')
 const Comment = require('./models/comment')
 const User = require('./models/user')
-const Notification = require('./models/notification')
+const Notification = require('./models/notif')
 
 // Data to reseed the "campground
 const seedCamps = [
@@ -56,7 +56,7 @@ async function seedDB () {
     ])
 
     notif.generateMessage()
-    user.notifications.push(notif)
+    user.notifs.push(notif)
     user.save()
 
     seedCamps.forEach(async (seedCamp) => {

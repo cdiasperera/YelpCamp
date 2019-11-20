@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 
-const notificationSchema = new mongoose.Schema({
+const notifSchema = new mongoose.Schema({
   link: String,
   message: String,
   isRead: Boolean,
@@ -10,10 +10,10 @@ const notificationSchema = new mongoose.Schema({
   info: Object
 })
 
-notificationSchema.method('generateMessage', () => {
+notifSchema.method('generateMessage', () => {
   if (this.notifType === 'changelog') {
     this.message = 'There has been a new update since you last logged in!'
   }
 })
 
-module.exports = mongoose.model('Notification', notificationSchema)
+module.exports = mongoose.model('Notification', notifSchema)

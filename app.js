@@ -15,7 +15,7 @@ const User = require('./models/user')
 const campgroundRoutes = require('./routes/campgrounds')
 const commentRoutes = require('./routes/comments')
 const indexRoutes = require('./routes/index')
-const notificationRoutes = require('./routes/notifications')
+const notifRoutes = require('./routes/notifs')
 
 const seedDB = require('./seeds')
 const helperObj = require('./helper')
@@ -85,7 +85,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/', indexRoutes)
 app.use('/campgrounds', campgroundRoutes)
 app.use('/campgrounds/:id/comments', commentRoutes)
-app.use('/notifications', notificationRoutes)
+app.use('/notifs', notifRoutes)
 
 // Start server
 const port = process.env.PORT || 3000
