@@ -37,8 +37,23 @@
                     <li role="presentation"><a href="/login">Login</a></li>
                     <li role="presentation"><a href="/register">Sign Up</a></li>
                   <% } else { %>
-                    <li role="presentation"><a href=""><%= currentUser.username%></a></li>
+                    <li role="presentation" class="dropdown">
+                      <a class="dropdown-toggle" 
+                        data-toggle="dropdown"
+                        href="#"
+                        role="button"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                        Notifications
+                      </a>
+                      <ul class="dropdown-menu"> 
+                        <li>
+                          <a href="/notifications">See Previous Notifications</a>
+                        </li> 
+                      </ul>
+                    </li><li role="presentation"><a href=""><%= currentUser.username%></a></li>
                     <li role="presentation"><a href="/logout">Logout</a></li>
+                    
                   <% } %>
               </ul>
           </div>
