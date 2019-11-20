@@ -2,6 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
+const moment = require('moment')
 
 const helperObj = require('../helper')
 
@@ -45,21 +46,25 @@ router.post('/register', async (req, res) => {
 
   const usernameErrors = usernameSchema.validate(req.body.username, { list: true })
   if (usernameErrors.length > 0) {
-    req.flash('error', passwordSchema.errorMessage(usernameErrors))
+    req.flash('error', passwordSchema.errorMessage(
+      usernameErrors,
+      usernameSchema.invalidPasswordMessages))
     return res.redirect('/register')
   }
 
   // Check if the password is a valid password
   const passwordErrors = passwordSchema.validate(password, { list: true })
   if (passwordErrors.length > 0) {
-    req.flash('error', passwordSchema.errorMessage(passwordErrors))
+    req.flash('error', passwordSchema.errorMessage(
+      passwordErrors,
+      passwordSchema.invalidPasswordMessages))
     return res.redirect('/register')
   }
 
   try {
     const userTemplate = await new User({ username: req.body.username })
 
-    const user = await User.register(userTemplate, password)
+    await User.register(userTemplate, password)
 
     req.flash('success', 'Welcome Aboard!')
     res.redirect('/campgrounds')
@@ -88,6 +93,8 @@ router.post(
       failureFlash: true
     }),
   (req, res) => {
+    // Track the login
+    req.user.lastLogin = moment()
     // Return to the previous page, if previous page is know. Otherwise, go to the index.
     const returnTo = req.session.returnTo ? req.session.returnTo : '/campgrounds'
     delete req.session.returnTo

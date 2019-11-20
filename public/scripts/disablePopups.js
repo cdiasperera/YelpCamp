@@ -1,4 +1,5 @@
 'use strict'
+/* global $ */
 // REMOVE POPUP FOR FORMS
 $(disableValidationPopup)
 $(clearFormOnInvalid)

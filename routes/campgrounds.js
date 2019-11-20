@@ -106,7 +106,7 @@ router.put('/:id', middleware.checkCampStack, async (req, res) => {
       throw helper.customErrors.campUpdate
     }
     req.flash('success', 'Campground Updated!')
-    red.redirect('/campgrounds/' + req.params.id)
+    res.redirect('/campgrounds/' + req.params.id)
   } catch (err) {
     helper.displayError(req, err)
     res.redirect('/campgrounds')
@@ -118,7 +118,6 @@ router.put('/:id', middleware.checkCampStack, async (req, res) => {
  */
 router.delete('/:id', middleware.checkCampStack, async (req, res) => {
   try {
-    const debug = 1
     const removedCamp = await Campground.findByIdAndRemove(req.params.id)
     await Comment.deleteMany(
       { _id: { $in: removedCamp.comments } }

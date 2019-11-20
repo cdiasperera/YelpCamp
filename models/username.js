@@ -1,9 +1,9 @@
 'use strict'
-const passwordValidator = require('password-validator')
+const PasswordValidator = require('password-validator')
 
-const schema = new passwordValidator()
+const schema = new PasswordValidator()
 
-const invalidUsernameMessages = {
+schema.invalidUsernameMessages = {
   min: 'at least 2 characters',
   symbol: 'no symbols',
   spaces: 'no spaces'

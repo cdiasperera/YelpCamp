@@ -1,9 +1,9 @@
 'use strict'
-const passwordValidator = require('password-validator')
+const PasswordValidator = require('password-validator')
 
-const schema = new passwordValidator()
+const schema = new PasswordValidator()
 
-const invalidPasswordMessages = {
+schema.invalidPasswordMessages = {
   min: 'at least 8 characters',
   uppercase: 'at least 1 uppercase character',
   lowercase: 'at least 1 lowercase character',
@@ -19,10 +19,10 @@ schema
 /**
  * Function to return a string listing the errors in the password.
  * */
-schema.errorMessage = (errors) => {
+schema.errorMessage = (errors, rules) => {
   let message = 'You need '
   for (let i = 0; i < errors.length; i++) {
-    message += invalidPasswordMessages[errors[i]]
+    message += rules[errors[i]]
     // Choose which type of punctuation is needed, between listing the errors
     if (i === errors.length - 1) {
       message += '!'

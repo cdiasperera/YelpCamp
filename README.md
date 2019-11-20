@@ -33,12 +33,14 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] Make app strict compliant
 - [x] _Server Registration Validator_
 - [x] _Client Real Time Registration Feedback andValidator_
-- [ ] _Refactor Constants_
+- [x] _Refactor Constants_
 - [x] _Refactor header so stylesheet can be chosen by each page_
 - [x] Fuzzy Search
-- [ ] Campground location
 - [x] Footer 
 - [x] Display time since post was created 
+- [x] Track last login. 
+- [ ] In-app notifications
+- [ ] Notification of updates
 - [ ] User profile
 - [ ] User Roles 
 - [ ] Password reset 
@@ -46,10 +48,10 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3.
 - [ ] _Redesign CSS for website_
 - [x] _Refactor callbacks in most functions with Async/Await_
-- [ ] In-app notifications
 - [ ] Ratings and Reviews
 - [ ] Pagination
 - [ ] Rework comments
 - [ ] Like Button
 - [ ] Semantic Campground URLs
+- [ ] Campground location
 - [x] Add total feature list to README
