@@ -10,10 +10,12 @@ const notifSchema = new mongoose.Schema({
   info: Object
 })
 
-notifSchema.method('generateMessage', () => {
-  if (this.notifType === 'changelog') {
-    this.message = 'There has been a new update since you last logged in!'
-  }
-})
+const model = mongoose.model('Notification', notifSchema)
 
-module.exports = mongoose.model('Notification', notifSchema)
+model.generateMessage = (notif) => {
+  if (notif.notifType === 'changelog') {
+    notif.message = 'There has been a new update since you last logged in!'
+  }
+}
+
+module.exports = model

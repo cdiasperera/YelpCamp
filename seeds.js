@@ -55,10 +55,13 @@ async function seedDB () {
         { isRead: false, notifType: 'changelog' })
     ])
 
-    notif.generateMessage()
+    Notification.generateMessage(notif)
+    await notif.save()
+
     user.notifs.push(notif)
     user.save()
 
+    console.log(user)
     seedCamps.forEach(async (seedCamp) => {
       try {
         const [camp, comment] = await Promise.all(
