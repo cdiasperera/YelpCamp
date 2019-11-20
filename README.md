@@ -39,13 +39,13 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] Footer 
 - [x] Display time since post was created 
 - [x] Track last login. 
-- [ ] In-app notifications
-- [ ] Notification of updates
+- [ ] _Notification of website updates_\*
 - [ ] User profile
+- [ ] Notification of new campgrounds from followed users
 - [ ] User Roles 
 - [ ] Password reset 
 - [ ] Image upload with multer and cloudinary 
-- [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3.
+- [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
 - [ ] _Redesign CSS for website_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [ ] Ratings and Reviews
@@ -55,3 +55,5 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Semantic Campground URLs
 - [ ] Campground location
 - [x] Add total feature list to README
+
+\* _Whilst the course does cover in-app notifications, this was implemented indepenently[_
