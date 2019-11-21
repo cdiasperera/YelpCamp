@@ -67,8 +67,20 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 // Pass in the user information to all pages
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.currentUser = req.user
+  if (typeof req.user !== 'undefined') {
+    try {
+      const user = await User.findById(req.user.id)
+        .populate('notifs')
+        .exec()
+
+      res.locals.notifs = user.notifs
+    } catch (err) {
+      helperObj.displayError(req, err)
+      res.redirect('back')
+    }
+  }
   res.locals.error = req.flash('error')
   res.locals.success = req.flash('success')
   next()

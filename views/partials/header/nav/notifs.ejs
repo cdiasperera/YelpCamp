@@ -9,7 +9,13 @@
   </a>
   <ul class="dropdown-menu"> 
     <li>
-      <a href="/notifs">See Previous Notifications</a>
+      <% if (notifs.length === 0) { %>
+        <a href="/notifs">See Previous Notifications</a>
+      <% } else { %>
+        <% notifs.forEach((notif) => { %>
+          <a href="/notifs"> <%= notif.message %></a>
+        <% }) %>
+      <% } %>
     </li> 
   </ul>
 </li>

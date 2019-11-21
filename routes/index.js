@@ -92,9 +92,17 @@ router.post(
       failureRedirect: '/login',
       failureFlash: true
     }),
-  (req, res) => {
+  async (req, res) => {
     // Track the login
-    req.user.lastLogin = moment()
+    try {
+      const user = await User.findById(req.user.id)
+      user.lastLogin = moment()
+      await user.save()
+    } catch (err) {
+      helperObj.displayError(req, err)
+      res.redirect('/login')
+    }
+
     // Return to the previous page, if previous page is know. Otherwise, go to the index.
     const returnTo = req.session.returnTo ? req.session.returnTo : '/campgrounds'
     delete req.session.returnTo

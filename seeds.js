@@ -46,21 +46,30 @@ async function seedDB () {
     ])
 
     // Create user using passport.
-    const [user, notif] = await Promise.all([
+    const [user, ...notifs] = await Promise.all([
       User.register(
         new User({ username: seedUser.username }),
         seedUser.password
       ),
       Notification.create(
+        { isRead: false, notifType: 'changelog' }),
+      Notification.create(
         { isRead: false, notifType: 'changelog' })
     ])
 
-    Notification.generateMessage(notif)
-    await notif.save()
+    for (const notif of notifs) {
+      try {
+        Notification.generateMessage(notif)
+        await notif.save()
 
-    user.notifs.push(notif)
-    user.save()
+        await user.notifs.push(notif)
+      } catch (err) {
+        console.log(err)
+      }
+    }
 
+    await user.save()
+    
     seedCamps.forEach(async (seedCamp) => {
       try {
         const [camp, comment] = await Promise.all(
