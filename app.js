@@ -18,6 +18,7 @@ const indexRoutes = require('./routes/index')
 const notifRoutes = require('./routes/notifs')
 
 const seedDB = require('./seeds')
+const seedProduction = require('./seedProduction')
 const helperObj = require('./helper')
 
 require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
@@ -92,7 +93,7 @@ app.use(async (req, res, next) => {
 // Reset Database
 // Safety check to only run code in dev, not production.
 if (process.env.NODE_ENV === 'production') {
-  // Do nothing.
+  seedProduction();
 } else {
   // Not in production, so we can run seedDB, if needed.
   seedDB()
