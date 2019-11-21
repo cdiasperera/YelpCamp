@@ -69,7 +69,7 @@ async function seedDB () {
     }
 
     await user.save()
-    
+
     seedCamps.forEach(async (seedCamp) => {
       try {
         const [camp, comment] = await Promise.all(
