@@ -93,10 +93,10 @@ app.use(async (req, res, next) => {
 // Reset Database
 // Safety check to only run code in dev, not production.
 if (process.env.NODE_ENV === 'production') {
-  seedProduction()
+  // seedProduction()
 } else {
   // Not in production, so we can run seedDB, if needed.
-  seedDB()
+  // seedDB()
 }
 app.use('/', indexRoutes)
 app.use('/campgrounds', campgroundRoutes)
