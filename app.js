@@ -75,7 +75,10 @@ app.use(async (req, res, next) => {
         .populate('notifs')
         .exec()
 
-      res.locals.notifs = user.notifs
+      // Only send notifications that aren't read
+      res.locals.notifs = user.notifs.filter((notif) => {
+        return !notif.isRead
+      })
     } catch (err) {
       helperObj.displayError(req, err)
       res.redirect('back')

@@ -2,8 +2,10 @@
 <div class="container">
   <h3>Notifications</h3>
   <ul>
-  <% notifs.forEach((notif) => { %>
-    <li><%= notif.message%></li>  
+  <% allNotifs.forEach((notif) => { %>
+    <li>
+      <a href="<%= notif.link %>"><%= notif.message %></a>    
+    </li>  
   <% }) %>
   </ul>
 </div>

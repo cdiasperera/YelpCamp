@@ -1,4 +1,6 @@
 'use strict'
+const moment = require('moment')
+
 const helperObj = {}
 
 helperObj.customErrors = {
@@ -9,7 +11,8 @@ helperObj.customErrors = {
   commentMiss: 'Dios Mio! We could not find that comment',
   commenCreate: 'Whoops! We could not create your comment for some reason',
   commentUpdate: 'Alas! We could not update your comment!!',
-  commentDelete: 'Eggo! We could not delete your comment for some reason :('
+  commentDelete: 'Eggo! We could not delete your comment for some reason :(',
+  notifMiss: 'Uhh, we could not find that notification!'
 }
 
 /**
@@ -34,4 +37,6 @@ helperObj.makeMongoURI = () => {
     return 'mongodb://localhost:27017/yelp_camp'
   }
 }
+
+helperObj.mostRecentUpdate = moment('20191121', 'YYYYMMDD')
 module.exports = helperObj

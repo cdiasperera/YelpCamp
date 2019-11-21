@@ -5,7 +5,10 @@ const mongoose = require('mongoose')
 const notifSchema = new mongoose.Schema({
   link: String,
   message: String,
-  isRead: Boolean,
+  isRead: {
+    type: Boolean,
+    default: false
+  },
   notifType: String,
   info: Object
 })

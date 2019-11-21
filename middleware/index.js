@@ -41,7 +41,6 @@ function checkCampOwnership (req, res, next) {
  * Middleware to check if the user has authorization, with regards to a comment
  */
 function checkCommentOwnership (req, res, next) {
-  console.log(req.params.comment_id)
   Comment.findById(req.params.comment_id, (err, foundComment) => {
     if (err || !foundComment) {
       helper.displayError(req, err, helper.customErrors.commentId)

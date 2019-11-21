@@ -9,6 +9,7 @@ const helperObj = require('../helper')
 const passwordSchema = require('../models/password')
 const usernameSchema = require('../models/username')
 const User = require('../models/user')
+const Notification = require('../models/notif')
 
 /**
  * Route to the landing page.
@@ -96,6 +97,25 @@ router.post(
     // Track the login
     try {
       const user = await User.findById(req.user.id)
+
+      console.log(user.lastLogin)
+
+      // Create a moment object from the last login to compare moments
+      const lastLoginMoment = moment(user.lastLogin)
+      if (lastLoginMoment.isBefore(helperObj.mostRecentUpdate)) {
+        const notif = await Notification.create({
+          link: '/changelog',
+          notifType: 'changelog'
+        })
+
+        Notification.generateMessage(notif)
+        await notif.save()
+
+        user.notifs.push(notif)
+        await user.save()
+      }
+
+      // Reset lastLogin date
       user.lastLogin = moment()
       await user.save()
     } catch (err) {

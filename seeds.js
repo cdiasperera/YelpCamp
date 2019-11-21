@@ -4,6 +4,8 @@ const Comment = require('./models/comment')
 const User = require('./models/user')
 const Notification = require('./models/notif')
 
+const moment = require('moment')
+
 // Data to reseed the "campground
 const seedCamps = [
   {
@@ -33,7 +35,8 @@ const seedComment = {
 
 const seedUser = {
   username: 'a',
-  password: 'a'
+  password: 'a',
+  lastLogin: moment('20111111', 'YYYYMMDD')
 }
 
 async function seedDB () {
@@ -42,19 +45,19 @@ async function seedDB () {
     await Promise.all([
       Comment.deleteMany({}),
       Campground.deleteMany({}),
-      User.deleteMany({})
+      User.deleteMany({}),
+      Notification.deleteMany({})
     ])
 
     // Create user using passport.
     const [user, ...notifs] = await Promise.all([
       User.register(
-        new User({ username: seedUser.username }),
+        new User({
+          username: seedUser.username,
+          lastLogin: seedUser.lastLogin
+        }),
         seedUser.password
-      ),
-      Notification.create(
-        { isRead: false, notifType: 'changelog' }),
-      Notification.create(
-        { isRead: false, notifType: 'changelog' })
+      )
     ])
 
     for (const notif of notifs) {

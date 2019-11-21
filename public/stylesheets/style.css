@@ -81,3 +81,9 @@ img {
   font-style: italic;;
   color: grey;
 }
+
+.num-notifs {
+  border-radius: 50%;
+  background-color: #eee;
+  padding: 0.3em 0.5em;
+}

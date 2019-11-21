@@ -6,6 +6,7 @@
     aria-haspopup="true"
     aria-expanded="false">
     Notifications
+    <span class="num-notifs"><%= notifs.length%></span>
   </a>
   <ul class="dropdown-menu"> 
     <li>
@@ -13,7 +14,7 @@
         <a href="/notifs">See Previous Notifications</a>
       <% } else { %>
         <% notifs.forEach((notif) => { %>
-          <a href="/notifs"> <%= notif.message %></a>
+          <a href="notifs/<%= notif._id%>"> <%= notif.message %></a>
         <% }) %>
       <% } %>
     </li> 
