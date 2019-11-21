@@ -1,5 +1,10 @@
 <% include ../partials/header %>
-<% notifs.forEach((notif) => { %>
-  <%= notif.message%>
-<% }) %>
+<div class="container">
+  <h3>Notifications</h3>
+  <ul>
+  <% notifs.forEach((notif) => { %>
+    <li><%= notif.message%></li>  
+  <% }) %>
+  </ul>
+</div>
 <% include ../partials/footer %>
