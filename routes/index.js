@@ -63,7 +63,7 @@ router.post('/register', async (req, res) => {
 
     const userTemplate = await new User(req.body.user)
 
-    const user = await User.register(userTemplate, password)
+    await User.register(userTemplate, password)
 
     req.flash('success', 'Welcome Aboard!')
     res.redirect('/campgrounds')
@@ -95,7 +95,6 @@ router.post(
     // Track the login
     try {
       const user = await User.findById(req.user.id)
-
 
       // Create a moment object from the last login to compare moments
       const lastLoginMoment = moment(user.lastLogin)

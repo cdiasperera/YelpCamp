@@ -1,4 +1,5 @@
 'use strict'
+/* global $ */
 // CHANGE REQUIREMENT CSS BASED ON INPUT
 function InputValidator (input, requirementsHTML, rules) {
   this.input = input
@@ -100,7 +101,6 @@ function bindEndArgs (fn, ...boundArgs) {
   }
 }
 
-
 if (document.querySelector('input[id=username]').length !== 0) {
   const usernameValidator = new InputValidator(
     document.querySelector('input[id=username]'),
@@ -119,7 +119,6 @@ if (document.querySelectorAll('input[id=password]').length !== 0) {
 
   passwordValidator.start()
 }
-
 
 // REMOVE POPUP FOR FORMS
 $(disableValidationPopup)
