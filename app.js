@@ -16,7 +16,7 @@ const campgroundRoutes = require('./routes/campgrounds')
 const commentRoutes = require('./routes/comments')
 const indexRoutes = require('./routes/index')
 const notifRoutes = require('./routes/notifs')
-
+const userRoutes = require('./routes/user')
 const seedDB = require('./seeds')
 const seedProduction = require('./seedProduction')
 const helperObj = require('./helper')
@@ -105,7 +105,7 @@ app.use('/', indexRoutes)
 app.use('/campgrounds', campgroundRoutes)
 app.use('/campgrounds/:id/comments', commentRoutes)
 app.use('/notifs', notifRoutes)
-
+app.use('/users', userRoutes)
 // Start server
 const port = process.env.PORT || 3000
 app.listen(port, () => {

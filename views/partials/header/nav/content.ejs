@@ -12,7 +12,7 @@
   <ul class="nav navbar-nav navbar-right">
     <% if (!currentUser) { %>
       <li role="presentation"><a href="/login">Login</a></li>
-      <li role="presentation"><a href="/register">Sign Up</a></li>
+      <li role="presentation"><a href="/users/register">Sign Up</a></li>
     <% } else { %>
       <% include ./notifs %>
       <li role="presentation"><a href=""><%= currentUser.username%></a></li>

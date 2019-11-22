@@ -45,28 +45,27 @@ router.get('/register', (req, res) => {
 router.post('/register', async (req, res) => {
   const password = req.body.password
 
-  const usernameErrors = usernameSchema.validate(req.body.username, { list: true })
-  if (usernameErrors.length > 0) {
-    req.flash('error', passwordSchema.errorMessage(
-      usernameErrors,
-      usernameSchema.invalidPasswordMessages))
-    return res.redirect('/register')
-  }
-
-  // Check if the password is a valid password
-  const passwordErrors = passwordSchema.validate(password, { list: true })
-  if (passwordErrors.length > 0) {
-    req.flash('error', passwordSchema.errorMessage(
-      passwordErrors,
-      passwordSchema.invalidPasswordMessages))
-    return res.redirect('/register')
-  }
-
   try {
-    const userTemplate = await new User({ username: req.body.username })
+    const usernameErrors = usernameSchema.validate(req.body.username, { list: true })
+    if (usernameErrors.length > 0) {
+      throw passwordSchema.errorMessage(
+        usernameErrors,
+        usernameSchema.invalidPasswordMessages)
+    }
 
-    await User.register(userTemplate, password)
+    // Check if the password is a valid password
+    const passwordErrors = passwordSchema.validate(password, { list: true })
+    if (passwordErrors.length > 0) {
+      throw passwordSchema.errorMessage(
+        passwordErrors,
+        passwordSchema.invalidPasswordMessages)
+    }
 
+    const userTemplate = await new User(req.body.user)
+
+    const user = await User.register(userTemplate, password)
+
+    console.log(user)
     req.flash('success', 'Welcome Aboard!')
     res.redirect('/campgrounds')
   } catch (err) {

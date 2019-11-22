@@ -36,6 +36,8 @@ const seedComment = {
 const seedUser = {
   username: 'a',
   password: 'a',
+  firstName: 'Channa',
+  lastName: 'Dias Perera',
   lastLogin: moment('20111111', 'YYYYMMDD')
 }
 

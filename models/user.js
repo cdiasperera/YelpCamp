@@ -6,6 +6,9 @@ const UserSchema = mongoose.Schema({
   username: String,
   password: String,
   lastLogin: Date,
+  avatar: String,
+  firstName: String,
+  lastName: String,
   notifs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Notification'
