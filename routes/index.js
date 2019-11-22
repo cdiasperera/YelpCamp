@@ -4,7 +4,7 @@ const router = express.Router()
 const passport = require('passport')
 const moment = require('moment')
 
-const helperObj = require('../helper')
+const helper = require('../helper')
 
 const passwordSchema = require('../models/password')
 const usernameSchema = require('../models/username')
@@ -65,11 +65,10 @@ router.post('/register', async (req, res) => {
 
     const user = await User.register(userTemplate, password)
 
-    console.log(user)
     req.flash('success', 'Welcome Aboard!')
     res.redirect('/campgrounds')
   } catch (err) {
-    helperObj.displayError(req, err)
+    helper.displayError(req, err)
     return res.redirect('/register')
   }
 })
@@ -97,11 +96,10 @@ router.post(
     try {
       const user = await User.findById(req.user.id)
 
-      console.log(user.lastLogin)
 
       // Create a moment object from the last login to compare moments
       const lastLoginMoment = moment(user.lastLogin)
-      if (lastLoginMoment.isBefore(helperObj.mostRecentUpdate)) {
+      if (lastLoginMoment.isBefore(helper.mostRecentUpdate)) {
         const notif = await Notification.create({
           link: '/changelog',
           notifType: 'changelog'
@@ -118,7 +116,7 @@ router.post(
       user.lastLogin = moment()
       await user.save()
     } catch (err) {
-      helperObj.displayError(req, err)
+      helper.displayError(req, err)
       res.redirect('/login')
     }
 

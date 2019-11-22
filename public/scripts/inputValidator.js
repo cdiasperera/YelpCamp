@@ -100,20 +100,26 @@ function bindEndArgs (fn, ...boundArgs) {
   }
 }
 
-const usernameValidator = new InputValidator(
-  document.querySelector('input[name=username]'),
-  document.querySelectorAll('input[name=username] + .input-requirements li'),
-  InputValidator.prototype.usernameRules
-)
 
-const passwordValidator = new InputValidator(
-  document.querySelector('input[name=password]'),
-  document.querySelectorAll('input[name=password] + .input-requirements li'),
-  InputValidator.prototype.passwordRules
-)
+if (document.querySelector('input[id=username]').length !== 0) {
+  const usernameValidator = new InputValidator(
+    document.querySelector('input[id=username]'),
+    document.querySelectorAll('input[id=username] + .input-requirements li'),
+    InputValidator.prototype.usernameRules
+  )
 
-usernameValidator.start()
-passwordValidator.start()
+  usernameValidator.start()
+}
+if (document.querySelectorAll('input[id=password]').length !== 0) {
+  const passwordValidator = new InputValidator(
+    document.querySelector('input[id=password]'),
+    document.querySelectorAll('input[id=password] + .input-requirements li'),
+    InputValidator.prototype.passwordRules
+  )
+
+  passwordValidator.start()
+}
+
 
 // REMOVE POPUP FOR FORMS
 $(disableValidationPopup)

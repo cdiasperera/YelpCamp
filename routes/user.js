@@ -5,7 +5,7 @@ const User = require('../models/user')
 const usernameSchema = require('../models/username')
 const passwordSchema = require('../models/password')
 
-const helperObj = require('../helper')
+const helper = require('../helper')
 router.get('/register', (req, res) => {
   res.render('users/register')
 })
@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
   const password = req.body.password
 
   try {
-    const usernameErrors = usernameSchema.validate(req.body.username, { list: true })
+    const usernameErrors = usernameSchema.validate(req.body.user.username, { list: true })
     if (usernameErrors.length > 0) {
       throw passwordSchema.errorMessage(
         usernameErrors,
@@ -31,14 +31,27 @@ router.post('/', async (req, res) => {
 
     const userTemplate = await new User(req.body.user)
 
-    const user = await User.register(userTemplate, password)
+    await User.register(userTemplate, password)
 
-    console.log(user)
     req.flash('success', 'Welcome Aboard!')
     res.redirect('/campgrounds')
   } catch (err) {
-    helperObj.displayError(req, err)
+    helper.displayError(req, err)
     return res.redirect('/register')
   }
+})
+
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    res.render('users/edit', { user })
+  } catch (err) {
+    helper.displayError(req, err)
+    res.redirect('back')
+  }
+})
+
+router.post('/:d', async (req, res) => {
+  res.send('hello')
 })
 module.exports = router

@@ -19,7 +19,7 @@ const notifRoutes = require('./routes/notifs')
 const userRoutes = require('./routes/user')
 const seedDB = require('./seeds')
 const seedProduction = require('./seedProduction')
-const helperObj = require('./helper')
+const helper = require('./helper')
 
 require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
 const sessionSecret = process.env.SESS_SECRET
@@ -34,7 +34,7 @@ app.use(methodOverride('_method'))
 app.use(flash())
 
 // DB CONFIG
-const mongoURI = helperObj.makeMongoURI()
+const mongoURI = helper.makeMongoURI()
 
 mongoose.connect(
   mongoURI,
@@ -81,7 +81,7 @@ app.use(async (req, res, next) => {
         return !notif.isRead
       })
     } catch (err) {
-      helperObj.displayError(req, err)
+      helper.displayError(req, err)
       res.redirect('back')
     }
   }

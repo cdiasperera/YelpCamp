@@ -1,9 +1,9 @@
 'use strict'
 const moment = require('moment')
 
-const helperObj = {}
+const helper = {}
 
-helperObj.customErrors = {
+helper.customErrors = {
   campCreate: 'We could not create your camp! :((',
   campMiss: 'Uh oh! We could not find out campgrounds',
   campUpdate: 'Huh??? We could not update your camp for some reason',
@@ -19,7 +19,7 @@ helperObj.customErrors = {
  * Function to create flash messages for errors. It passes the custom errors
  * ONLY if there exists no pre-existing error. In this case, err is null.
  */
-helperObj.displayError = (req, err) => {
+helper.displayError = (req, err) => {
   // If the error is just a message, print it. Otherwise, find the message in the error
   if (typeof error === 'string') {
     req.flash('error', err)
@@ -32,7 +32,7 @@ helperObj.displayError = (req, err) => {
  * Function to create the appropriate URI, to access the database, depending
  * on whether the app is in production or development.
  */
-helperObj.makeMongoURI = () => {
+helper.makeMongoURI = () => {
   if (process.env.NODE_ENV === 'production') {
     let uri = 'mongodb+srv://yelpcampadmin:'
     uri += process.env.DB_PASS
@@ -43,5 +43,5 @@ helperObj.makeMongoURI = () => {
   }
 }
 
-helperObj.mostRecentUpdate = moment('20191121', 'YYYYMMDD')
-module.exports = helperObj
+helper.mostRecentUpdate = moment('20191121', 'YYYYMMDD')
+module.exports = helper

@@ -4,23 +4,24 @@
 
 <div class="container">
   <div class="row">
-    <h1 class="formHeader">Sign Up</h1>
-    <form action="/users" method="POST">
+    <h1 class="formHeader">Profile</h1>
+    <form action="/users/<%= user._id%>?_method=PUT" method="POST">
       <div class="new-form">
         <div class="form-group">
           <input class="form-control sign-up" 
-            id="username"
+            id=username
             type="text" 
             pattern="^[A-Za-z0-9_]{2,15}$"
             name="user[username]" 
             required
-            placeholder="Username">
+            placeholder="Username"
+            value="<%= user.username %>">
             <ul class="input-requirements">
               <li>Between 2 and 15 charactes long</li>
               <li>Must contain no special charactes or spaces</li>
             </ul>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <input class="form-control sign-up" 
             id="password"
             type="password" 
@@ -34,30 +35,32 @@
               <li>At least one uppercase letter</li>
               <li>At least one lowercase letter</li>
             </ul>
-        </div>
+        </div> -->
         <div class="form-group">
           <input class="form-control" 
           type="text" 
           name="user[firstName]"
-          placeholder="First Name">
+          placeholder="First Name"
+          value="<%= user.firstName %>">
         </div>
         <div class="form-group">
           <input class="form-control" 
           type="text" 
           name="user[lastName]"
-          placeholder="Last Name">
+          placeholder="Last Name"
+          value="<% user.lastName %>">
         </div>
         <div class="form-group">
           <input class="form-control" 
           type="text" 
           name="user[avatar]"
-          placeholder="Avatar Image URL">
+          placeholder="Avatar Image URL"
+          value="<%= user.avatar %>">
         </div>
         <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" 
-            type="submit">
-            Sign Up
-          </button>
+          <input class="btn btn-lg btn-success btn-block" 
+            type="submit"
+            value="Save">
         </div>
       </div> 
     </form>
