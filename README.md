@@ -39,7 +39,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] Footer 
 - [x] Display time since post was created 
 - [x] Track last login. 
-- [ ] _Notification of website updates_\*
+- [x] _Notification of website updates_\*
 - [ ] User profile
 - [ ] Notification of new campgrounds from followed users
 - [ ] User Roles 
@@ -56,4 +56,4 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Campground location
 - [x] Add total feature list to README
 
-\* _Whilst the course does cover in-app notifications, this was implemented indepenently[_
+\* _Whilst the course does cover in-app notifications, this was implemented indepenently_

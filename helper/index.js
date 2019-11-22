@@ -20,7 +20,12 @@ helperObj.customErrors = {
  * ONLY if there exists no pre-existing error. In this case, err is null.
  */
 helperObj.displayError = (req, err) => {
-  req.flash('error', err.message)
+  // If the error is just a message, print it. Otherwise, find the message in the error
+  if (typeof error === 'string') {
+    req.flash('error', err)
+  } else {
+    req.flash('error', err.message)
+  }
 }
 
 /**

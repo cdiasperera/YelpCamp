@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
   try {
     const foundCamps = await Campground.find(dbSearchParams)
     if (isEmpty(foundCamps)) {
-      throw helper.customErrors.campsMiss
+      throw helper.customErrors.campMiss
     }
 
     const locals = { camps: foundCamps, search: search }
