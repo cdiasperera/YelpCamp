@@ -12,7 +12,9 @@ helper.customErrors = {
   commenCreate: 'Whoops! We could not create your comment for some reason',
   commentUpdate: 'Alas! We could not update your comment!!',
   commentDelete: 'Eggo! We could not delete your comment for some reason :(',
-  notifMiss: 'Uhh, we could not find that notification!'
+  notifMiss: 'Uhh, we could not find that notification!',
+  userMiss: 'This is not the user you are looking for',
+  userUpdate: 'Sorry! We couldn\'t change your details! Try again in a few seconds'
 }
 
 /**

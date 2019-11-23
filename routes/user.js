@@ -6,6 +6,7 @@ const usernameSchema = require('../models/username')
 const passwordSchema = require('../models/password')
 
 const helper = require('../helper')
+const isEmpty = require('lodash').isEmpty
 router.get('/register', (req, res) => {
   res.render('users/register')
 })
@@ -44,6 +45,9 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
+    if (isEmpty(user)) {
+      throw helper.customErrors.userMiss
+    }
     res.render('users/edit', { user })
   } catch (err) {
     helper.displayError(req, err)
@@ -51,7 +55,21 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.post('/:d', async (req, res) => {
-  res.send('hello')
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body.user)
+    if (isEmpty(updatedUser)) {
+      throw helper.customErrors.userUpdate
+    }
+
+    console.log(updatedUser)
+    req.flash('success', 'Your details are updated')
+    res.redirect('/users/' + req.params.id)
+  } catch (err) {
+    helper.displayError(req, err)
+    res.direct('back')
+  }
 })
 module.exports = router

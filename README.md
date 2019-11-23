@@ -43,9 +43,11 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] User profile
 - [ ] Notification of new campgrounds from followed users
 - [ ] User Roles 
+- [ ] Email
 - [ ] Password reset 
 - [ ] Image upload with multer and cloudinary 
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
+- [ ] _Redesign Register/Login form to fit better on mobile_
 - [ ] _Redesign CSS for website_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [ ] Ratings and Reviews

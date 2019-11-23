@@ -1,29 +1,30 @@
 <% camp.comments.forEach((comment) => { %>
-        <div class="row">
-          <div class="col-md-12 comment">
-              <strong><%= comment.author.username %></strong>
-              <% let timeString = moment(comment.createdAt).fromNow(); %>
-              <% if (/^[a-z]/.test(timeString)) { %>
-                <% // First letter is lowercase and must be capitalized %>
-                <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
-              <% } %>
-              <span class="time-since pull-right"><%= timeString %></span>
-              <div> 
-                <p class="comment-text inline"><%= comment.text%></p>
-                <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
-                <span class="pull-right">
-                  <a href="<%=camp._id%>/comments/<%=comment._id%>/edit" 
-                    class="btn btn-xs btn-warning">
-                      Edit
-                  </a>
-                  <form class="inline" 
-                    action="<%=camp._id%>/comments/<%=comment._id%>?_method=DELETE" 
-                    method="post">
-                      <button class="btn btn-xs btn-danger">Delete</button>
-                  </form>
-                </span>
-                <% } %>
-              </div>
-          </div>
-        </div>
+  <div class="row">
+    <div class="col-md-12 comment">
+      <img class="avatar" src="<%= %>avatar%>" alt="">
+      <strong><%= comment.author.username %></strong>
+      <% let timeString = moment(comment.createdAt).fromNow(); %>
+      <% if (/^[a-z]/.test(timeString)) { %>
+        <% // First letter is lowercase and must be capitalized %>
+        <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
+      <% } %>
+      <span class="time-since pull-right"><%= timeString %></span>
+      <div> 
+        <p class="comment-text inline"><%= comment.text%></p>
+        <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+        <span class="pull-right">
+          <a href="<%=camp._id%>/comments/<%=comment._id%>/edit" 
+            class="btn btn-xs btn-warning">
+              Edit
+          </a>
+          <form class="inline" 
+            action="<%=camp._id%>/comments/<%=comment._id%>?_method=DELETE" 
+            method="post">
+              <button class="btn btn-xs btn-danger">Delete</button>
+          </form>
+        </span>
+        <% } %>
+      </div>
+    </div>
+  </div>
 <% }); %>
