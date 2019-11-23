@@ -20,6 +20,7 @@ const userRoutes = require('./routes/user')
 const seedDB = require('./seeds')
 const seedProduction = require('./seedProduction')
 const helper = require('./helper')
+const middleware = require('./middleware')
 
 require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
 const sessionSecret = process.env.SESS_SECRET
@@ -68,27 +69,7 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 // Pass in the user information to all pages
-app.use(async (req, res, next) => {
-  res.locals.currentUser = req.user
-  if (typeof req.user !== 'undefined') {
-    try {
-      const user = await User.findById(req.user.id)
-        .populate('notifs')
-        .exec()
-
-      // Only send notifications that aren't read
-      res.locals.notifs = user.notifs.filter((notif) => {
-        return !notif.isRead
-      })
-    } catch (err) {
-      helper.displayError(req, err)
-      res.redirect('back')
-    }
-  }
-  res.locals.error = req.flash('error')
-  res.locals.success = req.flash('success')
-  next()
-})
+app.use(middleware.locals)
 
 // Reset Database
 // Safety check to only run code in dev, not production.

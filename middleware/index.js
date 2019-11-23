@@ -1,15 +1,37 @@
 'use strict'
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
-
+const User = require('../models/user')
 const helper = require('../helper')
 
-const middlewareObj = {}
+const middleware = {}
+
+middleware.locals = async (req, res, next) => {
+  res.locals.currentUser = req.user
+  if (typeof req.user !== 'undefined') {
+    try {
+      const user = await User.findById(req.user.id)
+        .populate('notifs')
+        .exec()
+
+      // Only send notifications that aren't read
+      res.locals.notifs = user.notifs.filter((notif) => {
+        return !notif.isRead
+      })
+    } catch (err) {
+      helper.displayError(req, err)
+      res.redirect('back')
+    }
+  }
+  res.locals.error = req.flash('error')
+  res.locals.success = req.flash('success')
+  next()
+}
 
 /**
  * Function to make sure user is logged in
  */
-middlewareObj.isLoggedIn = (req, res, next) => {
+middleware.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
   } else {
@@ -61,7 +83,7 @@ function checkCommentOwnership (req, res, next) {
  * if they are logged in, for that request. Hence, we pass both middleware
  * functions to the request.
  */
-middlewareObj.checkCampStack = [middlewareObj.isLoggedIn, checkCampOwnership]
-middlewareObj.checkCommentStack = [middlewareObj.isLoggedIn, checkCommentOwnership]
+middleware.checkCampStack = [middleware.isLoggedIn, checkCampOwnership]
+middleware.checkCommentStack = [middleware.isLoggedIn, checkCommentOwnership]
 
-module.exports = middlewareObj
+module.exports = middleware
