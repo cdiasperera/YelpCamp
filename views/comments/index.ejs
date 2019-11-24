@@ -1,14 +1,20 @@
 <% camp.comments.forEach((comment) => { %>
   <div class="row">
     <div class="col-md-12 comment">
-      <img class="avatar" src="<%= %>avatar%>" alt="">
-      <strong><%= comment.author.username %></strong>
-      <% let timeString = moment(comment.createdAt).fromNow(); %>
-      <% if (/^[a-z]/.test(timeString)) { %>
-        <% // First letter is lowercase and must be capitalized %>
-        <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
-      <% } %>
-      <span class="time-since pull-right"><%= timeString %></span>
+      <div>
+        <img class="avatar" src="<%= comment.author.avatar%>" alt="">
+        <div class="inline">
+          <strong ><%= comment.author.username %></strong>
+          <% let timeString = moment(comment.createdAt).fromNow(); %>
+          <% if (/^[a-z]/.test(timeString)) { %>
+            <% // First letter is lowercase and must be capitalized %>
+            <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
+          <% } %>
+          <p class="time-since inline pull-right">
+            <%= timeString %>
+          </p>
+        </div>
+      </div>
       <div> 
         <p class="comment-text inline"><%= comment.text%></p>
         <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>

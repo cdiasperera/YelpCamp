@@ -48,6 +48,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Image upload with multer and cloudinary 
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
 - [ ] _Redesign Register/Login form to fit better on mobile_
+- [ ] _Make responsive in general_
 - [ ] _Redesign CSS for website_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [ ] Ratings and Reviews

@@ -1,9 +1,11 @@
 'use strict'
 const express = require('express')
 const router = express.Router({ mergeParams: true })
+const lodash = require('lodash')
+
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
-const lodash = require('lodash')
+const User = require('../models/user')
 
 const middleware = require('../middleware')
 const helper = require('../helper')
@@ -75,6 +77,19 @@ router.get('/:id', async (req, res) => {
   try {
     const foundCamp = await Campground.findById(req.params.id)
       .populate('comments')
+    // An array of promises to get the avatars of associated comments
+    const promises = []
+    for (const comment of foundCamp.comments) {
+      // Get promise to get the users for each comment
+      promises.push(User.findById(comment.author.id))
+    }
+
+    // Wait for all the promises for users to finish
+    const users = await Promise.all(promises)
+    foundCamp.comments.forEach((comment, index) => {
+      comment.author.avatar = users[index].avatar
+      comment.author.username = users[index].username
+    })
 
     res.render('campgrounds/show', { camp: foundCamp })
   } catch (err) {

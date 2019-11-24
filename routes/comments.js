@@ -35,9 +35,9 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
   try {
     // Template for the new comment
     const newCommentTemp = req.body.comment
+
     newCommentTemp.author = {
-      id: req.user._id,
-      username: req.user.username
+      id: req.user.id
     }
 
     const [camp, newComment] = await Promise.all([
