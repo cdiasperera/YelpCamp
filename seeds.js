@@ -34,7 +34,7 @@ const seedComment = {
 }
 
 const seedUser = {
-  username: 'a',
+  username: 'aa',
   password: 'a',
   firstName: 'Channa',
   lastName: 'Dias Perera',
@@ -42,13 +42,14 @@ const seedUser = {
 }
 
 async function seedDB () {
+  console.log('Seeding...')
   try {
     // Clean up DB
     await Promise.all([
-      Comment.deleteMany({}),
       Campground.deleteMany({}),
-      User.deleteMany({}),
-      Notification.deleteMany({})
+      Comment.deleteMany({}),
+      Notification.deleteMany({}),
+      User.deleteMany({})
     ])
 
     // Create user using passport.

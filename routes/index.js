@@ -112,7 +112,7 @@ router.post(
       }
 
       // Reset lastLogin date
-      user.lastLogin = moment()
+      user.lastLogin = helper.mostRecentUpdate
       await user.save()
     } catch (err) {
       helper.displayError(req, err)

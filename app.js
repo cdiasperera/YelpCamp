@@ -73,10 +73,9 @@ app.use(middleware.locals)
 
 // Reset Database
 // Safety check to only run code in dev, not production.
-const seeding = false
-if (seeding) {
+if (helper.seeding) {
   if (process.env.NODE_ENV === 'production') {
-    seedProduction()
+    // seedProduction()
   } else {
     // Not in production, so we can run seedDB, if needed.
     seedDB()

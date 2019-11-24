@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
-
 const User = require('../models/user')
 const usernameSchema = require('../models/username')
 const passwordSchema = require('../models/password')
 
 const helper = require('../helper')
 const isEmpty = require('lodash').isEmpty
+
 router.get('/register', (req, res) => {
   res.render('users/register')
 })
@@ -32,13 +32,18 @@ router.post('/', async (req, res) => {
 
     const userTemplate = await new User(req.body.user)
 
-    await User.register(userTemplate, password)
-
-    req.flash('success', 'Welcome Aboard!')
-    res.redirect('/campgrounds')
+    const user = await User.register(userTemplate, password)
+    req.login(user, (err) => {
+      if (!err) {
+        req.flash('success', 'Welcome Aboard!')
+        res.redirect('/campgrounds')
+      } else {
+        throw err
+      }
+    })
   } catch (err) {
     helper.displayError(req, err)
-    return res.redirect('/register')
+    return res.redirect('/users/register')
   }
 })
 

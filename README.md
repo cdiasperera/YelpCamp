@@ -40,7 +40,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] Display time since post was created 
 - [x] Track last login. 
 - [x] _Notification of website updates_\*
-- [ ] User profile
+- [x] User profile
 - [ ] Notification of new campgrounds from followed users
 - [ ] User Roles 
 - [ ] Email
