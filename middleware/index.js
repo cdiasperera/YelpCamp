@@ -68,7 +68,18 @@ function checkOwnership (database, missingError, authError) {
         throw missingError
       }
 
-      if (accessItem.author.id.equals(req.user._id)) {
+      // If the accessed item is the user, we can simply access its id directly.
+      // Otherwise, we must access the author or the object and then its id
+
+      let accessItemId
+      switch(database) {
+        case User:
+          accessItemId = accessItem._id
+          break
+        default:
+          accessItemId = accessItemId.author.id
+      }
+      if (accessItemId.equals(req.user._id)) {
         next()
       } else {
         throw authError

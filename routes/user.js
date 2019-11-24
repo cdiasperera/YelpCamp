@@ -5,6 +5,7 @@ const usernameSchema = require('../models/username')
 const passwordSchema = require('../models/password')
 
 const helper = require('../helper')
+const middleware = require('../middleware')
 const isEmpty = require('lodash').isEmpty
 
 router.get('/register', (req, res) => {
@@ -47,7 +48,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', middleware.checkProfileStrack, async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
     if (isEmpty(user)) {
@@ -60,7 +61,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', middleware.checkProfileStrack, async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -77,4 +78,5 @@ router.put('/:id', async (req, res) => {
     res.direct('back')
   }
 })
+
 module.exports = router
