@@ -72,7 +72,7 @@ function checkOwnership (database, missingError, authError) {
       // Otherwise, we must access the author or the object and then its id
 
       let accessItemId
-      switch(database) {
+      switch (database) {
         case User:
           accessItemId = accessItem._id
           break
