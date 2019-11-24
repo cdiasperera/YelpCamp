@@ -8,13 +8,16 @@ helper.customErrors = {
   campMiss: 'Uh oh! We could not find out campgrounds',
   campUpdate: 'Huh??? We could not update your camp for some reason',
   campDelete: 'Que??? We could not delete your camp',
+  campAuth: 'Yarr, you don\t have permission to enter this page!',
   commentMiss: 'Dios Mio! We could not find that comment',
   commenCreate: 'Whoops! We could not create your comment for some reason',
   commentUpdate: 'Alas! We could not update your comment!!',
   commentDelete: 'Eggo! We could not delete your comment for some reason :(',
+  commentAuth: 'I\'m not sure what you\re trying to do with this commnent, but I ain\'t down for that!',
   notifMiss: 'Uhh, we could not find that notification!',
   userMiss: 'This is not the user you are looking for',
-  userUpdate: 'Sorry! We couldn\'t change your details! Try again in a few seconds'
+  userUpdate: 'Sorry! We couldn\'t change your details! Try again in a few seconds',
+  userAuth: 'Hmmm, I do not think you are who you say you are!'
 }
 
 /**

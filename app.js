@@ -18,7 +18,7 @@ const indexRoutes = require('./routes/index')
 const notifRoutes = require('./routes/notifs')
 const userRoutes = require('./routes/user')
 const seedDB = require('./seeds')
-const seedProduction = require('./seedProduction')
+// const seedProduction = require('./seedProduction')
 const helper = require('./helper')
 const middleware = require('./middleware')
 

@@ -2,7 +2,9 @@
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
 const User = require('../models/user')
+
 const helper = require('../helper')
+const isEmpty = require('lodash').isEmpty
 
 const middleware = {}
 
@@ -31,7 +33,7 @@ middleware.locals = async (req, res, next) => {
 /**
  * Function to make sure user is logged in
  */
-middleware.isLoggedIn = (req, res, next) => {
+middleware.isLoggedIn = async (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
   } else {
@@ -41,42 +43,57 @@ middleware.isLoggedIn = (req, res, next) => {
   }
 }
 /**
- * Middleware to check if the user has authorization, with regards to that camp
+ * Function that return middleware, to check if the currently logged in user
+ * owns the page they are trying to access
  */
-function checkCampOwnership (req, res, next) {
-  Campground.findById(req.params.id, (err, foundCamp) => {
-    if (err || !foundCamp) {
-      helper.displayError(req, err, helper.customErrors.campId)
-      res.redirect('/campgrounds')
-    } else {
-      if (foundCamp.author.id.equals(req.user._id)) {
+
+function checkOwnership (database, missingError, authError) {
+  return async (req, res, next) => {
+    try {
+      let id
+      switch (database) {
+        case Campground:
+          id = req.params.id
+          break
+        case Comment:
+          id = req.params.comment_id
+          break
+        case User:
+          id = req.params.id
+          break
+      }
+
+      const accessItem = await database.findById(id)
+      if (isEmpty(accessItem)) {
+        throw missingError
+      }
+
+      if (accessItem.author.id.equals(req.user._id)) {
         next()
       } else {
-        req.flash('error', 'You do not have access to that camp! Sneaky!')
-        res.redirect('back')
+        throw authError
       }
+    } catch (err) {
+      helper.displayError(req, err)
+      res.redirect('back')
     }
-  })
+  }
 }
 
-/**
- * Middleware to check if the user has authorization, with regards to a comment
- */
-function checkCommentOwnership (req, res, next) {
-  Comment.findById(req.params.comment_id, (err, foundComment) => {
-    if (err || !foundComment) {
-      helper.displayError(req, err, helper.customErrors.commentId)
-      res.redirect('back')
-    } else {
-      if (foundComment.author.id.equals(req.user._id)) {
-        next()
-      } else {
-        req.flash('error', 'You do not have access to that comment! Crafty!')
-        res.redirect('back')
-      }
-    }
-  })
-}
+const checkCampOwnership = checkOwnership(
+  Campground,
+  helper.customErrors.campMiss,
+  helper.customErrors.campAuth)
+
+const checkCommentOwnership = checkOwnership(
+  Comment,
+  helper.customErrors.commentMiss,
+  helper.customErrors.commentAuth)
+
+const checkProfileOwnership = checkOwnership(
+  User,
+  helper.customErrors.userMiss,
+  helper.customErrors.userAuth)
 
 /**
  * If we check if the user has authorization to a camp/comment, we must know
@@ -85,5 +102,6 @@ function checkCommentOwnership (req, res, next) {
  */
 middleware.checkCampStack = [middleware.isLoggedIn, checkCampOwnership]
 middleware.checkCommentStack = [middleware.isLoggedIn, checkCommentOwnership]
+middleware.checkProfileStrack = [middleware.isLoggedIn, checkProfileOwnership]
 
 module.exports = middleware

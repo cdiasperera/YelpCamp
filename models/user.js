@@ -12,6 +12,10 @@ const UserSchema = mongoose.Schema({
   notifs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Notification'
+  }],
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }]
 })
 

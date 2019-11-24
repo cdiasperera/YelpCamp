@@ -57,6 +57,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Like Button
 - [ ] Semantic Campground URLs
 - [ ] Campground location
+- [ ] Sanitize Input
 - [x] Add total feature list to README
 
 \* _Whilst the course does cover this feature, this was implemented indepenently_
