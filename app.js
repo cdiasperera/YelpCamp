@@ -75,8 +75,12 @@ app.use(middleware.locals)
 if (helper.producSeeding) {
   if (process.env.NODE_ENV === 'production') {
     seedProduction()
-  } else if (helper.devSeeding) {
-    // Not in production, so we can run seedDB, if needed.
+  }
+}
+
+if (helper.devSeeding) {
+  // Not in production, so we can run seedDB, if needed.
+  if (process.env.NODE_ENV !== 'production') {
     seedDB()
   }
 }

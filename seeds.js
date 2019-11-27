@@ -77,8 +77,6 @@ async function seedDB () {
       )
     ])
 
-    user2.save()
-
     for (const notif of notifs) {
       try {
         Notification.generateMessage(notif)
@@ -90,6 +88,7 @@ async function seedDB () {
       }
     }
 
+    user.followers.push(user2._id)
     await user.save()
 
     seedCamps.forEach(async (seedCamp) => {

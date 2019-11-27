@@ -31,6 +31,7 @@ middleware.locals = async (req, res, next) => {
   // If we are not logged in, store the current page, to redirect back if we log
   // in. If we are on the login page, do NOT store the page.
   if (req.originalUrl !== '/login') {
+    console.log(req.url)
     req.session.returnTo = req.originalUrl
   }
 

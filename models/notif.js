@@ -20,6 +20,8 @@ model.generateMessage = (notif) => {
     notif.message = 'There has been a new update since you last logged in!'
   } else if (notif.notifType === 'newFollower') {
     notif.message = 'You have a new follower!'
+  } else if (notif.notifType === 'newCamp') {
+    notif.message = `${notif.info.creator} has made a new camp!`
   }
 }
 

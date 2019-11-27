@@ -6,6 +6,7 @@ const lodash = require('lodash')
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
 const User = require('../models/user')
+const Notification = require('../models/notif')
 
 const middleware = require('../middleware')
 const helper = require('../helper')
@@ -49,13 +50,56 @@ router.get('/', async (req, res) => {
 router.post('/', middleware.isLoggedIn, async (req, res) => {
   // Manually add the user data to the campground
   const newCamp = req.body.camp
+  if (!/^http.*/.test(newCamp.image)) {
+    // The image is trying to access an image outside the internet. Thus, it
+    // will ping the server. We must set the image to be no-image.jpg
+    newCamp.image = '/imgs/no-image.jpg'
+  }
   newCamp.author = { id: req.user._id, username: req.user.username }
   try {
-    const camp = await Campground.create(newCamp)
+    const promises = []
+    // Step 1: Create Campground
+    promises.push(Campground.create(newCamp))
+    promises.push(User.findById(req.user._id))
+
+    const [camp, user] = await Promise.all(promises)
     if (isEmpty(camp)) {
       throw helper.customErrors.campsCreate
     }
     req.flash('success', 'Campground Created!')
+
+    console.log({ user })
+    // Step 2: Notify Followers
+
+    // First, create a notification
+    const notifTemp = {
+      link: `/campgrounds/${camp.id}`,
+      notifType: 'newCamp',
+      info: { creator: user.username }
+    }
+    const notif = await Notification.create(notifTemp)
+    Notification.generateMessage(notif)
+    await notif.save()
+
+    console.log({ notif })
+    // Make a promise to get each follower
+    const findFollowers = []
+    for (const follower of user.followers) {
+      findFollowers.push(User.findById(follower))
+    }
+
+    // THe number of followers found
+    let foundFollowers = 0
+
+    // An array to hold the promises to save the notif of each follower
+    while (foundFollowers < findFollowers.length) {
+      const foundFollower = await Promise.race(findFollowers)
+
+      foundFollower.notifs.push(notif)
+      await foundFollower.save()
+      foundFollowers++
+    }
+
     res.redirect('/campgrounds')
   } catch (err) {
     helper.displayError(req, err)
