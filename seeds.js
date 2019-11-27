@@ -41,6 +41,13 @@ const seedUser = {
   lastLogin: moment('20111111', 'YYYYMMDD')
 }
 
+const seedUser2 = {
+  username: 'aaa',
+  password: 'a',
+  firstName: 'Channa',
+  lastName: 'Bup',
+  lastLogin: moment('20111111', 'YYYYMMDD')
+}
 async function seedDB () {
   console.log('Seeding...')
   try {
@@ -53,15 +60,24 @@ async function seedDB () {
     ])
 
     // Create user using passport.
-    const [user, ...notifs] = await Promise.all([
+    const [user, user2, ...notifs] = await Promise.all([
       User.register(
         new User({
           username: seedUser.username,
           lastLogin: seedUser.lastLogin
         }),
         seedUser.password
+      ),
+      User.register(
+        new User({
+          username: seedUser2.username,
+          lastLogin: seedUser2.lastLogin
+        }),
+        seedUser2.password
       )
     ])
+
+    user2.save()
 
     for (const notif of notifs) {
       try {

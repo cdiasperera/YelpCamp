@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
+
 const User = require('../models/user')
+const Notification = require('../models/notif')
+
 const usernameSchema = require('../models/username')
 const passwordSchema = require('../models/password')
 
@@ -48,13 +51,18 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.get('/:id', middleware.checkProfileStrack, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
     if (isEmpty(user)) {
       throw helper.customErrors.userMiss
     }
-    res.render('users/edit', { user })
+
+    if (!req.user || !user._id.equals(req.user.id)) {
+      res.render('users/show', { user })
+    } else {
+      res.render('users/edit', { user })
+    }
   } catch (err) {
     helper.displayError(req, err)
     res.redirect('back')
@@ -76,6 +84,49 @@ router.put('/:id', middleware.checkProfileStrack, async (req, res) => {
   } catch (err) {
     helper.displayError(req, err)
     res.direct('back')
+  }
+})
+
+router.post('/:id/follow', async (req, res) => {
+  try {
+    const queries = []
+    queries.push(User.findById(req.params.id))
+    queries.push(User.findById(req.body.follower))
+
+    const [user, follower] = await Promise.all(queries)
+
+    if (isEmpty(user) || isEmpty(follower)) {
+      throw helper.customErrors.userMiss
+    }
+
+    if (req.body.action === 'follow' &&
+      !user.followers.includes(req.body.follower)) {
+      // If the follower is already not a follower and a follow action is sent
+      user.followers.push(req.body.follower)
+
+      const newFollowerNotifTemplate = {
+        link: `/users/${follower._id}`,
+        notifType: 'newFollower'
+      }
+
+      Notification.generateMessage(newFollowerNotifTemplate)
+      const notif = await Notification.create(newFollowerNotifTemplate)
+
+      user.notifs.push(notif)
+      await user.save()
+    } else if (req.body.action === 'unfollow' &&
+      user.followers.includes(req.body.follower)) {
+      // Remove follower from followers list
+      user.followers = user.followers.filter((follower) => {
+        return !follower.equals(req.body.follower)
+      })
+
+      await user.save()
+    }
+    res.redirect('back')
+  } catch (err) {
+    helper.displayError(req, err)
+    res.redirect('back')
   }
 })
 

@@ -14,10 +14,12 @@
         <img class="img-responsive" src="<%= camp.image%>" alt="campground">
         <div class="caption-full">
           <h4 class="pull-right"> $<%= camp.price%>/night</h4>
-          <h4><a href=""><%= camp.name%></a></h4>
+          <h4><%= camp.name%></h4>
           <p><%= camp.desc%> </p>
           <% let timeString = moment(camp.createdAt).fromNow(); %>
-          <p>Submitted by <strong><%= camp.author.username%></strong>
+          <p>Submitted by <a href="/users/<%= camp.author.id%>">
+            <strong><%= camp.author.username%></strong>
+          </a>
           <span class="time-since pull-right"><%= timeString %></span></p>
 
           <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>

@@ -9,8 +9,8 @@ const helper = require('../helper')
 
 router.get('/', async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).populate('notifs').exec()
-    res.render('notifs/index', { allNotifs: user.notifs })
+    await User.findById(req.user.id).populate('notifs').exec()
+    res.render('notifs/index')
   } catch (err) {
     console.log(err)
     helper.displayError(req, err)

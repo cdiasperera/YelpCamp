@@ -1,0 +1,37 @@
+<% include ../partials/header %>
+<div class="container">
+  <h3><%= user.username%>'s Profile</h3>
+  <img class ="avatar avatar-profile" src="<%= user.avatar%>" alt="avatar">
+  <ul class="profile-list">
+    <li>First Name: <%= user.firstName%></li>
+    <li>Last Name: <%= user.lastName%></li>
+  </ul>
+  <% if (currentUser) { %>
+    <% let btnColor %>
+    <% let value %>
+    <% let link %>
+    <% if (!user.followers.includes(currentUser.id)) { %>
+      <% btnColor = 'btn-success' %>
+      <% value = 'Follow' %>
+      <% action = 'follow' %>
+    <% } else { %>
+      <% btnColor = 'btn-danger' %>
+      <% value = 'Unfollow' %>
+      <% action = 'unfollow' %>
+    <% } %>
+    <form action="/users/<%= user._id%>/follow" method="POST">
+      <input class="btn btn-md <%= btnColor%>"
+        type="submit"
+        value="<%= value %>">
+      <input
+        name="follower"
+        value="<%= currentUser.id%>"
+        type="hidden">
+      <input
+        name="action"
+        value="<%= action %>"
+        type="hidden">
+    </form>
+  <% } %>
+</div>
+<% include ../partials/footer %>

@@ -77,15 +77,15 @@ router.get('/:id', async (req, res) => {
   try {
     const foundCamp = await Campground.findById(req.params.id)
       .populate('comments')
-    // An array of promises to get the avatars of associated comments
-    const promises = []
+    // An array of queries to get the avatars of associated comments
+    const queries = []
     for (const comment of foundCamp.comments) {
       // Get promise to get the users for each comment
-      promises.push(User.findById(comment.author.id))
+      queries.push(User.findById(comment.author.id))
     }
 
-    // Wait for all the promises for users to finish
-    const users = await Promise.all(promises)
+    // Wait for all the  for users to finish
+    const users = await Promise.all(queries)
     foundCamp.comments.forEach((comment, index) => {
       comment.author.avatar = users[index].avatar
       comment.author.username = users[index].username

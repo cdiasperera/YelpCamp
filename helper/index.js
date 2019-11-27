@@ -25,6 +25,8 @@ helper.customErrors = {
  * ONLY if there exists no pre-existing error. In this case, err is null.
  */
 helper.displayError = (req, err) => {
+  // For debugging purposes
+  console.log(err)
   // If the error is just a message, print it. Otherwise, find the message in the error
   if (typeof error === 'string') {
     req.flash('error', err)
@@ -50,7 +52,8 @@ helper.makeMongoURI = () => {
 
 helper.mostRecentUpdate = moment('20191125', 'YYYYMMDD')
 
-// Boolean that tells if we are seeding the database or not
-helper.seeding = false
+// Booleans that tells if we are seeding the database or not
+helper.producSeeding = false
+helper.devSeeding = false
 
 module.exports = helper

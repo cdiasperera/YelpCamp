@@ -18,7 +18,7 @@ const indexRoutes = require('./routes/index')
 const notifRoutes = require('./routes/notifs')
 const userRoutes = require('./routes/user')
 const seedDB = require('./seeds')
-// const seedProduction = require('./seedProduction')
+const seedProduction = require('./seedProduction')
 const helper = require('./helper')
 const middleware = require('./middleware')
 
@@ -72,11 +72,10 @@ passport.deserializeUser(User.deserializeUser())
 app.use(middleware.locals)
 
 // Reset Database
-// Safety check to only run code in dev, not production.
-if (helper.seeding) {
+if (helper.producSeeding) {
   if (process.env.NODE_ENV === 'production') {
-    // seedProduction()
-  } else {
+    seedProduction()
+  } else if (helper.devSeeding) {
     // Not in production, so we can run seedDB, if needed.
     seedDB()
   }

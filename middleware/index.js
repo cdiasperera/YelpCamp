@@ -17,14 +17,23 @@ middleware.locals = async (req, res, next) => {
         .exec()
 
       // Only send notifications that aren't read
-      res.locals.notifs = user.notifs.filter((notif) => {
+      const notifsUnordered = user.notifs.filter((notif) => {
         return !notif.isRead
       })
+
+      res.locals.notifs = notifsUnordered
     } catch (err) {
       helper.displayError(req, err)
       res.redirect('back')
     }
   }
+
+  // If we are not logged in, store the current page, to redirect back if we log
+  // in. If we are on the login page, do NOT store the page.
+  if (req.originalUrl !== '/login') {
+    req.session.returnTo = req.originalUrl
+  }
+
   res.locals.error = req.flash('error')
   res.locals.success = req.flash('success')
   next()
@@ -37,7 +46,6 @@ middleware.isLoggedIn = async (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
   } else {
-    req.session.returnTo = req.originalUrl
     req.flash('error', 'You need to be logged in, matey!')
     res.redirect('/login')
   }

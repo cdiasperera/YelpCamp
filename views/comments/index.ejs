@@ -4,7 +4,9 @@
       <div>
         <img class="avatar" src="<%= comment.author.avatar%>" alt="">
         <div class="inline">
-          <strong ><%= comment.author.username %></strong>
+          <a href="/users/<%= comment.author.id%>">
+            <strong ><%= comment.author.username %></strong>
+          </a>
           <% let timeString = moment(comment.createdAt).fromNow(); %>
           <% if (/^[a-z]/.test(timeString)) { %>
             <% // First letter is lowercase and must be capitalized %>

@@ -18,6 +18,8 @@ const model = mongoose.model('Notification', notifSchema)
 model.generateMessage = (notif) => {
   if (notif.notifType === 'changelog') {
     notif.message = 'There has been a new update since you last logged in!'
+  } else if (notif.notifType === 'newFollower') {
+    notif.message = 'You have a new follower!'
   }
 }
 

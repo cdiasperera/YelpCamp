@@ -32,7 +32,7 @@ Woohoo!
 The following is a checklist of items to complete after deployment to Heroku:
 - [x] Make app strict compliant
 - [x] _Server Registration Validator_
-- [x] _Client Real Time Registration Feedback andValidator_
+- [x] _Client Real Time Registration Feedback and Validator_
 - [x] _Refactor Constants_
 - [x] _Refactor header so stylesheet can be chosen by each page_
 - [x] Fuzzy Search
