@@ -54,6 +54,6 @@ helper.mostRecentUpdate = moment('20191125', 'YYYYMMDD')
 
 // Booleans that tells if we are seeding the database or not
 helper.producSeeding = false
-helper.devSeeding = true
+helper.devSeeding = false
 
 module.exports = helper
