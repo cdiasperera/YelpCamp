@@ -69,7 +69,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.put('/:id', middleware.checkProfileStrack, async (req, res) => {
+router.put('/:id', middleware.checkProfileStack, async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -87,8 +87,14 @@ router.put('/:id', middleware.checkProfileStrack, async (req, res) => {
   }
 })
 
-router.post('/:id/follow', async (req, res) => {
+router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
   try {
+    console.log(req.user.id)
+    console.log(req.body.follower)
+    if (req.user.id !== req.body.follower) {
+      throw helper.customErrors.followerAuth
+    }
+
     const queries = []
     queries.push(User.findById(req.params.id))
     queries.push(User.findById(req.body.follower))

@@ -4,13 +4,13 @@ const router = express.Router()
 const passport = require('passport')
 const moment = require('moment')
 
-const helper = require('../helper')
-
 const passwordSchema = require('../models/password')
 const usernameSchema = require('../models/username')
 const User = require('../models/user')
 const Notification = require('../models/notif')
 
+const helper = require('../helper')
+const middleware = require('../middleware')
 /**
  * Route to the landing page.
  */
@@ -34,7 +34,7 @@ router.get('/changelog', (req, res) => {
 /**
  * Route to the register page.
  */
-router.get('/register', (req, res) => {
+router.get('/register', middleware.isNotLoggedIn, (req, res) => {
   res.render('register')
 })
 
@@ -42,7 +42,10 @@ router.get('/register', (req, res) => {
  * Route which created a user.
  */
 
-router.post('/register', async (req, res) => {
+router.post('/register', middleware.isNotLoggedIn, async (req, res) => {
+  if (req.isAuthenticated) {
+    res.redirect('/')
+  }
   const password = req.body.password
 
   try {
@@ -76,7 +79,7 @@ router.post('/register', async (req, res) => {
 /**
  * Route to the login page.
  */
-router.get('/login', (req, res) => {
+router.get('/login', middleware.isNotLoggedIn, (req, res) => {
   res.render('login')
 })
 
@@ -85,6 +88,7 @@ router.get('/login', (req, res) => {
  */
 router.post(
   '/login',
+  middleware.isNotLoggedIn,
   passport.authenticate(
     'local',
     {
@@ -129,7 +133,7 @@ router.post(
 /**
  * Route to log out.
  */
-router.get('/logout', (req, res) => {
+router.get('/logout', middleware.isLoggedIn, (req, res) => {
   req.logout()
 
   req.flash('success', 'Logged out!')

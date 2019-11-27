@@ -15,9 +15,11 @@ helper.customErrors = {
   commentDelete: 'Eggo! We could not delete your comment for some reason :(',
   commentAuth: 'I\'m not sure what you\re trying to do with this commnent, but I ain\'t down for that!',
   notifMiss: 'Uhh, we could not find that notification!',
+  notifAuth: 'Hmmm, you should not need that notification!',
   userMiss: 'This is not the user you are looking for',
   userUpdate: 'Sorry! We couldn\'t change your details! Try again in a few seconds',
-  userAuth: 'Hmmm, I do not think you are who you say you are!'
+  userAuth: 'Hmmm, I do not think you are who you say you are!',
+  followerAuth: 'You can\'t follow someone, on someone elses behalf matey!'
 }
 
 /**

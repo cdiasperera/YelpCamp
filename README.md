@@ -46,6 +46,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] _Email_
 - [ ] Password reset 
 - [ ] Image upload with multer and cloudinary 
+- [ ] Cookies to keep user logged in
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
 - [ ] _Redesign Register/Login form to fit better on mobile_
 - [ ] _Make responsive in general_
@@ -54,6 +55,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Ratings and Reviews
 - [ ] Pagination
 - [ ] Rework comments
+- [ ] Comment Threads
 - [ ] Like Button
 - [ ] Semantic Campground URLs
 - [ ] Campground location

@@ -5,9 +5,10 @@ const router = express.Router({ mergeParams: true })
 const User = require('../models/user')
 const Notification = require('../models/notif')
 
+const middleware = require('../middleware')
 const helper = require('../helper')
 
-router.get('/', async (req, res) => {
+router.get('/', middleware.isLoggedIn, async (req, res) => {
   try {
     await User.findById(req.user.id).populate('notifs').exec()
     res.render('notifs/index')
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', middleware.checkNotificationStack, async (req, res) => {
   try {
     const notif = await Notification.findById(req.params.id)
 

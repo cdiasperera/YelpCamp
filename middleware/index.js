@@ -2,6 +2,7 @@
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
 const User = require('../models/user')
+const Notification = require('../models/notif')
 
 const helper = require('../helper')
 const isEmpty = require('lodash').isEmpty
@@ -31,7 +32,6 @@ middleware.locals = async (req, res, next) => {
   // If we are not logged in, store the current page, to redirect back if we log
   // in. If we are on the login page, do NOT store the page.
   if (req.originalUrl !== '/login') {
-    console.log(req.url)
     req.session.returnTo = req.originalUrl
   }
 
@@ -51,6 +51,16 @@ middleware.isLoggedIn = async (req, res, next) => {
     res.redirect('/login')
   }
 }
+
+middleware.isNotLoggedIn = async (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return next()
+  } else {
+    req.flash('error', 'You can\'t do that if you\'re already logged in!')
+    res.redirect('back')
+  }
+}
+
 /**
  * Function that return middleware, to check if the currently logged in user
  * owns the page they are trying to access
@@ -61,15 +71,11 @@ function checkOwnership (database, missingError, authError) {
     try {
       let id
       switch (database) {
-        case Campground:
-          id = req.params.id
-          break
         case Comment:
           id = req.params.comment_id
           break
-        case User:
+        default:
           id = req.params.id
-          break
       }
 
       const accessItem = await database.findById(id)
@@ -115,6 +121,11 @@ const checkProfileOwnership = checkOwnership(
   helper.customErrors.userMiss,
   helper.customErrors.userAuth)
 
+const checkNotificationOwnership = checkOwnership(
+  Notification,
+  helper.customErrors.notifMiss,
+  helper.customErrors.notifAuth
+)
 /**
  * If we check if the user has authorization to a camp/comment, we must know
  * if they are logged in, for that request. Hence, we pass both middleware
@@ -122,6 +133,8 @@ const checkProfileOwnership = checkOwnership(
  */
 middleware.checkCampStack = [middleware.isLoggedIn, checkCampOwnership]
 middleware.checkCommentStack = [middleware.isLoggedIn, checkCommentOwnership]
-middleware.checkProfileStrack = [middleware.isLoggedIn, checkProfileOwnership]
-
+middleware.checkProfileStack = [middleware.isLoggedIn, checkProfileOwnership]
+middleware.checkNotificationStack = [
+  middleware.isLoggedIn,
+  checkNotificationOwnership]
 module.exports = middleware
