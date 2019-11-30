@@ -101,7 +101,7 @@ function bindEndArgs (fn, ...boundArgs) {
   }
 }
 
-if (document.querySelector('input[id=username]').length !== 0) {
+if (document.querySelectorAll('input[id=username]').length !== 0) {
   const usernameValidator = new InputValidator(
     document.querySelector('input[id=username]'),
     document.querySelectorAll('input[id=username] + .input-requirements li'),

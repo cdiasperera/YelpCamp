@@ -1,0 +1,29 @@
+<% include ../partials/header/meta %>
+<link rel="stylesheet" href="/stylesheets/userEdit.css">
+<% include ../partials/header/commonContent %>
+<div class="container">
+  <div class="new-form">
+    <h3 class="formHeader">Password Reset</h3>
+    <form action="/users/<%= userId %>/token/<%= tokenId%>" method="POST">
+      <div class="form-group">
+        <input class="form-control sign-up" 
+          id="password"
+          type="password" 
+          name="password" 
+          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+          placeholder="Password"
+          required>
+          <ul class="input-requirements">
+            <li>At least 8 characters long</li>
+            <li>At least one number</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one lowercase letter</li>
+          </ul>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/scripts/disablePopups.js"></script>
+<script src="/scripts/inputValidator.js"></script>
+<% include ../partials/footer %>

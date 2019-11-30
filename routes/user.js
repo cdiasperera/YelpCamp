@@ -208,7 +208,8 @@ router.get('/:id/token/:token_id', async (req, res) => {
     // Check if the token has expired
     if (user.resetExpiry.getTime() > moment()) {
       if (await bcrypt.compare(req.params.token_id, user.resetTokenHash)) {
-        res.render('/user/newPass')
+        const locals = { userId: req.params.id, tokenId: req.params.token_id }
+        res.render('users/passReset', locals)
       } else {
         throw helper.customErrors.resetInvalid
       }
@@ -221,11 +222,29 @@ router.get('/:id/token/:token_id', async (req, res) => {
   }
 })
 
-router.post('/token/:id', async (req, res) => {
-  // Fnd the hashed token in the user db.
-  // Compare the date
-  // If the date is before expiry, compare tokens
-  // If both pass, set the password to the changed password.
-  // Set the token and expiry to undefined.
+router.post('/:id/token/:token_id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (isEmpty(user)) {
+      throw helper.customErrors.resetUserMiss
+    }
+
+    if (user.resetExpiry.getTime() > moment()) {
+      if (await bcrypt.compare(req.params.token_id, user.resetTokenHash)) {
+        await user.setPassword(req.body.password)
+        await user.save()
+
+        req.flash('success', 'Password changed!')
+        res.redirect('/campgrounds')
+      } else {
+        throw helper.customErrors.resetInvalid
+      }
+    } else {
+      throw helper.customErrors.resetExpire
+    }
+  } catch (err) {
+    helper.displayError(req, err)
+    res.redirect('/campgrounds')
+  }
 })
 module.exports = router
