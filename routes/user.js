@@ -10,7 +10,7 @@ const Notification = require('../models/notif')
 
 const usernameSchema = require('../models/username')
 const passwordSchema = require('../models/password')
-
+const emailValidator = require('email-validator')
 const helper = require('../helper')
 const middleware = require('../middleware')
 const isEmpty = require('lodash').isEmpty
@@ -20,9 +20,8 @@ router.get('/register', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const password = req.body.password
-
   try {
+    const password = req.body.password
     const usernameErrors = usernameSchema.validate(
       req.body.user.username,
       { list: true })
@@ -40,6 +39,14 @@ router.post('/', async (req, res) => {
         passwordSchema.invalidPasswordMessages)
     }
 
+    if (!emailValidator.validate(req.body.user.email)) {
+      throw helper.customErrors.emailInvalid
+    } else {
+      const emailUser = await User.findOne(req.body.email)
+      if (!isEmpty(emailUser)) {
+        throw helper.customErrors.emailUsed
+      }
+    }
     const userTemplate = await new User(req.body.user)
 
     const user = await User.register(userTemplate, password)
@@ -52,8 +59,8 @@ router.post('/', async (req, res) => {
       }
     })
   } catch (err) {
-    helper.displayError(req, err)
-    return res.redirect('/users/register')
+    req.flash('error', err)
+    res.redirect('/users/register')
   }
 })
 
@@ -89,7 +96,7 @@ router.put('/:id', middleware.checkProfileStack, async (req, res) => {
     res.redirect('/users/' + req.params.id)
   } catch (err) {
     helper.displayError(req, err)
-    res.direct('back')
+    res.redirect('back')
   }
 })
 
@@ -143,7 +150,7 @@ router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
   }
 })
 
-router.get('/:id/pReset', middleware.checkProfileStack, async (req, res) => {
+router.get('/:id/pReset', async (req, res) => {
   try {
     // Set up and verify email server connection
     const transporter = nodeMailer.createTransport({
@@ -218,7 +225,7 @@ router.get('/:id/token/:token_id', async (req, res) => {
     }
   } catch (err) {
     helper.displayError(req, err)
-    res.redirect('/campgrounds')
+    res.redirect('back')
   }
 })
 

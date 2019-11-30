@@ -11,7 +11,7 @@ const Notification = require('../models/notif')
 
 const helper = require('../helper')
 const middleware = require('../middleware')
-
+const isEmpty = require('lodash').isEmpty
 /**
  * Route to prevent getting a favicon, as there is none available
  */
@@ -146,4 +146,21 @@ router.get('/logout', middleware.isLoggedIn, (req, res) => {
   res.redirect('/campgrounds')
 })
 
+router.get('/forgot', (req, res) => {
+  res.render('forgot')
+})
+
+router.post('/forgot', async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email })
+    if (isEmpty(user)) {
+      throw helper.customErrors.userMiss
+    }
+
+    res.redirect(`/users/${user.id}/pReset`)
+  } catch (err) {
+    helper.displayError(req, err)
+    res.redirect('/forgot')
+  }
+})
 module.exports = router

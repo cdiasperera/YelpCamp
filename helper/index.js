@@ -22,7 +22,9 @@ helper.customErrors = {
   followerAuth: 'You can\'t follow someone, on someone elses behalf matey!',
   resetUserMiss: 'The user associated with this reset token does not exist',
   resetExpire: 'Your reset token has expired',
-  resetInvalid: 'Your reset token is invalid'
+  resetInvalid: 'Your reset token is invalid',
+  emailInvalid: 'Your email was not accepted!',
+  emailUsed: 'Your email is already in use'
 }
 
 /**
@@ -32,6 +34,7 @@ helper.customErrors = {
 helper.displayError = (req, err) => {
   // For debugging purposes
   console.log(err)
+  console.log(typeof err)
   // If the error is just a message, print it. Otherwise, find the message in the error
   if (typeof error === 'string') {
     req.flash('error', err)

@@ -47,12 +47,18 @@ img {
 }
 
 .new-form {
-    width: 30%;
-    margin: 25px auto;
+  width: 30%;
+  margin: 25px auto;
+  margin-top: 12.5px;
 }
 
 .formHeader {
-    text-align: center;
+  text-align: center;
+}
+
+.formHeader + p {
+  text-align: center;
+  margin-bottom: 0;
 }
 
 .footer {
@@ -108,4 +114,8 @@ img {
 
 .profile-list li {
   margin-top: 2vh;
+}
+
+.forgot-pass {
+  font-size: 0.8em
 }
