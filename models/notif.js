@@ -4,6 +4,12 @@ const mongoose = require('mongoose')
 
 const notifSchema = new mongoose.Schema({
   link: String,
+  author: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  },
   message: String,
   isRead: {
     type: Boolean,

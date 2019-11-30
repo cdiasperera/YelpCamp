@@ -11,6 +11,12 @@ const Notification = require('../models/notif')
 
 const helper = require('../helper')
 const middleware = require('../middleware')
+
+/**
+ * Route to prevent getting a favicon, as there is none available
+ */
+router.get('/favicon.ico', (req, res) => res.status(204))
+
 /**
  * Route to the landing page.
  */
@@ -41,7 +47,6 @@ router.get('/register', middleware.isNotLoggedIn, (req, res) => {
 /**
  * Route which created a user.
  */
-
 router.post('/register', middleware.isNotLoggedIn, async (req, res) => {
   if (req.isAuthenticated) {
     res.redirect('/')
@@ -109,6 +114,7 @@ router.post(
         })
 
         Notification.generateMessage(notif)
+        notif.author.id = user._id
         await notif.save()
 
         user.notifs.push(notif)

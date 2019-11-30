@@ -92,7 +92,7 @@ function checkOwnership (database, missingError, authError) {
           accessItemId = accessItem._id
           break
         default:
-          accessItemId = accessItemId.author.id
+          accessItemId = accessItem.author.id
       }
       if (accessItemId.equals(req.user._id)) {
         next()

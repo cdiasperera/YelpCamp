@@ -37,6 +37,7 @@ const seedUser = {
   username: 'aa',
   password: 'a',
   firstName: 'Channa',
+  email: 'cdiasperera@gmail.com',
   lastName: 'Dias Perera',
   lastLogin: moment('20111111', 'YYYYMMDD')
 }
@@ -64,7 +65,8 @@ async function seedDB () {
       User.register(
         new User({
           username: seedUser.username,
-          lastLogin: seedUser.lastLogin
+          lastLogin: seedUser.lastLogin,
+          email: seedUser.email
         }),
         seedUser.password
       ),
@@ -80,6 +82,7 @@ async function seedDB () {
     for (const notif of notifs) {
       try {
         Notification.generateMessage(notif)
+        notif.author.id = user._id
         await notif.save()
 
         await user.notifs.push(notif)

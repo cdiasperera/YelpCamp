@@ -19,7 +19,10 @@ helper.customErrors = {
   userMiss: 'This is not the user you are looking for',
   userUpdate: 'Sorry! We couldn\'t change your details! Try again in a few seconds',
   userAuth: 'Hmmm, I do not think you are who you say you are!',
-  followerAuth: 'You can\'t follow someone, on someone elses behalf matey!'
+  followerAuth: 'You can\'t follow someone, on someone elses behalf matey!',
+  resetUserMiss: 'The user associated with this reset token does not exist',
+  resetExpire: 'Your reset token has expired',
+  resetInvalid: 'Your reset token is invalid'
 }
 
 /**
@@ -56,6 +59,6 @@ helper.mostRecentUpdate = moment('20191128', 'YYYYMMDD')
 
 // Booleans that tells if we are seeding the database or not
 helper.producSeeding = false
-helper.devSeeding = false
+helper.devSeeding = true
 
 module.exports = helper

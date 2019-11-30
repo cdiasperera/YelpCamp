@@ -47,6 +47,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Forgot Password
 - [ ] Image upload with multer and cloudinary 
 - [ ] Cookies to keep user logged in
+- [ ] Clean Notifs without authors
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
 - [ ] Ratings and Reviews
 - [ ] Pagination
@@ -58,7 +59,9 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Sanitize Input
 - [ ] _Redesign Register/Login form to fit better on mobile_
 - [ ] _Make responsive in general_
+- [ ] _Pass Audits_
 - [ ] _Redesign CSS for website_
+- [ ] _Refactor functions to be more modular_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [x] Add total feature list to README
 

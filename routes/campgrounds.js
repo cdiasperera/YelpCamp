@@ -79,6 +79,7 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
     }
     const notif = await Notification.create(notifTemp)
     Notification.generateMessage(notif)
+    notif.author.id = user._id
     await notif.save()
 
     console.log({ notif })

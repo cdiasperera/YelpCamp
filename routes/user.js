@@ -1,8 +1,11 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
 const nodeMailer = require('nodemailer')
-
+const crypto = require('crypto')
+const bcrypt = require('bcryptjs')
 const User = require('../models/user')
+const moment = require('moment')
+
 const Notification = require('../models/notif')
 
 const usernameSchema = require('../models/username')
@@ -119,6 +122,7 @@ router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
       }
 
       Notification.generateMessage(newFollowerNotifTemplate)
+      newFollowerNotifTemplate.author.id = user._id
       const notif = await Notification.create(newFollowerNotifTemplate)
 
       user.notifs.push(notif)
@@ -139,7 +143,7 @@ router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
   }
 })
 
-router.get('/:id/pReset', async (req, res) => {
+router.get('/:id/pReset', middleware.checkProfileStack, async (req, res) => {
   try {
     // Set up and verify email server connection
     const transporter = nodeMailer.createTransport({
@@ -160,7 +164,14 @@ router.get('/:id/pReset', async (req, res) => {
     console.log({ rest })
 
     const mail = require('../emails/resetPassword')
-    mail.addLink(req.headers.host)
+
+    // Generate token and send it to the user.
+    const token = await crypto.randomBytes(32).toString('hex')
+
+    const tokenLink = `${req.headers.host}/users/${user._id}/token/${token}`
+    mail.addLink(tokenLink)
+
+    // No need to await as nothing is depending on this executing
     transporter.sendMail({
       from: 'cdiasperera@gmail.com',
       to: user.email,
@@ -168,6 +179,14 @@ router.get('/:id/pReset', async (req, res) => {
       html: mail.mailContent
     })
 
+    const hashedToken = bcrypt.hashSync(token, 10)
+    const expiry = moment().add(2, 'hours')
+    user.resetTokenHash = hashedToken
+    user.resetExpiry = expiry
+    // While there is no need to wait for the data to save, practically,
+    // by waiting we avoid any race conditions where the user clicks the link
+    // and tries to reset before the hashes are saved
+    await user.save()
     req.flash('success',
       'Password Reset Email was sent! Please check your email!' +
       ' Check your spam as well!')
@@ -178,4 +197,35 @@ router.get('/:id/pReset', async (req, res) => {
   }
 })
 
+router.get('/:id/token/:token_id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    // Check if there was a valid token
+    if (isEmpty(user)) {
+      throw helper.customErrors.resetUserMiss
+    }
+
+    // Check if the token has expired
+    if (user.resetExpiry.getTime() > moment()) {
+      if (await bcrypt.compare(req.params.token_id, user.resetTokenHash)) {
+        res.render('/user/newPass')
+      } else {
+        throw helper.customErrors.resetInvalid
+      }
+    } else {
+      throw helper.customErrors.resetExpire
+    }
+  } catch (err) {
+    helper.displayError(req, err)
+    res.redirect('/campgrounds')
+  }
+})
+
+router.post('/token/:id', async (req, res) => {
+  // Fnd the hashed token in the user db.
+  // Compare the date
+  // If the date is before expiry, compare tokens
+  // If both pass, set the password to the changed password.
+  // Set the token and expiry to undefined.
+})
 module.exports = router
