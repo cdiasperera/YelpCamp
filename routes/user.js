@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
+const nodeMailer = require('nodemailer')
 
 const User = require('../models/user')
 const Notification = require('../models/notif')
@@ -19,7 +20,9 @@ router.post('/', async (req, res) => {
   const password = req.body.password
 
   try {
-    const usernameErrors = usernameSchema.validate(req.body.user.username, { list: true })
+    const usernameErrors = usernameSchema.validate(
+      req.body.user.username,
+      { list: true })
     if (usernameErrors.length > 0) {
       throw passwordSchema.errorMessage(
         usernameErrors,
@@ -133,6 +136,45 @@ router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
   } catch (err) {
     helper.displayError(req, err)
     res.redirect('back')
+  }
+})
+
+router.get('/:id/pReset', async (req, res) => {
+  try {
+    // Set up and verify email server connection
+    const transporter = nodeMailer.createTransport({
+      host: process.env.SMTP_SERVER,
+      port: process.env.SMTP_PORT,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_USERNAME,
+        pass: process.env.SMTP_PASSWORD
+      }
+    })
+    // Send email
+    const [user, ...rest] = await Promise.all([
+      User.findById(req.params.id),
+      transporter.verify
+    ])
+
+    console.log({ rest })
+
+    const mail = require('../emails/resetPassword')
+    mail.addLink(req.headers.host)
+    transporter.sendMail({
+      from: 'cdiasperera@gmail.com',
+      to: user.email,
+      subject: 'Password Reset - YelpCamp',
+      html: mail.mailContent
+    })
+
+    req.flash('success',
+      'Password Reset Email was sent! Please check your email!' +
+      ' Check your spam as well!')
+    res.redirect('back')
+  } catch (err) {
+    helper.displayError(req, err)
+    res.redirect('/campgrounds')
   }
 })
 

@@ -42,16 +42,12 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Notification of website updates_\*
 - [x] User profile
 - [x] Notification of new campgrounds from followed users
-- [ ] User Roles 
-- [ ] _Email_
+- [x] _Email_
 - [ ] Password reset 
+- [ ] Forgot Password
 - [ ] Image upload with multer and cloudinary 
 - [ ] Cookies to keep user logged in
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
-- [ ] _Redesign Register/Login form to fit better on mobile_
-- [ ] _Make responsive in general_
-- [ ] _Redesign CSS for website_
-- [x] _Refactor callbacks in most functions with Async/Await_
 - [ ] Ratings and Reviews
 - [ ] Pagination
 - [ ] Rework comments
@@ -60,6 +56,10 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Semantic Campground URLs
 - [ ] Campground location
 - [ ] Sanitize Input
+- [ ] _Redesign Register/Login form to fit better on mobile_
+- [ ] _Make responsive in general_
+- [ ] _Redesign CSS for website_
+- [x] _Refactor callbacks in most functions with Async/Await_
 - [x] Add total feature list to README
 
 \* _Whilst the course does cover this feature, this was implemented indepenently_
