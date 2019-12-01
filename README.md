@@ -48,7 +48,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Email Verification_
 - [x] Add comments on the show page
 - [ ] Location Auto Completion
-- [ ] Campground location
+- [x] Campground location
 - [ ] Ratings and Reviews
 - [ ] Pagination
 - [ ] Comment Threads
