@@ -48,9 +48,6 @@ router.get('/register', middleware.isNotLoggedIn, (req, res) => {
  * Route which created a user.
  */
 router.post('/register', middleware.isNotLoggedIn, async (req, res) => {
-  if (req.isAuthenticated) {
-    res.redirect('/')
-  }
   const password = req.body.password
 
   try {
@@ -139,7 +136,11 @@ router.post(
 /**
  * Route to log out.
  */
-router.get('/logout', middleware.isLoggedIn, (req, res) => {
+router.get('/logout', (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.flash('error', 'You need to be logged in to log out!')
+    res.redirect('/campgrounds')
+  }
   req.logout()
 
   req.flash('success', 'Logged out!')

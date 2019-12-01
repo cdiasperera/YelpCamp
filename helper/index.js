@@ -24,7 +24,9 @@ helper.customErrors = {
   resetExpire: 'Your reset token has expired',
   resetInvalid: 'Your reset token is invalid',
   emailInvalid: 'Your email was not accepted!',
-  emailUsed: 'Your email is already in use'
+  emailUsed: 'Your email is already in use',
+  activateTokenInvalid: 'You activation token is invalid!',
+  unActivated: 'You need to activate your account!'
 }
 
 /**
@@ -36,9 +38,10 @@ helper.displayError = (req, err) => {
   console.log(err)
   console.log(typeof err)
   // If the error is just a message, print it. Otherwise, find the message in the error
-  if (typeof error === 'string') {
+  if (typeof err === 'string') {
     req.flash('error', err)
   } else {
+    console.log('asd')
     req.flash('error', err.message)
   }
 }

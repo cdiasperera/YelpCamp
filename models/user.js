@@ -12,6 +12,11 @@ const UserSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
   email: String,
+  activated: {
+    type: Boolean,
+    default: false
+  },
+  activateToken: String,
   notifs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Notification'

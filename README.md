@@ -43,8 +43,9 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] User profile
 - [x] Notification of new campgrounds from followed users
 - [x] _Email_
-- [x] Password reset 
-- [x] Forgot Password
+- [x] _Password reset_
+- [x] _Forgotten Password_
+- [x] _Email Verification_
 - [ ] Image upload with multer and cloudinary 
 - [ ] Cookies to keep user logged in
 - [ ] Clean Notifs without authors

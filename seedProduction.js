@@ -1,13 +1,12 @@
 'use strict'
 
 const User = require('./models/user')
-const moment = require('moment')
 async function seedDB () {
   try {
     const allUsers = await User.find({})
 
     for (const user of allUsers) {
-      user.lastLogin = moment('20111111', 'YYYYMMDD')
+      user.activated = true
       await user.save()
     }
   } catch (err) {

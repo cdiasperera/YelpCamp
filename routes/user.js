@@ -53,9 +53,39 @@ router.post('/', async (req, res) => {
     const userTemplate = await new User(req.body.user)
 
     const user = await User.register(userTemplate, password)
+
+    const transporter = nodeMailer.createTransport({
+      host: process.env.SMTP_SERVER,
+      port: process.env.SMTP_PORT,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_USERNAME,
+        pass: process.env.SMTP_PASSWORD
+      }
+    })
+
+    await transporter.verify
+
+    const mail = require('../emails/verifyEmail')
+
+    const token = await crypto.randomBytes(32).toString('hex')
+    const tokenLink = `${req.headers.host}/users/${user._id}/activate/${token}`
+    mail.addLink(tokenLink)
+
+    transporter.sendMail({
+      from: 'cdiasperera@gmail.com',
+      to: user.email,
+      subject: 'Account Activation - YelpCamp',
+      html: mail.mailContent
+    })
+
+    user.activateToken = token
+    await user.save()
     req.login(user, (err) => {
       if (!err) {
-        req.flash('success', 'Welcome Aboard!')
+        req.flash('success',
+          'Welcome Aboard! Check your email to verify your account!' +
+          ' It might be in your spam!')
         res.redirect('/campgrounds')
       } else {
         throw err
@@ -63,8 +93,7 @@ router.post('/', async (req, res) => {
     })
   } catch (err) {
     console.log(err)
-    const message = typeof err === 'string' ? err : err.message
-    req.flash('error', message)
+    helper.displayError(req, err)
     res.redirect('/users/register')
   }
 })
@@ -79,6 +108,9 @@ router.get('/:id', async (req, res) => {
     if (!req.user || !user._id.equals(req.user.id)) {
       res.render('users/show', { user })
     } else {
+      if (!user.activated) {
+        throw helper.customErrors.unActivated
+      }
       res.render('users/edit', { user })
     }
   } catch (err) {
@@ -208,7 +240,27 @@ router.get('/:id/pReset', async (req, res) => {
     res.redirect('/campgrounds')
   }
 })
+router.get('/:id/activate/:token_id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
 
+    if (isEmpty(user)) {
+      throw helper.customErrors.userMiss
+    }
+
+    if (req.params.token_id === user.activateToken) {
+      user.activated = true
+      await user.save()
+
+      req.flash('success', 'Your account can now be accessed!')
+      res.redirect('/campgrounds')
+    } else {
+      throw helper.customErrors.activateTokenInvalid
+    }
+  } catch (err) {
+
+  }
+})
 router.get('/:id/token/:token_id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)

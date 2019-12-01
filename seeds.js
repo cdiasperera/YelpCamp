@@ -37,7 +37,6 @@ const seedUser = {
   username: 'aa',
   password: 'a',
   firstName: 'Channa',
-  email: 'cdiasperera@gmail.com',
   lastName: 'Dias Perera',
   lastLogin: moment('20111111', 'YYYYMMDD')
 }
