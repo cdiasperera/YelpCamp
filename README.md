@@ -46,12 +46,13 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Password reset_
 - [x] _Forgotten Password_
 - [x] _Email Verification_
-- [ ] Add comments on the show page
+- [x] Add comments on the show page
+- [ ] Location Auto Completion
+- [ ] Campground location
 - [ ] Ratings and Reviews
 - [ ] Pagination
 - [ ] Comment Threads
 - [ ] Semantic Campground URLs
-- [ ] Campground location
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
 - [ ] _Sanitize Input_
 - [ ] Image upload with multer and cloudinary 

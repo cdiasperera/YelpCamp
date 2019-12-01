@@ -26,7 +26,8 @@ helper.customErrors = {
   emailInvalid: 'Your email was not accepted!',
   emailUsed: 'Your email is already in use',
   activateTokenInvalid: 'You activation token is invalid!',
-  unActivated: 'You need to activate your account!'
+  unActivated: 'You need to activate your account!',
+  locationInvalid: 'Sorry! That location is not valid'
 }
 
 /**
@@ -41,7 +42,6 @@ helper.displayError = (req, err) => {
   if (typeof err === 'string') {
     req.flash('error', err)
   } else {
-    console.log('asd')
     req.flash('error', err.message)
   }
 }

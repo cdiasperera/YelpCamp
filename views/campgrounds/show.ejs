@@ -4,8 +4,8 @@
   <div class="row">
     <div class="col-md-3">
       <div class="list-group">
-        <li class="list-group-item">Info1</li>
-        <li class="list-group-item">Info2</li>
+        <li class="list-group-item">Average Rating</li>
+        <li class="list-group-item"><div id="map"></div></li>
         <li class="list-group-item">Info3</li>
       </div>
     </div>
@@ -55,5 +55,14 @@
     </div>
   </div>
 </div>
+
+<script>
+  const lat = "<%= camp.lat %>"
+  const lng = "<%= camp.lng %>"
+  const name = "<%= camp.name %>"
+</script>
+
+<script src="/scripts/displayMap.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJ3TU7fVdud7V3Fd_V5ipdcpdOU4dp6dk&callback=initMap"></script>
 <% include ../partials/footer %>
 

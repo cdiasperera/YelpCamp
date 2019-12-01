@@ -1,5 +1,9 @@
 'use strict'
 // IMPORTS
+
+require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
+const sessionSecret = process.env.SESS_SECRET
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -21,9 +25,6 @@ const seedDB = require('./seeds')
 const seedProduction = require('./seedProduction')
 const helper = require('./helper')
 const middleware = require('./middleware')
-
-require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
-const sessionSecret = process.env.SESS_SECRET
 
 // CONFIG APP
 const app = express()

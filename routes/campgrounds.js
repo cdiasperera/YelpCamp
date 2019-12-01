@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
 const lodash = require('lodash')
-
+const Nodegeocoder = require('node-geocoder')
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
 const User = require('../models/user')
@@ -12,6 +12,15 @@ const middleware = require('../middleware')
 const helper = require('../helper')
 
 const isEmpty = lodash.isEmpty
+
+const options = {
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: process.env.MAPS_API_KEY,
+  formatter: null
+}
+
+const geocoder = Nodegeocoder(options)
 
 /**
  * Route for the campgrounds index page
@@ -57,6 +66,17 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
   }
   newCamp.author = { id: req.user._id, username: req.user.username }
   try {
+    const geoData = await geocoder.geocode(req.body.camp.location)
+    console.log(geoData)
+    const location = geoData[0]
+    if (!isEmpty(location)) {
+      newCamp.lat = location.latitude
+      newCamp.lng = location.longitude
+
+      newCamp.location = location.formattedAddress
+    } else {
+      throw helper.customErrors.locationInvalid
+    }
     const promises = []
     // Step 1: Create Campground
     promises.push(Campground.create(newCamp))
@@ -160,8 +180,18 @@ router.get('/:id/edit', middleware.checkCampStack, async (req, res) => {
  */
 router.put('/:id', middleware.checkCampStack, async (req, res) => {
   try {
+    const newCamp = req.body.camp
+    const geoData = await geocoder.geocode(req.body.camp.location)
+    if (isEmpty(geoData) || !geoData) {
+      newCamp.lat = geoData[0].latitude
+      newCamp.lng = geoData[0].longitude
+
+      newCamp.location = geoData[0].formattedAddress
+    } else {
+      throw helper.customErrors.locationInvalid
+    }
     const updatedCamp = await Campground.findByIdAndUpdate(req.params.id,
-      req.body.camp)
+      newCamp)
     if (isEmpty(updatedCamp)) {
       throw helper.customErrors.campUpdate
     }

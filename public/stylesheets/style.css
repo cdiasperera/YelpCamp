@@ -136,3 +136,8 @@ img {
 .forgot-pass {
   font-size: 0.8em
 }
+
+#map {
+  height: 400px;
+  width: 100%;
+}
