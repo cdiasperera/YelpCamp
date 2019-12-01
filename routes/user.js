@@ -42,10 +42,13 @@ router.post('/', async (req, res) => {
     if (!emailValidator.validate(req.body.user.email)) {
       throw helper.customErrors.emailInvalid
     } else {
-      const emailUser = await User.findOne(req.body.email)
+      const emailUser = await User.findOne({ email: req.body.user.email })
       if (!isEmpty(emailUser)) {
         throw helper.customErrors.emailUsed
       }
+    }
+    if (!/^http.*/.test(req.body.user.avatar)) {
+      req.body.user.avatar = '/imgs/no-image.jpg'
     }
     const userTemplate = await new User(req.body.user)
 
@@ -59,7 +62,9 @@ router.post('/', async (req, res) => {
       }
     })
   } catch (err) {
-    req.flash('error', err)
+    console.log(err)
+    const message = typeof err === 'string' ? err : err.message
+    req.flash('error', message)
     res.redirect('/users/register')
   }
 })
