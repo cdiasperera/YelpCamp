@@ -12,23 +12,6 @@ const middleware = require('../middleware')
 const helper = require('../helper')
 
 /**
- * Route to page to create a new comment.
- */
-router.get('/new', middleware.isLoggedIn, async (req, res) => {
-  try {
-    const foundCamp = await Campground.findById(req.params.id)
-    if (isEmpty(foundCamp)) {
-      throw helper.customErrors.campMiss
-    }
-
-    res.render('comments/new', { camp: foundCamp })
-  } catch (err) {
-    helper.displayError(req, err)
-    res.render('back')
-  }
-})
-
-/**
  * Route to create a new comment. n the
  */
 router.post('/', middleware.isLoggedIn, async (req, res) => {

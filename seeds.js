@@ -38,6 +38,7 @@ const seedUser = {
   password: 'a',
   firstName: 'Channa',
   lastName: 'Dias Perera',
+  activated: true,
   lastLogin: moment('20111111', 'YYYYMMDD')
 }
 
@@ -65,7 +66,8 @@ async function seedDB () {
         new User({
           username: seedUser.username,
           lastLogin: seedUser.lastLogin,
-          email: seedUser.email
+          email: seedUser.email,
+          activated: seedUser.activated
         }),
         seedUser.password
       ),

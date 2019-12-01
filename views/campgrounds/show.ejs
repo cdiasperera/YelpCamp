@@ -24,7 +24,7 @@
 
           <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
             <a href="<%= camp._id%>/edit" class="btn btn-warning">Edit</a>
-            <form class="pull-right" action="?_method=DELETE" method="POST">
+            <form class="text-right" action="?_method=DELETE" method="POST">
               <button class="btn btn-danger">Delete</button>
             </form>
         <% } %>
@@ -32,7 +32,22 @@
       </div>
       <div class="well">
         <div class="text-right">
-          <a class="btn btn-success" href="./<%= camp._id%>/comments/new">Create a comment</a>
+          <h4 class="pull-left"><strong>
+            Comments
+            <span class="glyphicon glyphicon-comment"
+            aria-hidden="true"></span>
+          </strong></h4>
+            <a class="btn btn-success"
+            role="button"
+            data-toggle="collapse"
+            href="#collapseComment"
+            aria-expanded="false"
+            aria-controls="collapseComment">
+              <span class="glyphicon glyphicon-plus"
+              aria-hidden="true"></span>  
+              Create a comment
+            </a>
+          <% include ./new %>
         </div>
         <hr>
         <% include ../comments/index %>
