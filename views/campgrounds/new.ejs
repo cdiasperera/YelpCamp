@@ -1,26 +1,39 @@
-<div class="collapse" id="collapseComment">
-  <div class="well new-comment text-left">
-    <% if (!currentUser) { %>
-      <a href="/login">You need to logged in to comment</a>
-    <% } else { %>
-      <h4>
-        Write Your Comment 
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-      </h4>
-      <form id="add-comment-form" 
-      action="/campgrounds/<%= camp._id%>/comments/" method="POST">
+<% include ../partials/header %>
+<div class="container">
+  <h1 class="formHeader">Create a new campground</h1>
+  <div class="new-form">
+    <form action="/campgrounds" method="POST">
       <div class="form-group">
-        <textarea class="form-control"
-        name="comment[text]"
-        form="add-comment-form"
-        cols="70" rows="5"></textarea>
-      </div>  
-      <div class="form-group">
-        <button class="btn btn-success btn-sm">
-          Comment
-        </button>
+        <input class="form-control" 
+          type="text" 
+          name="camp[name]" 
+          placeholder="Camp Name">
       </div>
-      </form>
-    <% } %>
+      <div class="form-group">
+        <input class="form-control" 
+          type="number" 
+          name="camp[price]" 
+          min="0.00"
+          step="0.01"
+          placeholder="Price">
+      </div>
+      <div class="form-group">
+        <input class="form-control" 
+          type="text" 
+          name="camp[image]" 
+          placeholder="Image URL">
+      </div>
+      <div class="form-group">
+        <input class="form-control" 
+          type="text" 
+          name="camp[desc]" 
+          placeholder="Description">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+      </div>
+    </form>
+    <a href="/campgrounds">Go to campgrounds.</a>
   </div>
 </div>
+<% include ../partials/footer %>

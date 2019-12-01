@@ -44,12 +44,11 @@ middleware.locals = async (req, res, next) => {
  * Function to make sure user is logged in
  */
 middleware.isLoggedIn = async (req, res, next) => {
-  console.log(req.user)
-  if (!req.user.activated) {
-    req.flash('error', helper.customErrors.unActivated)
-    return res.redirect('/campgrounds')
-  }
   if (req.isAuthenticated()) {
+    if (!req.user.activated) {
+      req.flash('error', helper.customErrors.unActivated)
+      return res.redirect('/campgrounds')
+    }
     return next()
   } else {
     req.flash('error', 'You need to be logged in, matey!')
