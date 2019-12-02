@@ -14,15 +14,10 @@ middleware.locals = async (req, res, next) => {
   if (typeof req.user !== 'undefined') {
     try {
       const user = await User.findById(req.user.id)
-        .populate('notifs')
+        .populate('notifs', null, { isRead: false })
         .exec()
 
-      // Only send notifications that aren't read
-      const notifsUnordered = user.notifs.filter((notif) => {
-        return !notif.isRead
-      })
-
-      res.locals.notifs = notifsUnordered
+      res.locals.notifs = user.notifs.reverse()
     } catch (err) {
       helper.displayError(req, err)
       res.redirect('back')

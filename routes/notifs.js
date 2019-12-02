@@ -10,10 +10,11 @@ const helper = require('../helper')
 
 router.get('/', middleware.isLoggedIn, async (req, res) => {
   try {
-    await User.findById(req.user.id).populate('notifs').exec()
-    res.render('notifs/index')
+    const user = await User.findById(req.user.id).populate('notifs').exec()
+
+    const notifs = user.notifs
+    res.render('notifs/index', { notifs })
   } catch (err) {
-    console.log(err)
     helper.displayError(req, err)
     res.redirect('back')
   }
