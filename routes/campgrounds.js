@@ -185,7 +185,7 @@ router.put('/:id', middleware.checkCampStack, async (req, res) => {
   try {
     const newCamp = req.body.camp
     const geoData = await geocoder.geocode(req.body.camp.location)
-    if (isEmpty(geoData)) {
+    if (!isEmpty(geoData)) {
       newCamp.lat = geoData[0].latitude
       newCamp.lng = geoData[0].longitude
 
