@@ -16,7 +16,7 @@ const isEmpty = lodash.isEmpty
 const options = {
   provider: 'google',
   httpAdapter: 'https',
-  apiKey: process.env.MAPS_API_KEY,
+  apiKey: process.env.MAPS_SERVER_API_KEY,
   formatter: null
 }
 
@@ -156,7 +156,10 @@ router.get('/:id', async (req, res) => {
       comment.author.username = users[index].username
     })
 
-    res.render('campgrounds/show', { camp: foundCamp })
+    res.render('campgrounds/show', {
+      camp: foundCamp,
+      key: process.env.MAPS_WEBSITE_API_KEY
+    })
   } catch (err) {
     helper.displayError(req, err)
     res.redirect('/campgrounds')
@@ -182,7 +185,7 @@ router.put('/:id', middleware.checkCampStack, async (req, res) => {
   try {
     const newCamp = req.body.camp
     const geoData = await geocoder.geocode(req.body.camp.location)
-    if (isEmpty(geoData) || !geoData) {
+    if (isEmpty(geoData)) {
       newCamp.lat = geoData[0].latitude
       newCamp.lng = geoData[0].longitude
 

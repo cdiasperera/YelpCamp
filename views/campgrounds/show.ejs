@@ -24,7 +24,7 @@
 
           <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
             <a href="<%= camp._id%>/edit" class="btn btn-warning">Edit</a>
-            <form class="text-right" action="?_method=DELETE" method="POST">
+            <form class="inline text-right" action="?_method=DELETE" method="POST">
               <button class="btn btn-danger">Delete</button>
             </form>
         <% } %>
@@ -63,6 +63,6 @@
 </script>
 
 <script src="/scripts/displayMap.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJ3TU7fVdud7V3Fd_V5ipdcpdOU4dp6dk&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= key %>&callback=initMap"></script>
 <% include ../partials/footer %>
 
