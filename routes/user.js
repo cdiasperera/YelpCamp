@@ -162,7 +162,8 @@ router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
 
       const newFollowerNotifTemplate = {
         link: `/users/${follower._id}`,
-        notifType: 'newFollower'
+        notifType: 'newFollower',
+        author: String
       }
 
       Notification.generateMessage(newFollowerNotifTemplate)
