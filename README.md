@@ -36,20 +36,19 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Refactor Constants_
 - [x] _Refactor header so stylesheet can be chosen by each page_
 - [x] Fuzzy Search
-- [x] Footer 
-- [x] Display time since post was created 
-- [x] Track last login. 
+- [x] _Footer_\*
+- [x] _Display time since post was created_\*
+- [x] _Track last login_\*
 - [x] _Notification of website updates_\*
-- [x] User profile
-- [x] Notification of new campgrounds from followed users
+- [x] _User profile_\*
+- [x] _Notification of new campgrounds from followed users_\*
 - [x] _Email_
 - [x] _Password reset_
 - [x] _Forgotten Password_
 - [x] _Email Verification_
 - [x] Add comments on the show page
-- [ ] Location Auto Completion
 - [x] Campground location
-- [ ] Ratings and Reviews
+- [ ] _Ratings_\*
 - [ ] Pagination
 - [ ] Comment Threads
 - [ ] Semantic Campground URLs
@@ -58,9 +57,10 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] Image upload with multer and cloudinary 
 - [ ] _Redesign Register/Login form to fit better on mobile_
 - [ ] _Make responsive in general_
-- [ ] _Pass Audits_
+- [ ] _Refactor CSS_
 - [ ] _Redesign CSS for website_
 - [ ] _Refactor functions to be more modular_
+- [ ] _Pass Audits_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [x] Add total feature list to README
 

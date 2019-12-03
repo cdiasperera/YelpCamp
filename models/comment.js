@@ -14,7 +14,8 @@ const commentSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  rating: Number
 })
 
 module.exports = mongoose.model('Comment', commentSchema)
