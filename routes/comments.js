@@ -34,8 +34,16 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
       throw helper.customErrors.commentMiss
     }
 
+    if (newComment.rating) {
+      camp.averageRating =
+        (camp.averageRating * camp.numRatings + newComment.rating) /
+        (camp.numRatings + 1)
+
+      camp.numRatings++
+    }
+
     camp.comments.push(newComment)
-    camp.save()
+    await camp.save()
 
     req.flash('success', 'Comment Created!')
     res.redirect('/campgrounds/' + camp.id)
@@ -60,7 +68,6 @@ router.get('/:comment_id/edit', middleware.checkCommentStack, async (req, res) =
     }
     // Missing comment error handled in middleware
 
-    console.log(foundComment)
     res.render('comments/edit', { camp: foundCamp, comment: foundComment })
   } catch (err) {
     helper.displayError(req, err)

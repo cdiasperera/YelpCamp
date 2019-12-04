@@ -156,7 +156,6 @@ router.get('/:id', async (req, res) => {
       comment.author.username = users[index].username
     })
 
-    console.log(foundCamp.comments)
     res.render('campgrounds/show', {
       camp: foundCamp,
       key: process.env.MAPS_WEBSITE_API_KEY

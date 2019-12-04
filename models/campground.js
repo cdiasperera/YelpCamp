@@ -28,7 +28,14 @@ const campgroundSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  averageRating: Number
+  averageRating: {
+    type: Number,
+    default: 0
+  },
+  numRatings: {
+    type: Number,
+    default: 0
+  }
 })
 
 module.exports = mongoose.model('Campground', campgroundSchema)

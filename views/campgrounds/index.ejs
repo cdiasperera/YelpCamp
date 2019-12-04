@@ -1,4 +1,6 @@
-<% include ../partials/header %>
+<% include ../partials/header/meta %>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+<% include ../partials/header/commonContent %>
 
 <div class="container">
     <header class="jumbotron">
@@ -24,6 +26,13 @@
                       alt="campground">
                     <div class="caption">
                         <h4><%= camp.name%></h4>
+                        <% if (!camp.averageRating) { %>
+                          <em>No Reviews Yet</em>
+                        <% } else { %>
+                          <% for(let i = 0; i < camp.averageRating; i++) { %>
+                            <span class="star"></span>
+                          <% } %>
+                        <% } %>
                     </div>
                     <a href="/campgrounds/<%= camp._id%>" 
                       class="btn btn-primary">

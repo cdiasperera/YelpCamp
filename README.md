@@ -48,9 +48,10 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Email Verification_
 - [x] Add comments on the show page
 - [x] Campground location
-- [ ] _Ratings_\*
+- [x] _Ratings_\*
 - [ ] Pagination
 - [ ] Comment Threads
+- [ ] Edit Comments on same page
 - [ ] Semantic Campground URLs
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
 - [ ] _Sanitize Input_
