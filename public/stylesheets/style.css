@@ -189,3 +189,9 @@ img {
 .rating input:checked ~ label:after{
   opacity: 1;
 }
+
+.star:after {
+  content: '\f005';
+  font-family: fontAwesome;
+  color: gold;
+}

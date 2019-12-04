@@ -39,7 +39,8 @@ const seedUser = {
   firstName: 'Channa',
   lastName: 'Dias Perera',
   activated: true,
-  lastLogin: moment('20111111', 'YYYYMMDD')
+  lastLogin: moment('20111111', 'YYYYMMDD'),
+  avatar: '/imgs/no-image.jpg'
 }
 
 const seedUser2 = {
@@ -48,7 +49,8 @@ const seedUser2 = {
   firstName: 'Channa',
   lastName: 'Bup',
   activated: true,
-  lastLogin: moment('20111111', 'YYYYMMDD')
+  lastLogin: moment('20111111', 'YYYYMMDD'),
+  avatar: '/imgs/no-image.jpg'
 }
 async function seedDB () {
   console.log('Seeding...')
@@ -68,7 +70,8 @@ async function seedDB () {
           username: seedUser.username,
           lastLogin: seedUser.lastLogin,
           email: seedUser.email,
-          activated: seedUser.activated
+          activated: seedUser.activated,
+          avatar: seedUser.avatar
         }),
         seedUser.password
       ),
@@ -76,7 +79,8 @@ async function seedDB () {
         new User({
           username: seedUser2.username,
           lastLogin: seedUser2.lastLogin,
-          activated: seedUser2.activated
+          activated: seedUser2.activated,
+          avatar: seedUser2.avatar
         }),
         seedUser2.password
       )

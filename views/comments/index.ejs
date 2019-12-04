@@ -9,6 +9,14 @@
         <a href="/users/<%= comment.author.id%>">
           <strong ><%= comment.author.username %></strong>
         </a>
+
+        <% if (!comment.rating) { %>
+          <em>No Rating</em>
+        <% } else { %>
+          <% for(let i = 0; i < comment.rating; i++) { %>
+            <span class="star"></span>
+          <% } %>
+        <% } %>
         <% let timeString = moment(comment.createdAt).fromNow(); %>
         <% if (/^[a-z]/.test(timeString)) { %>
           <% // First letter is lowercase and must be capitalized %>
