@@ -1,33 +1,48 @@
 <% if (pageInfo.numPages > 1) { %>
-<nav class="text-center" aria-label="Page Navigation">
-  <ul class="pagination">
-    <% let firstClass = "", lastClass = "" %>
-    <% if (pageInfo.currentPage === 1) { %>
-      <% firstClass = "disabled" %>
-    <% } else if (pageInfo.currentPage === pageInfo.numPages) { %>
-      <% lastClass = "disabled" %>
-    <% } %>
-    <li class="<%= firstClass %>"><a href="/campgrounds/1">First</a></li>
-    <% if (pageInfo.currentPage !== 1 ) { %>
-    <li>
-      <a href="/campgrounds/<%= pageInfo.currentPage - 1 %>">&laquo;</a>
-    </li>
-    <% } %>
-    <% for (let page = 1; page <= pageInfo.numPages; page++) { %>
-      <% let activePage = "" %>
-      <% if (page === pageInfo.currentPage) { %>
-        <% activePage = "active" %>
+  <nav class="text-center" aria-label="Page Navigation">
+    <ul class="pagination">
+      <% let firstClass = "", lastClass = "" %>
+      <% if (pageInfo.currentPage === 1) { %>
+        <% firstClass = "disabled" %>
+      <% } else if (pageInfo.currentPage === pageInfo.numPages) { %>
+        <% lastClass = "disabled" %>
       <% } %>
-      <li class="<%= activePage %>">
-        <a href="/campgrounds/<%= page%>"><%= page%></a>
+      <li class="<%= firstClass %>"><a href="/campgrounds/1">First</a></li>
+      <% if (pageInfo.currentPage !== 1 ) { %>
+      <li>
+        <a href="/campgrounds/page/<%= pageInfo.currentPage - 1 %>">&laquo;</a>
       </li>
-    <% } %>
-    <% if (pageInfo.currentPage !== pageInfo.numPages) { %>
-    <li><a href="/campgrounds/<%= pageInfo.currentPage + 1 %>">&raquo;</a></li>
-    <% } %>
-    <li class="<%= lastClass %>">
-      <a href="/campgrounds/<%= pageInfo.numPages%>">Last</a>
-    </li>
-  </ul>
-</nav>
+      <% } %>
+      <% const PAGE_LINKS_DISPLAYED = 4%>
+      <% let startPage = pageInfo.currentPage - PAGE_LINKS_DISPLAYED %>
+      <% if (startPage < 1) { %>
+        <% startPage = 1 %>
+      <% } else if (startPage > pageInfo.numPages) { %>
+        <% startPage = pageInfo.numPages %>
+      <% } %>
+      <% for (let page = startPage; page <= pageInfo.currentPage + PAGE_LINKS_DISPLAYED && page <= pageInfo.numPages; page++) { %>
+        <% let activeClass = "" %>
+        <% if (page === pageInfo.currentPage) { %>
+          <% activeClass = "active" %>
+        <% } %>
+        <li class="<%= activeClass %>">
+          <a href="/campgrounds/page/<%= page%>"><%= page%></a>
+        </li>
+      <% } %>
+      <% if (pageInfo.currentPage !== pageInfo.numPages) { %>
+      <li><a href="/campgrounds/page/<%= pageInfo.currentPage + 1 %>">&raquo;</a></li>
+      <% } %>
+      <li class="<%= lastClass %>">
+        <a href="/campgrounds/page/<%= pageInfo.numPages%>">Last</a>
+      </li>
+    </ul>
+  </nav>
+  <% if (pageInfo.numPages > PAGE_LINKS_DISPLAYED + 1) { %>
+    <form class="page-select" action="/campgrounds/page/" method="POST">
+      <div class="form-group">
+        <label class="text-center label-center" for="page">Select Page: </label>
+        <input class="form-control" type="number" name="page" id="page">
+      </div>
+    </form>
+  <% } %>
 <% } %>

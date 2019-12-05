@@ -89,7 +89,7 @@ async function seedDB () {
     user.followers.push(user2._id)
     await user.save()
 
-    for (let rep = 0; rep < 20; rep++) {
+    for (let rep = 0; rep < 100; rep++) {
       for (const [index, seedCamp] of seedCamps.entries()) {
         try {
           seedCamp.name = 'camp' + (rep * seedCamps.length + index + 1)

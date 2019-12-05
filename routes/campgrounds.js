@@ -28,12 +28,18 @@ router.get('/', (req, res) => {
   if (req.query.search) {
     searchQuery = '?search=' + req.query.search
   }
-  res.redirect('/campgrounds/1' + searchQuery)
+  res.redirect('/campgrounds/page/1' + searchQuery)
 })
-/**
- * Route for the campgrounds index page
- */
-router.get('/:page', async (req, res) => {
+
+router.get('/page/', (req, res) => {
+  res.redirect('/campgrounds/page/1')
+})
+
+router.post('/page/', (req, res) => {
+  res.redirect('/campgrounds/page/' + req.body.page)
+})
+
+router.get('/page/:page', async (req, res) => {
   // Request could come from a campground search or directly.
   let search, dbSearchParams
   if (req.query.search) {
@@ -48,7 +54,7 @@ router.get('/:page', async (req, res) => {
   }
 
   try {
-    const PER_PAGE = 3
+    const PER_PAGE = 9
     const firstCampIndex = (req.params.page - 1) * PER_PAGE
     const foundCamps = await (
       Campground.find(dbSearchParams)
