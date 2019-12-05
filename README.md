@@ -50,7 +50,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] Add comments on the show page
 - [x] Campground location
 - [x] _Ratings_\*
-- [ ] _Pagination_\*
+- [x] _Pagination_\*
 - [ ] Comment Threads
 - [ ] Edit Comments on same page (Add ability to edit star rating)
 - [ ] Semantic Campground URLs
