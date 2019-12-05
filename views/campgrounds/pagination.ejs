@@ -1,0 +1,33 @@
+<% if (pageInfo.numPages > 1) { %>
+<nav class="text-center" aria-label="Page Navigation">
+  <ul class="pagination">
+    <% let firstClass = "", lastClass = "" %>
+    <% if (pageInfo.currentPage === 1) { %>
+      <% firstClass = "disabled" %>
+    <% } else if (pageInfo.currentPage === pageInfo.numPages) { %>
+      <% lastClass = "disabled" %>
+    <% } %>
+    <li class="<%= firstClass %>"><a href="/campgrounds/1">First</a></li>
+    <% if (pageInfo.currentPage !== 1 ) { %>
+    <li>
+      <a href="/campgrounds/<%= pageInfo.currentPage - 1 %>">&laquo;</a>
+    </li>
+    <% } %>
+    <% for (let page = 1; page <= pageInfo.numPages; page++) { %>
+      <% let activePage = "" %>
+      <% if (page === pageInfo.currentPage) { %>
+        <% activePage = "active" %>
+      <% } %>
+      <li class="<%= activePage %>">
+        <a href="/campgrounds/<%= page%>"><%= page%></a>
+      </li>
+    <% } %>
+    <% if (pageInfo.currentPage !== pageInfo.numPages) { %>
+    <li><a href="/campgrounds/<%= pageInfo.currentPage + 1 %>">&raquo;</a></li>
+    <% } %>
+    <li class="<%= lastClass %>">
+      <a href="/campgrounds/<%= pageInfo.numPages%>">Last</a>
+    </li>
+  </ul>
+</nav>
+<% } %>

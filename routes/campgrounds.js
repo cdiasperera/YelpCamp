@@ -48,7 +48,7 @@ router.get('/:page', async (req, res) => {
   }
 
   try {
-    const PER_PAGE = 9
+    const PER_PAGE = 3
     const firstCampIndex = (req.params.page - 1) * PER_PAGE
     const foundCamps = await (
       Campground.find(dbSearchParams)
@@ -56,7 +56,12 @@ router.get('/:page', async (req, res) => {
         .limit(PER_PAGE)
     )
 
-    const pageInfo = { page: req.body.page }
+    const pageInfo = {
+      currentPage: parseInt(req.params.page),
+      numPages: parseInt(
+        Math.ceil((await Campground.countDocuments()) / PER_PAGE)
+      )
+    }
 
     const locals = { camps: foundCamps, search: search, pageInfo: pageInfo }
     res.render('campgrounds/index', locals)

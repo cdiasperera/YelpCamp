@@ -9,67 +9,19 @@ const moment = require('moment')
 // Data to reseed the "campground
 const seedCamps = [
   {
-    name: 'campOne',
+    name: 'camp',
     price: 10,
     image: 'https://images.unsplash.com/photo-1497900304864-273dfb3aae33?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1388&q=80',
     desc: 'A hella sick camp.'
   },
   {
-    name: 'campTwo',
+    name: 'camp',
     price: 10,
     image: 'https://images.unsplash.com/photo-1476041800959-2f6bb412c8ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
     desc: 'A so, so camp.'
   },
   {
-    name: 'campThree',
-    price: 10,
-    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    desc: 'The worst of the worst.'
-  },
-  {
-    name: 'campFour',
-    price: 10,
-    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    desc: 'The worst of the worst.'
-  },
-  {
-    name: 'campFive',
-    price: 10,
-    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    desc: 'The worst of the worst.'
-  },
-  {
-    name: 'campSix',
-    price: 10,
-    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    desc: 'The worst of the worst.'
-  },
-  {
-    name: 'campSeven',
-    price: 10,
-    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    desc: 'The worst of the worst.'
-  },
-  {
-    name: 'campEight',
-    price: 10,
-    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    desc: 'The worst of the worst.'
-  },
-  {
-    name: 'campNine',
-    price: 10,
-    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    desc: 'The worst of the worst.'
-  },
-  {
-    name: 'campTen',
-    price: 10,
-    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    desc: 'The worst of the worst.'
-  },
-  {
-    name: 'campEleven',
+    name: 'camp',
     price: 10,
     image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
     desc: 'The worst of the worst.'
@@ -112,7 +64,7 @@ async function seedDB () {
     ])
 
     // Create user using passport.
-    const [user, user2, ...notifs] = await Promise.all([
+    const [user, user2] = await Promise.all([
       User.register(
         new User({
           username: seedUser.username,
@@ -134,40 +86,31 @@ async function seedDB () {
       )
     ])
 
-    for (const notif of notifs) {
-      try {
-        Notification.generateMessage(notif)
-        notif.author.id = user._id
-        await notif.save()
-
-        await user.notifs.push(notif)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
     user.followers.push(user2._id)
     await user.save()
 
-    seedCamps.forEach(async (seedCamp) => {
-      try {
-        const [camp, comment] = await Promise.all(
-          [Campground.create(seedCamp),
-            Comment.create(seedComment)]
-        )
+    for (let rep = 0; rep < 20; rep++) {
+      for (const [index, seedCamp] of seedCamps.entries()) {
+        try {
+          seedCamp.name = 'camp' + (rep * seedCamps.length + index + 1)
+          const [camp, comment] = await Promise.all(
+            [Campground.create(seedCamp),
+              Comment.create(seedComment)]
+          )
 
-        comment.author.id = user._id
-        comment.author.username = user.username
-        comment.save()
+          comment.author.id = user._id
+          comment.author.username = user.username
+          comment.save()
 
-        camp.author.id = user._id
-        camp.author.username = user.username
-        camp.comments.push(comment)
-        camp.save()
-      } catch (err) {
-        console.log(err)
+          camp.author.id = user._id
+          camp.author.username = user.username
+          camp.comments.push(comment)
+          camp.save()
+        } catch (err) {
+          console.log(err)
+        }
       }
-    })
+    }
   } catch (err) {
     console.log(err)
   }

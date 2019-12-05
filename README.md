@@ -7,6 +7,8 @@ A little project app to brush up my NodeJS skills. It basically acts as a review
 It was made following [Colt Steeles "The Web Developer Bootcamp"](https://www.udemy.com/course/the-web-developer-bootcamp) on Udemy. Almost all functionality was written following his course, though some changes had to be made. These were either because the lecture's code was depreciated, or because a service he was using moved on.
 
 Any features that are implemented outside of the course are in _italics_.
+In addition, I did not simply copy paste the code. I tried my best to understand
+it and then implement it. 
 ## TODO
 
 ### Pre Deployment
@@ -33,13 +35,12 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] Make app strict compliant
 - [x] _Server Registration Validator_
 - [x] _Client Real Time Registration Feedback and Validator_
-- [x] _Refactor Constants_
 - [x] _Refactor header so stylesheet can be chosen by each page_
 - [x] Fuzzy Search
 - [x] _Footer_\*
-- [x] _Display time since post was created_\*
-- [x] _Track last login_\*
-- [x] _Notification of website updates_\*
+- [x] _Display time since post was created
+- [x] _Track last login_
+- [x] _Notification of website updates_
 - [x] _User profile_\*
 - [x] _Notification of new campgrounds from followed users_\*
 - [x] _Email_
@@ -49,7 +50,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] Add comments on the show page
 - [x] Campground location
 - [x] _Ratings_\*
-- [ ] Pagination
+- [ ] _Pagination_\*
 - [ ] Comment Threads
 - [ ] Edit Comments on same page (Add ability to edit star rating)
 - [ ] Semantic Campground URLs
@@ -63,6 +64,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] _Redesign CSS for website_
 - [ ] _Refactor functions to be more modular_
 - [ ] _Pass Audits_
+- [ ] _Refactor Constants_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [x] Add total feature list to README
 
