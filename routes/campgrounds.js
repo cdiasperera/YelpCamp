@@ -221,6 +221,11 @@ router.get('/:id/edit', middleware.checkCampStack, async (req, res) => {
 router.put('/:id', middleware.checkCampStack, async (req, res) => {
   try {
     const newCamp = req.body.camp
+    if (!/^http.*/.test(newCamp.image)) {
+      // The image is trying to access an image outside the internet. Thus, it
+      // will ping the server. We must set the image to be no-image.jpg
+      newCamp.image = '/imgs/no-image.jpg'
+    }
     const geoData = await geocoder.geocode(req.body.camp.location)
     if (!isEmpty(geoData)) {
       newCamp.lat = geoData[0].latitude
