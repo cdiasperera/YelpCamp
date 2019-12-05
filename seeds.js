@@ -25,6 +25,54 @@ const seedCamps = [
     price: 10,
     image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
     desc: 'The worst of the worst.'
+  },
+  {
+    name: 'campFour',
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    desc: 'The worst of the worst.'
+  },
+  {
+    name: 'campFive',
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    desc: 'The worst of the worst.'
+  },
+  {
+    name: 'campSix',
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    desc: 'The worst of the worst.'
+  },
+  {
+    name: 'campSeven',
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    desc: 'The worst of the worst.'
+  },
+  {
+    name: 'campEight',
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    desc: 'The worst of the worst.'
+  },
+  {
+    name: 'campNine',
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    desc: 'The worst of the worst.'
+  },
+  {
+    name: 'campTen',
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    desc: 'The worst of the worst.'
+  },
+  {
+    name: 'campEleven',
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1515408320194-59643816c5b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+    desc: 'The worst of the worst.'
   }
 ]
 

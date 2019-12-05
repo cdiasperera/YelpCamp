@@ -22,10 +22,18 @@ const options = {
 
 const geocoder = Nodegeocoder(options)
 
+router.get('/', (req, res) => {
+  // Redirect to page 1 of campgrounds
+  let searchQuery = ''
+  if (req.query.search) {
+    searchQuery = '?search=' + req.query.search
+  }
+  res.redirect('/campgrounds/1' + searchQuery)
+})
 /**
  * Route for the campgrounds index page
  */
-router.get('/', async (req, res) => {
+router.get('/:page', async (req, res) => {
   // Request could come from a campground search or directly.
   let search, dbSearchParams
   if (req.query.search) {
@@ -40,12 +48,17 @@ router.get('/', async (req, res) => {
   }
 
   try {
-    const foundCamps = await Campground.find(dbSearchParams)
-    if (isEmpty(foundCamps)) {
-      throw helper.customErrors.campMiss
-    }
+    const PER_PAGE = 9
+    const firstCampIndex = (req.params.page - 1) * PER_PAGE
+    const foundCamps = await (
+      Campground.find(dbSearchParams)
+        .skip(firstCampIndex)
+        .limit(PER_PAGE)
+    )
 
-    const locals = { camps: foundCamps, search: search }
+    const pageInfo = { page: req.body.page }
+
+    const locals = { camps: foundCamps, search: search, pageInfo: pageInfo }
     res.render('campgrounds/index', locals)
   } catch (err) {
     helper.displayError(req, err)

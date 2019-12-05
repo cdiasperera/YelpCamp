@@ -18,6 +18,9 @@
         </div>
     </div>
     <div class="row text-center">
+      <% if (camps.length === 0) { %>
+        <h3>Sorry! We could not find any camps! &#128549;</h3>
+      <% } %>
         <% camps.forEach((camp) => { %>
             <div class="col-sm-6 cold-md-6 col-lg-4">
                 <div class="thumbnail">

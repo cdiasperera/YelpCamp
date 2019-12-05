@@ -51,12 +51,13 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Ratings_\*
 - [ ] Pagination
 - [ ] Comment Threads
-- [ ] Edit Comments on same page
+- [ ] Edit Comments on same page (Add ability to edit star rating)
 - [ ] Semantic Campground URLs
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
 - [ ] _Sanitize Input_
 - [ ] Image upload with multer and cloudinary 
 - [ ] _Redesign Register/Login form to fit better on mobile_
+- [ ] _Redesign Campgrounds page to standardize thumbnail size_
 - [ ] _Make responsive in general_
 - [ ] _Refactor CSS_
 - [ ] _Redesign CSS for website_
