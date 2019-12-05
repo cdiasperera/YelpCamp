@@ -15,7 +15,13 @@
       <div class="thumbnail">
         <img class="img-responsive" src="<%= camp.image%>" alt="campground">
         <div class="caption-full">
-          <h4 class="pull-right"> $<%= camp.price%>/night</h4>
+          <h4 class="pull-right"> 
+            <% if (camp.price == 0) { %>
+              Free!
+            <% } else { %>
+            $<%= camp.price%>/night
+            <% } %>
+          </h4>
           <h4><%= camp.name%></h4>
           <p><%= camp.desc%> </p>
           <% let timeString = moment(camp.createdAt).fromNow(); %>
