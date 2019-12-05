@@ -1,14 +1,15 @@
 'use strict'
 
-const User = require('./models/user')
+const Campground = require('./models/campground')
+const Comment = require('./models/comment')
+const Notification = require('./models/notif')
 async function seedDB () {
   try {
-    const allUsers = await User.find({})
-
-    for (const user of allUsers) {
-      user.activated = true
-      await user.save()
-    }
+    await Promise.all([
+      Campground.deleteMany({}),
+      Comment.deleteMany({}),
+      Notification.deleteMany({})
+    ])
   } catch (err) {
     console.log(err)
   }

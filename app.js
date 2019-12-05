@@ -14,6 +14,8 @@ const MongoStore = require('connect-mongo')(session)
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const path = require('path')
+const favicon = require('serve-favicon')
+
 const User = require('./models/user')
 
 const campgroundRoutes = require('./routes/campgrounds')
@@ -34,6 +36,8 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(flash())
+
+app.use(favicon(path.join(__dirname,'public','imgs','favicon.ico')));
 
 // DB CONFIG
 const mongoURI = helper.makeMongoURI()

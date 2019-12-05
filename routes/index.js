@@ -12,10 +12,6 @@ const Notification = require('../models/notif')
 const helper = require('../helper')
 const middleware = require('../middleware')
 const isEmpty = require('lodash').isEmpty
-/**
- * Route to prevent getting a favicon, as there is none available
- */
-router.get('/favicon.ico', (req, res) => res.status(204))
 
 /**
  * Route to the landing page.
