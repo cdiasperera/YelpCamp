@@ -30,7 +30,8 @@ const seedCamps = [
 
 const seedComment = {
   text: "This is test comment. I really hope this isn't in production",
-  author: 'notARealUser'
+  author: 'notARealUser',
+  rating: 3
 }
 
 const seedUser = {
@@ -64,7 +65,7 @@ async function seedDB () {
     ])
 
     // Create user using passport.
-    const [user, user2] = await Promise.all([
+    const [user1, user2] = await Promise.all([
       User.register(
         new User({
           username: seedUser.username,
@@ -86,10 +87,12 @@ async function seedDB () {
       )
     ])
 
-    user.followers.push(user2._id)
-    await user.save()
+    user1.followers.push(user2._id)
+    await user1.save()
 
-    for (let rep = 0; rep < 100; rep++) {
+    const NUM_REPS = 1
+
+    for (let rep = 0; rep < NUM_REPS; rep++) {
       for (const [index, seedCamp] of seedCamps.entries()) {
         try {
           seedCamp.name = 'camp' + (rep * seedCamps.length + index + 1)
@@ -98,14 +101,23 @@ async function seedDB () {
               Comment.create(seedComment)]
           )
 
-          comment.author.id = user._id
-          comment.author.username = user.username
-          comment.save()
+          user1.campsRated.push(camp._id)
 
-          camp.author.id = user._id
-          camp.author.username = user.username
+          comment.author.id = user1._id
+          comment.author.username = user1.username
+
+          camp.author.id = user1._id
+          camp.author.username = user1.username
           camp.comments.push(comment)
-          camp.save()
+
+          camp.averageRating = 3
+          camp.numRatings = 1
+
+          await Promise.all([
+            camp.save(),
+            comment.save(),
+            user1.save()
+          ])
         } catch (err) {
           console.log(err)
         }

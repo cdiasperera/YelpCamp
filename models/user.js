@@ -24,6 +24,10 @@ const UserSchema = mongoose.Schema({
   followers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  }],
+  campsRated: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Campground'
   }]
 })
 

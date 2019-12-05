@@ -1,6 +1,7 @@
 <% include ../partials/header/meta %>
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
 <% include ../partials/header/commonContent %>
+
 <div class="container">
   <div class="row">
     <div class="col-md-3">
@@ -39,18 +40,33 @@
               <span class="glyphicon glyphicon-comment"
               aria-hidden="true"></span>
             </strong></h4>
-              <a class="btn btn-success"
-              role="button"
-              data-toggle="collapse"
-              href="#collapseComment"
-              aria-expanded="false"
-              aria-controls="collapseComment">
-                <span class="glyphicon glyphicon-plus"
-                aria-hidden="true"></span>  
-                Create a comment
-              </a>
+            <% let btnStyle, btnContent, commentPresent %>
+            <% if (currentUser && currentUser.campsRated.includes(camp._id)) { %>
+              <% btnStyle = "btn-warning"  %>
+              <% btnContent = "Edit Your Comment" %>
+              <% commentPresent = true %>
+
+            <% } else {%>
+              <% btnStyle = "btn-success" %>
+              <% btnContent = "Create a comment" %>
+              <% commentPresent = false %>
+            <% } %>
+            <a class="btn <%= btnStyle %>"
+            role="button"
+            data-toggle="collapse"
+            href="#collapseComment"
+            aria-expanded="false"
+            aria-controls="collapseComment">
+              <span class="glyphicon glyphicon-edit"
+              aria-hidden="true"></span>  
+              <%= btnContent %>
+            </a>
           </div>
-          <% include ../comments/new %>
+          <% if (commentPresent) { %>
+            <% include ../comments/edit %>
+          <% } else { %>
+            <% include ../comments/new %>
+          <% } %>
         </div>
         <hr>
         <% include ../comments/index %>
@@ -68,4 +84,3 @@
 <script src="/scripts/displayMap.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= key %>&callback=initMap"></script>
 <% include ../partials/footer %>
-

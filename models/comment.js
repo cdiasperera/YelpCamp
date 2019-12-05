@@ -15,7 +15,10 @@ const commentSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  rating: Number
+  rating: {
+    type: Number,
+    required: 'Your review needs a rating!'
+  }
 })
 
 module.exports = mongoose.model('Comment', commentSchema)

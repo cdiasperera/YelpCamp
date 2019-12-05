@@ -28,19 +28,6 @@
       </div>
       <div> 
         <p class="comment-text inline"><%= comment.text%></p>
-        <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
-        <div>
-          <a href="<%=camp._id%>/comments/<%=comment._id%>/edit" 
-            class="btn btn-xs btn-warning">
-              Edit
-          </a>
-          <form class="inline" 
-            action="<%=camp._id%>/comments/<%=comment._id%>?_method=DELETE" 
-            method="post">
-              <button class="btn btn-xs btn-danger">Delete</button>
-          </form>
-        </div>
-        <% } %>
       </div>
     </div>
   </div>

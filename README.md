@@ -47,11 +47,10 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Password reset_
 - [x] _Forgotten Password_
 - [x] _Email Verification_
-- [x] Add comments on the show page
+- [x] Add comments on the campgrounds show page
 - [x] Campground location
 - [x] _Ratings_\*
 - [x] _Pagination_\*
-- [ ] Comment Threads
 - [ ] Edit Comments on same page (Add ability to edit star rating)
 - [ ] Semantic Campground URLs
 - [ ] Migration/upgrade to Bootstrap 4 from Bootstrap 3
@@ -65,6 +64,8 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] _Refactor functions to be more modular_
 - [ ] _Pass Audits_
 - [ ] _Refactor Constants_
+- [ ] _Refactor Comments into Reviews_
+- [ ] _Clean Notifs without authors_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [x] Add total feature list to README
 

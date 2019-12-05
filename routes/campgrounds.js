@@ -180,10 +180,23 @@ router.get('/:id', async (req, res) => {
       comment.author.username = users[index].username
     })
 
-    res.render('campgrounds/show', {
+    const locals = {
       camp: foundCamp,
-      key: process.env.MAPS_WEBSITE_API_KEY
-    })
+      key: process.env.MAPS_WEBSITE_API_KEY,
+      userComment: undefined
+    }
+    if (req.user && req.user.campsRated.includes(foundCamp._id)) {
+      (() => {
+        foundCamp.comments.forEach(comment => {
+          if (comment.author.id.equals(req.user.id)) {
+            locals.userComment = comment
+            return locals.userComment
+          }
+        })
+      })()
+    }
+
+    res.render('campgrounds/show', locals)
   } catch (err) {
     helper.displayError(req, err)
     res.redirect('/campgrounds')

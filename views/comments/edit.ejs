@@ -1,23 +1,43 @@
-<% include ../partials/header %>
-<div class="container">
-  <h1 class="formHeader">Edit comment for <%= camp.name%></h1>
-  <div class="new-form">
-    <form action="/campgrounds/<%= camp._id%>/comments/<%=comment._id%>?_method=PUT" 
+<div class="collapse" id="collapseComment">
+  <div class="well edit-comment text-left">
+      <h4>
+        Edit Your Comment 
+        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+      </h4>
+      <form id="add-comment-form" 
+      action="/campgrounds/<%= camp._id%>/comments/<%= userComment._id%>?_method=PUT" 
       method="POST">
         <div class="form-group">
-          <input class="form-control" 
-          type="text" 
-          name="comment[text]" 
-          value="<%= comment.text%>">
+          <textarea class="form-control"
+          name="comment[text]"
+          form="add-comment-form"
+          cols="70" rows="5"><%= userComment.text%></textarea>
+        </div>  
+        <div class="form-group">
+          <div class="rating">
+            <input required type="radio" name="comment[rating]" id="star5" value="5">
+            <label for="star5"></label>
+            <input required type="radio" name="comment[rating]" id="star4" value="4">
+            <label for="star4"></label>
+            <input required type="radio" name="comment[rating]" id="star3" value="3">
+            <label for="star3"></label>
+            <input required type="radio" name="comment[rating]" id="star2" value="2">
+            <label for="star2"></label>
+            <input required type="radio" name="comment[rating]" id="star1" value="1">
+            <label for="star1"></label>
+          </div>
+          <em class="rating-required">A rating is required</em>
         </div>
         <div class="form-group">
-        <button class="btn btn-lg btn-primary btn-block" 
-          type="submit">
-            Submit
-        </button>
+          <button class="btn btn-warning btn-sm">
+            Edit
+          </button>
         </div>
-    </form>
-    <a href="/campgrounds/<%= camp._id%>">Go back</a>
+      </form>
+      <form 
+        action="/campgrounds/<%= camp._id %>/comments/<%=userComment._id%>?_method=DELETE" 
+        method="post">
+          <button class="btn btn-sm btn-danger">Delete</button>
+      </form>
   </div>
 </div>
-<% include ../partials/footer %>

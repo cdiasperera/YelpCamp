@@ -14,6 +14,7 @@ helper.customErrors = {
   commentUpdate: 'Alas! We could not update your comment!!',
   commentDelete: 'Eggo! We could not delete your comment for some reason :(',
   commentAuth: 'I\'m not sure what you\re trying to do with this commnent, but I ain\'t down for that!',
+  commentExists: 'You already have a comment on this camp!',
   notifMiss: 'Uhh, we could not find that notification!',
   notifAuth: 'Hmmm, you should not need that notification!',
   userMiss: 'This is not the user you are looking for',
@@ -65,6 +66,6 @@ helper.mostRecentUpdate = moment('20191206', 'YYYYMMDD')
 
 // Booleans that tells if we are seeding the database or not
 helper.producSeeding = false
-helper.devSeeding = false
+helper.devSeeding = true
 
 module.exports = helper

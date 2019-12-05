@@ -7,6 +7,7 @@ const isEmpty = lodash.isEmpty
 
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
+const User = require('../models/user')
 
 const middleware = require('../middleware')
 const helper = require('../helper')
@@ -23,15 +24,21 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
       id: req.user.id
     }
 
-    const [camp, newComment] = await Promise.all([
+    const [camp, newComment, user] = await Promise.all([
       Campground.findById(req.params.id),
-      Comment.create(newCommentTemp)
+      Comment.create(newCommentTemp),
+      User.findById(req.user.id)
     ])
 
+    if (req.user.campsRated.includes(camp)) {
+      throw helper.customErrors.commetExists
+    }
     if (isEmpty(camp)) {
       throw helper.customErrors.commentMiss
     } else if (isEmpty(newComment)) {
       throw helper.customErrors.commentMiss
+    } else if (isEmpty(user)) {
+      throw helper.customErrors.userMiss
     }
 
     if (newComment.rating) {
@@ -43,35 +50,20 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
     }
 
     camp.comments.push(newComment)
-    await camp.save()
+    user.campsRated.push(camp._id)
+
+    await Promise.all([
+      camp.save(),
+      user.save()
+    ])
+
+    console.log(user)
 
     req.flash('success', 'Comment Created!')
     res.redirect('/campgrounds/' + camp.id)
   } catch (err) {
     helper.displayError(req, err)
-    res.redirect('/')
-  }
-})
-
-/**
- * Route to the page to edit a comment.
- */
-router.get('/:comment_id/edit', middleware.checkCommentStack, async (req, res) => {
-  try {
-    const [foundCamp, foundComment] = await Promise.all([
-      Campground.findById(req.params.id),
-      Comment.findById(req.params.comment_id)
-    ])
-
-    if (isEmpty(foundCamp)) {
-      throw helper.customErrors.campMiss
-    }
-    // Missing comment error handled in middleware
-
-    res.render('comments/edit', { camp: foundCamp, comment: foundComment })
-  } catch (err) {
-    helper.displayError(req, err)
-    res.redirect('back')
+    res.redirect('/campgrounds/')
   }
 })
 
@@ -80,22 +72,34 @@ router.get('/:comment_id/edit', middleware.checkCommentStack, async (req, res) =
  */
 router.put('/:comment_id', middleware.checkCommentStack, async (req, res) => {
   try {
-    const updatedComment = await Comment.findByIdAndUpdate(
-      req.params.comment_id,
-      { text: req.body.comment.text }
-    )
+    const [comment, camp] = await Promise.all([
+      Comment.findById(req.params.comment_id),
+      Campground.findById(req.params.id)
+    ])
 
-    if (isEmpty(updatedComment)) {
-      throw helper.customErrors.commentUpdate
+    if (isEmpty(comment)) {
+      throw helper.customErrors.commentMiss
     }
 
+    comment.text = req.body.comment.text
+
+    const oldRatingTotal = camp.averageRating * camp.numRatings
+    const ratingAdjustment = req.body.comment.rating - comment.rating
+    camp.averageRating = (oldRatingTotal + ratingAdjustment) / camp.numRatings
+
+    comment.rating = req.body.comment.rating
+
+    await Promise.all([
+      camp.save(),
+      comment.save()
+    ])
+
     req.flash('success', 'Comment Updated!')
-    // Go back to the original campground show page
     res.redirect('/campgrounds/' + req.params.id)
   } catch (err) {
     helper.displayError(req, err)
     // Go back to the original campground show page
-    res.redirect('/campgrounds/' + req.params.id)
+    res.redirect('/campgrounds/')
   }
 })
 
@@ -104,11 +108,30 @@ router.put('/:comment_id', middleware.checkCommentStack, async (req, res) => {
  */
 router.delete('/:comment_id', middleware.checkCommentStack, async (req, res) => {
   try {
-    const removedComment = await Comment.findByIdAndRemove(req.params.comment_id)
+    const [removedComment, camp, user] = await Promise.all([
+      Comment.findByIdAndRemove(req.params.comment_id),
+      Campground.findById(req.params.id),
+      User.findById(req.user.id)
+    ])
+
     if (isEmpty(removedComment)) {
       throw helper.customErrors.commentDelete
     }
 
+    camp.comments.splice(camp.comments.indexOf(removedComment._id), 1)
+
+    const oldRatingTotal = camp.averageRating * camp.numRatings
+    camp.numRatings--
+    camp.averageRating = (oldRatingTotal - removedComment.rating) / camp.numRatings
+
+    user.campsRated.splice(user.campsRated.indexOf(camp._id), 1)
+
+    // Adjust the rating and num ratings of camp
+    await Promise.all([
+      camp.save(),
+      user.save()
+    ])
+    req.flash('success', 'Comment deleted!')
     res.redirect('/campgrounds/' + req.params.id)
   } catch (err) {
     helper.displayError(req, err)

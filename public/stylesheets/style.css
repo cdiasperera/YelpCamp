@@ -59,6 +59,14 @@ img {
   margin-left: 10px;
 }
 
+.edit-comment {
+  border-left: 5px solid #F0AD4E;
+}
+
+.rating-required {
+  font-size: 0.9em;
+}
+
 .comment-text {
   font-size: 2.4vh;
 }
