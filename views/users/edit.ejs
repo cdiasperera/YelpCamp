@@ -67,4 +67,15 @@
 
 <script src="/scripts/disablePopups.js"></script>
 <script src="/scripts/inputValidator.js"></script>
+
+
+<script>
+const usernameValidator = new InputValidator(
+  document.querySelector('input[id=username]'),
+  document.querySelectorAll('input[id=username] + .input-requirements li'),
+  InputValidator.prototype.passwordRules
+)
+
+usernameValidator.start()
+</script>
 <% include ../partials/footer %>

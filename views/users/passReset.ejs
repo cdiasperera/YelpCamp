@@ -32,4 +32,14 @@
 
 <script src="/scripts/disablePopups.js"></script>
 <script src="/scripts/inputValidator.js"></script>
+
+<script>
+const passwordValidator = new InputValidator(
+  document.querySelector('input[id=password]'),
+  document.querySelectorAll('input[id=password] + .input-requirements li'),
+  InputValidator.prototype.passwordRules
+)
+
+passwordValidator.start()
+</script>
 <% include ../partials/footer %>

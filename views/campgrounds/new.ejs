@@ -1,4 +1,7 @@
-<% include ../partials/header %>
+<% include ../partials/header/meta %>
+<link rel="stylesheet" href="/stylesheets/userEdit.css">
+<% include ../partials/header/commonContent %>
+
 <div class="container">
   <h1 class="formHeader">Create a new campground</h1>
   <div class="new-form">
@@ -7,7 +10,9 @@
         <input class="form-control" 
           type="text" 
           name="camp[name]" 
-          placeholder="Camp Name">
+          placeholder="Camp Name"
+          id="name"
+          required>
       </div>
       <div class="form-group">
           <input class="form-control" 
@@ -43,4 +48,5 @@
     <a href="/campgrounds">Go to campgrounds.</a>
   </div>
 </div>
+
 <% include ../partials/footer %>
