@@ -54,7 +54,7 @@ router.get('/page/:page', async (req, res) => {
   }
 
   try {
-    const PER_PAGE = 9
+    const PER_PAGE = 6
     const firstCampIndex = (req.params.page - 1) * PER_PAGE
     const foundCamps = await (
       Campground.find(dbSearchParams)

@@ -15,6 +15,7 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const path = require('path')
 const favicon = require('serve-favicon')
+const scrape = require('website-scraper')
 
 const User = require('./models/user')
 
@@ -23,8 +24,8 @@ const commentRoutes = require('./routes/comments')
 const indexRoutes = require('./routes/index')
 const notifRoutes = require('./routes/notifs')
 const userRoutes = require('./routes/user')
-const seedDB = require('./seeds')
-const seedProduction = require('./seedProduction')
+const seedDB = require('./seeding/seeds')
+const seedProduction = require('./seeding/seedProduction')
 const helper = require('./helper')
 const middleware = require('./middleware')
 
@@ -96,6 +97,27 @@ app.use('/notifs', notifRoutes)
 app.use('/users', userRoutes)
 // Start server
 const port = process.env.PORT || 3000
+
+app.get('/:apiKey/scraper', async (req, res) => {
+  if (req.params.apiKey !== process.env.SCRAPER_KEY) {
+    res.redirect('/campgrounds/')
+  } else {
+    const options = {
+      urls: ['https://en.wikipedia.org/wiki/List_of_national_parks_of_the_United_States'],
+      directory: './seeding/wikipediaCamps',
+      sources: []
+    }
+    try {
+      console.log('scraping')
+      await scrape(options)
+      console.log('scraped')
+      res.redirect('/campgrounds/')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+})
+
 app.listen(port, () => {
   console.log('YelpCamp server is running.')
 })
