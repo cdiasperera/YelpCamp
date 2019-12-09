@@ -41,15 +41,16 @@ router.post('/page/', (req, res) => {
 
 router.get('/page/:page', async (req, res) => {
   // Request could come from a campground search or directly.
-  let search, dbSearchParams
+  let search
+  let dbSearchParams
   if (req.query.search) {
     // If the request came from a serach, form the search regex.
     const regexSearch = { $regex: req.query.search, $options: 'i' }
-    dbSearchParams = { name: regexSearch }
+    dbSearchParams.name = regexSearch
     search = req.query.search
   } else {
     // Otherwise set the regex to find all the camps.
-    dbSearchParams = {}
+    dbSearchParams= {}
     search = ''
   }
 
@@ -58,6 +59,7 @@ router.get('/page/:page', async (req, res) => {
     const firstCampIndex = (req.params.page - 1) * PER_PAGE
     const foundCamps = await (
       Campground.find(dbSearchParams)
+        .sort('-averageRating')
         .skip(firstCampIndex)
         .limit(PER_PAGE)
     )
