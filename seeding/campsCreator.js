@@ -33,7 +33,21 @@ data.forEach((row) => {
 
   // Grab the location
   const coords = row.querySelector('td .geo-dec').textContent
-  const [lng, lat] = coords.match(/\d+\.\d+/g)
+  // The format of the coords is {latAbs}{coordDir[0]},{lngAbs}{coordDir[1]}
+  // For example, 10N 15E
+  const [latAbs, lngAbs] = coords.match(/\d+\.\d+/g)
+  let lat = latAbs
+  let lng = lngAbs
+  const [latDir, lngDir] = coords.match(/[NEWS]/g)
+
+  // Google maps interprets South as a negative latitude and West as a negative longitude
+  if (latDir === 'S') {
+    lat = -lat 
+  }
+
+  if (lngDir=== 'W') {
+    lng = -lng
+  }
   camp.lat = lat
   camp.lng = lng
 
