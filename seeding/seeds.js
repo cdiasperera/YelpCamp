@@ -22,7 +22,15 @@ async function seedDB () {
     const campQueries = []
     const userQueries = []
     seedUsers.forEach(user => {
-      userQueries.push(User.create(user))
+      userQueries.push(User.register(
+        new User({
+          username: user.username,
+          activated: user.activated,
+          avatar: user.avatar,
+          activated: user.activated
+        }),
+        user.password
+      ))
     })
     seedCamps.forEach(camp => {
       campQueries.push(Campground.create(camp))

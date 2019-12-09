@@ -62,7 +62,7 @@ helper.makeMongoURI = () => {
   }
 }
 
-helper.mostRecentUpdate = moment('20191206', 'YYYYMMDD')
+helper.mostRecentUpdate = moment('20191210', 'YYYYMMDD')
 
 // Booleans that tells if we are seeding the database or not
 helper.producSeeding = true
