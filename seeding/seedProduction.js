@@ -26,6 +26,8 @@ async function seedDB () {
         new User({
           username: user.username,
           activated: user.activated,
+          firstName: user.firstName,
+          lastName: user.lastName,
           avatar: user.avatar,
           activated: user.activated
         }),
