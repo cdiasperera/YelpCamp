@@ -33,7 +33,7 @@ data.forEach((row) => {
 
   // Grab the location
   const coords = row.querySelector('td .geo-dec').textContent
-  const [lat, lng] = coords.match(/\d+\.\d+/g)
+  const [lng, lat] = coords.match(/\d+\.\d+/g)
   camp.lat = lat
   camp.lng = lng
 
