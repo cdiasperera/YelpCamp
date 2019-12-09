@@ -16,7 +16,12 @@ body {
 }
 
 img {
-    width: 50%;
+  object-fit: cover;
+  width: 50%;
+}
+
+img.img-grid {
+  height: 350px
 }
 
 .thumbnail > img {

@@ -52,10 +52,9 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Ratings_\*
 - [x] _Pagination_\*
 - [x] Edit Comments on same page (Add ability to edit star rating)
-- [ ] _Populate website with camps, users and comments_
-- [ ] _Optimize image load speeds_
+- [x] _Populate website with camps, users and comments_
 - [ ] _Redesign Register/Login form to fit better on mobile_
-- [ ] _Redesign Campgrounds page to standardize thumbnail size_
+- [x] _Redesign Campgrounds page to standardize thumbnail size_
 - [ ] _Make responsive in general_
 - [ ] _Refactor CSS_
 - [ ] _Redesign CSS for website_
@@ -63,7 +62,6 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [ ] _Pass Audits_
 - [ ] _Refactor Constants_
 - [ ] _Refactor Comments into Reviews_
-- [ ] _Clean Notifs without authors_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [x] Add total feature list to README
 
