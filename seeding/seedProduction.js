@@ -1,4 +1,6 @@
 'use strict'
+const moment = require('moment')
+
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
 const User = require('../models/user')
@@ -8,24 +10,50 @@ const seedCamps = require('./campsCreator')
 const seedUsers = require('./usersCreator')
 const seedCommets = require('./commentsCreator')
 
+// Create a local user for debugging purposes:
+
+const localUser = {
+  username: 'admin',
+  email: 'cdiasperera@gmail.com',
+  activated: 'true',
+  avatar: '/imgs/no-image.jpg',
+  password: 'a'
+}
+
+seedUsers.push(localUser)
+
+// Separate user's password from their template, as we do not pass the password
+// to User.create when registering
+const seedUserWrappers = []
+seedUsers.forEach(seed => {
+  const seedWrapper = {}
+  seedWrapper.user = seed
+  seedWrapper.password = seed.password
+
+  delete seedWrapper.user.password
+
+  seedUserWrappers.push(seedWrapper)
+})
 async function seedDB () {
   console.log('Seeding...')
   try {
+    await Promise.all([
+      Campground.deleteMany({}),
+      Comment.deleteMany({}),
+      Notification.deleteMany({}),
+      User.deleteMany({})
+    ])
+
     const campQueries = []
     const userQueries = []
-    seedUsers.forEach(user => {
+
+    seedUserWrappers.forEach(wrapper => {
       userQueries.push(User.register(
-        new User({
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          activated: user.activated,
-          avatar: user.avatar,
-          activated: user.activated
-        }),
-        user.password
+        new User(wrapper.user),
+        wrapper.password
       ))
     })
+
     seedCamps.forEach(camp => {
       campQueries.push(Campground.create(camp))
     })
