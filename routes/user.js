@@ -128,7 +128,6 @@ router.put('/:id', middleware.checkProfileStack, async (req, res) => {
       throw helper.customErrors.userUpdate
     }
 
-    console.log(updatedUser)
     req.flash('success', 'Your details are updated')
     res.redirect('/users/' + req.params.id)
   } catch (err) {
@@ -139,8 +138,6 @@ router.put('/:id', middleware.checkProfileStack, async (req, res) => {
 
 router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
   try {
-    console.log(req.user.id)
-    console.log(req.body.follower)
     if (req.user.id !== req.body.follower) {
       throw helper.customErrors.followerAuth
     }

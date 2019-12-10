@@ -15,7 +15,7 @@ const localUser = {
   email: 'cdiasperera@gmail.com',
   activated: 'true',
   password: 'a',
-  avatar: '/imgs/no-photo.jpg'
+  avatar: '/imgs/no-image.jpg'
 }
 seedUsers.push(localUser)
 

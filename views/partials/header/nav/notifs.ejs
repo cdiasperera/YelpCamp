@@ -1,5 +1,5 @@
-<li role="presentation" class="dropdown">
-  <a class="dropdown-toggle" 
+<li role="presentation" class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" 
     data-toggle="dropdown"
     href="#"
     role="button"
@@ -8,15 +8,15 @@
     Notifications
     <span class="num-notifs"><%= notifs.length%></span>
   </a>
-  <ul class="dropdown-menu"> 
-    <li>
+  <div class="dropdown-menu"> 
       <% if (notifs.length === 0) { %>
-        <a href="/notifs">See Previous Notifications</a>
+        <a class="dropdown-item" href="/notifs">See Previous Notifications</a>
       <% } else { %>
-        <% notifs.forEach((notif) => { %>
-          <a href="/notifs/<%= notif._id%>"> <%= notif.message %></a>
-        <% }) %>
+      <% notifs.forEach((notif) => { %>
+        <a class="dropdown-item" href="/notifs/<%= notif._id%>"> 
+          <%= notif.message %>
+        </a>
+      <% }) %>
       <% } %>
-    </li> 
-  </ul>
+  </div>
 </li>

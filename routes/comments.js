@@ -57,8 +57,6 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
       user.save()
     ])
 
-    console.log(user)
-
     req.flash('success', 'Comment Created!')
     res.redirect('/campgrounds/' + camp.id)
   } catch (err) {

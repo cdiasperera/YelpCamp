@@ -88,7 +88,6 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
   newCamp.author = { id: req.user._id, username: req.user.username }
   try {
     const geoData = await geocoder.geocode(req.body.camp.location)
-    console.log(geoData)
     const location = geoData[0]
     if (!isEmpty(location)) {
       newCamp.lat = location.latitude
@@ -109,7 +108,6 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
     }
     req.flash('success', 'Campground Created!')
 
-    console.log({ user })
     // Step 2: Notify Followers
 
     // First, create a notification
@@ -123,7 +121,6 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
     notif.author.id = user._id
     await notif.save()
 
-    console.log({ notif })
     // Make a promise to get each follower
     const findFollowers = []
     for (const follower of user.followers) {
