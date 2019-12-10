@@ -80,6 +80,7 @@ img.img-grid {
   margin-bottom: 10px;
 }
 .new-form {
+  min-width: 300px;
   width: 30%;
   margin: 25px auto;
   margin-top: 12.5px;

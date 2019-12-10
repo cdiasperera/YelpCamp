@@ -11,14 +11,6 @@ const seedCommets = require('./commentsCreator')
 async function seedDB () {
   console.log('Seeding...')
   try {
-    // Clean up DB
-    await Promise.all([
-      Campground.deleteMany({}),
-      Comment.deleteMany({}),
-      Notification.deleteMany({}),
-      User.deleteMany({})
-    ])
-
     const campQueries = []
     const userQueries = []
     seedUsers.forEach(user => {

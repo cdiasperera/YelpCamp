@@ -53,7 +53,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Pagination_\*
 - [x] Edit Comments on same page (Add ability to edit star rating)
 - [x] _Populate website with camps, users and comments_
-- [ ] _Redesign Register Login form to fit better on mobile_
+- [x] _Redesign Register Login form to fit better on mobile_
 - [x] _Redesign Campgrounds page to standardize thumbnail size_
 - [ ] _Make responsive in general_
 - [ ] _Refactor CSS_
