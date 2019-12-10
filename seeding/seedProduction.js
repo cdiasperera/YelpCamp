@@ -32,6 +32,7 @@ seedUsers.forEach(seed => {
 
   seedWrapper.user.password = undefined
 
+  console.log(seedWrapper)
   seedUserWrappers.push(seedWrapper)
 })
 async function seedDB () {
