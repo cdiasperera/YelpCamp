@@ -1,8 +1,7 @@
 <div class="collapse" id="collapseComment">
-  <div class="well edit-comment text-left">
+  <div class="card card-body bg-light edit-comment text-left pl-4">
       <h4>
         Edit Your Comment 
-        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
       </h4>
       <form id="add-comment-form" 
       action="/campgrounds/<%= camp._id%>/comments/<%= userComment._id%>?_method=PUT" 
@@ -26,15 +25,13 @@
             <input required type="radio" name="comment[rating]" id="star1" value="1">
             <label for="star1"></label>
           </div>
-          <em class="rating-required">A rating is required</em>
+          <em class="rating-required">Note: A rating is required</em>
         </div>
-        <div class="form-group">
-          <button class="btn btn-warning btn-sm">
+          <button class="btn btn-warning btn-sm mb-1">
             Edit
           </button>
-        </div>
       </form>
-      <form 
+      <form class="" 
         action="/campgrounds/<%= camp._id %>/comments/<%=userComment._id%>?_method=DELETE" 
         method="post">
           <button class="btn btn-sm btn-danger">Delete</button>

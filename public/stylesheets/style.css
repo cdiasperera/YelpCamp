@@ -2,10 +2,12 @@ html, body {
   height: 100%;
 }
 
-.comment p {
-  word-break: break-all;
+p {
+  font-size: 2.3vh;
 }
-
+.comment p {
+  overflow-wrap: break-word;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -72,12 +74,12 @@ img.card-img-top {
   border-left: 5px solid #F0AD4E;
 }
 
-.rating-required {
-  font-size: 0.9em;
+.btn-warning {
+  color: white
 }
 
-.comment-text {
-  font-size: 2.4vh;
+.rating-required {
+  font-size: 0.9em;
 }
 
 .comment-header {

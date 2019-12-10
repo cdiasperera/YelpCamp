@@ -4,7 +4,7 @@
 
 <div class="container">
     <header class="jumbotron text-center">
-        <h1 class="display-4">These are our campgrounds</h1>
+        <h1 class="display-5">These are our campgrounds</h1>
         <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add a campground</a>
     </header>
 
@@ -30,7 +30,9 @@
                     <div class="card-body">
                       <h4 class="card-title"><%= camp.name%></h4>
                       <% if (!camp.averageRating) { %>
-                        <em class="card-text">No Reviews Yet</em>
+                        <div class="mb-sm-2">
+                          <em class="card-text">No Reviews Yet</em>
+                        </div>
                       <% } else { %>
                         <div class="mb-sm-2">
                         <% for(let i = 0; i < camp.averageRating; i++) { %>

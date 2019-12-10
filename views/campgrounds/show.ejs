@@ -1,4 +1,5 @@
 <% include ../partials/header/meta %>
+<script src="https://kit.fontawesome.com/f96d9fa558.js" crossorigin="anonymous"></script>
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
 <% include ../partials/header/commonContent %>
 
@@ -38,13 +39,12 @@
         <% } %>
         </div>
       </div>
-      <div class="well">
+      <div class="card card-body bg-light">
         <div class="text-right">
           <div class="comment-header">
             <h4 class="pull-left"><strong>
               Comments
-              <span class="glyphicon glyphicon-comment"
-              aria-hidden="true"></span>
+              <i class="far fa-comment"></i>
             </strong></h4>
             <% let btnStyle, btnContent, commentPresent %>
             <% if (currentUser && currentUser.campsRated.includes(camp._id)) { %>
@@ -63,8 +63,7 @@
             href="#collapseComment"
             aria-expanded="false"
             aria-controls="collapseComment">
-              <span class="glyphicon glyphicon-edit"
-              aria-hidden="true"></span>  
+              <i class="far fa-edit"></i>
               <%= btnContent %>
             </a>
           </div>
