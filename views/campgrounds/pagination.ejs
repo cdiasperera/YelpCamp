@@ -13,7 +13,7 @@
         <a href="/campgrounds/page/<%= pageInfo.currentPage - 1 %>">&laquo;</a>
       </li>
       <% } %>
-      <% const PAGE_LINKS_DISPLAYED = 4%>
+      <% const PAGE_LINKS_DISPLAYED = 3%>
       <% let startPage = pageInfo.currentPage - PAGE_LINKS_DISPLAYED %>
       <% if (startPage < 1) { %>
         <% startPage = 1 %>
@@ -46,3 +46,10 @@
     </form>
   <% } %>
 <% } %>
+
+<script>
+  const MOBILE_SCREEN_WIDTH = 460
+  if (window.screen.width < MOBILE_SCREEN_WIDTH) {
+    document.querySelector('.pagination').classList.add('pagination-sm')
+  }
+</script>

@@ -8,6 +8,17 @@ const seedCamps = require('./campsCreator')
 const seedUsers = require('./usersCreator')
 const seedCommets = require('./commentsCreator')
 
+// Create a local user for debugging purposes:
+
+const localUser = {
+  username: 'admin',
+  email: 'cdiasperera@gmail.com',
+  activated: 'true',
+  password: 'a',
+  avatar: '/imgs/no-photo.jpg'
+}
+seedUsers.push(localUser)
+
 async function seedDB () {
   console.log('Seeding...')
   try {
