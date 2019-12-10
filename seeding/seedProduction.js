@@ -30,7 +30,7 @@ seedUsers.forEach(seed => {
   seedWrapper.user = seed
   seedWrapper.password = seed.password
 
-  delete seedWrapper.user.password
+  seedWrapper.user.password = undefined
 
   seedUserWrappers.push(seedWrapper)
 })

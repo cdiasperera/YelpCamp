@@ -28,7 +28,7 @@ const seedUserWrappers = []
 seedUsers.forEach(seed => {
   const seedWrapper = {}
   seedWrapper.user = seed
-  seedWrapper.password = seed.password
+  seedWrapper.password = undefined
 
   delete seedWrapper.user.password
 
