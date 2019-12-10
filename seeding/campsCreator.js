@@ -69,6 +69,8 @@ data.forEach((row) => {
   // Removes wikipedia hyperlink footnotes
   camp.desc = desc.replace(/\[\d+\]/g, '')
 
+  camp.author = {}
+
   camps.push(camp)
 })
 

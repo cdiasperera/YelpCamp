@@ -35,10 +35,6 @@ router.get('/page/', (req, res) => {
   res.redirect('/campgrounds/page/1')
 })
 
-router.post('/page/', (req, res) => {
-  res.redirect('/campgrounds/page/' + req.body.page)
-})
-
 router.get('/page/:page', async (req, res) => {
   // Request could come from a campground search or directly.
   let search

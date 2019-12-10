@@ -25,6 +25,8 @@ async function seedDB () {
       userQueries.push(User.register(
         new User({
           username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
           activated: user.activated,
           avatar: user.avatar,
           activated: user.activated
@@ -42,7 +44,11 @@ async function seedDB () {
     const campSavePromises = []
     for (const camp of camps) {
       // Give each camp an author
-      camp.author.id = users[Math.floor(Math.random() * users.length)]._id
+      const campAuthorIndex = Math.floor(Math.random() * users.length)
+      camp.author = {
+        id: users[campAuthorIndex]._id,
+        username: users[campAuthorIndex].username
+      }
       /**
        * The math below works as such:
        * Random generates a number between 0 (inclusive) and 1 (non inclusive)
