@@ -3,72 +3,70 @@
 <% include ../partials/header/commonContent %>
 
 <div class="container">
-  <div class="row">
-    <h1 class="formHeader">Sign Up</h1>
-    <form action="/users" method="POST">
-      <div class="new-form">
-        <div class="form-group">
-          <input class="form-control sign-up" 
-            id="username"
-            type="text" 
-            pattern="^[A-Za-z0-9_]{2,15}$"
-            name="user[username]" 
-            required
-            placeholder="Username">
-            <ul class="input-requirements">
-              <li>Between 2 and 15 charactes long</li>
-              <li>Must contain no special charactes or spaces</li>
-            </ul>
-        </div>
-        <div class="form-group">
-          <input class="form-control sign-up" 
-            id="password"
-            type="password" 
-            name="password" 
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-            placeholder="Password"
-            required>
-            <ul class="input-requirements">
-              <li>At least 8 characters long</li>
-              <li>At least one number</li>
-              <li>At least one uppercase letter</li>
-              <li>At least one lowercase letter</li>
-            </ul>
-        </div>
-        <div class="form-group">
-          <input class="form-control sign-up"
-          type="email"
-          name="user[email]"
-          placeholder="Email"
+  <h1 class="formHeader">Sign Up</h1>
+  <form action="/users" method="POST">
+    <div class="new-form">
+      <div class="form-group">
+        <input class="form-control sign-up" 
+          id="username"
+          type="text" 
+          pattern="^[A-Za-z0-9_]{2,15}$"
+          name="user[username]" 
+          required
+          placeholder="Username">
+          <ul class="input-requirements">
+            <li>Between 2 and 15 charactes long</li>
+            <li>Must contain no special charactes or spaces</li>
+          </ul>
+      </div>
+      <div class="form-group">
+        <input class="form-control sign-up" 
+          id="password"
+          type="password" 
+          name="password" 
+          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+          placeholder="Password"
           required>
-        </div>
-        <div class="form-group">
-          <input class="form-control" 
-          type="text" 
-          name="user[firstName]"
-          placeholder="First Name">
-        </div>
-        <div class="form-group">
-          <input class="form-control" 
-          type="text" 
-          name="user[lastName]"
-          placeholder="Last Name">
-        </div>
-        <div class="form-group">
-          <input class="form-control" 
-          type="text" 
-          name="user[avatar]"
-          placeholder="Avatar Image URL">
-        </div>
-        <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" 
-            type="submit">
-            Sign Up
-          </button>
-        </div>
-      </div> 
-    </form>
-  </div>
+          <ul class="input-requirements">
+            <li>At least 8 characters long</li>
+            <li>At least one number</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one lowercase letter</li>
+          </ul>
+      </div>
+      <div class="form-group">
+        <input class="form-control sign-up"
+        type="email"
+        name="user[email]"
+        placeholder="Email"
+        required>
+      </div>
+      <div class="form-group">
+        <input class="form-control" 
+        type="text" 
+        name="user[firstName]"
+        placeholder="First Name">
+      </div>
+      <div class="form-group">
+        <input class="form-control" 
+        type="text" 
+        name="user[lastName]"
+        placeholder="Last Name">
+      </div>
+      <div class="form-group">
+        <input class="form-control" 
+        type="text" 
+        name="user[avatar]"
+        placeholder="Avatar Image URL">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-lg btn-primary btn-block" 
+          type="submit">
+          Sign Up
+        </button>
+      </div>
+    </div> 
+  </form>
 </div>
 
 <script src="/scripts/disablePopups.js"></script>

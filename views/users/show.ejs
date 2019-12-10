@@ -1,6 +1,6 @@
 <% include ../partials/header %>
-<div class="container">
-  <h3><%= user.username%>'s Profile</h3>
+<div class="container text-center">
+  <h3><%= user.firstName%> <%= user.lastName %>'s Profile</h3>
   <img class ="avatar avatar-profile" src="<%= user.avatar%>" alt="avatar">
   <ul class="profile-list">
     <li>First Name: <%= user.firstName%></li>
