@@ -4,25 +4,27 @@
 <% camp.comments.forEach((comment) => { %>
   <div class="row">
     <div class="col-md-12 comment">
-      <div>
-        <img class="avatar" src="<%= comment.author.avatar%>" alt="">
-        <a href="/users/<%= comment.author.id%>">
-          <strong ><%= comment.author.username %></strong>
-        </a>
+      <div class="d-flex justify-content-between">
+        <span>
+          <img class="avatar" src="<%= comment.author.avatar%>" alt="">
+          <a href="/users/<%= comment.author.id%>">
+            <p class="inline"><strong ><%= comment.author.username %></strong></p>
+          </a>
 
-        <% if (!comment.rating) { %>
-          <em>No Rating</em>
-        <% } else { %>
-          <% for(let i = 0; i < comment.rating; i++) { %>
-            <span class="star"></span>
+          <% if (!comment.rating) { %>
+            <em>No Rating</em>
+          <% } else { %>
+            <% for(let i = 0; i < comment.rating; i++) { %>
+              <span class="star"></span>
+            <% } %>
           <% } %>
-        <% } %>
-        <% let timeString = moment(comment.createdAt).fromNow(); %>
-        <% if (/^[a-z]/.test(timeString)) { %>
-          <% // First letter is lowercase and must be capitalized %>
-          <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
-        <% } %>
-        <p class="time-since pull-right">
+          <% let timeString = moment(comment.createdAt).fromNow(); %>
+          <% if (/^[a-z]/.test(timeString)) { %>
+            <% // First letter is lowercase and must be capitalized %>
+            <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
+          <% } %>
+        </span>
+        <p class="time-since mt-2">
           <%= timeString %>
         </p>
       </div>

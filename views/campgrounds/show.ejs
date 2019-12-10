@@ -13,24 +13,30 @@
       </div>
     </div>
     <div class="col-md-9">
-      <div class="thumbnail">
-        <img class="img-responsive" src="<%= camp.image%>" alt="campground">
-        <div class="caption-full">
-          <h4 class="pull-right"> 
+      <div class="card">
+        <img class="img-card-top" src="<%= camp.image%>" alt="campground">
+        <div class="card-body">
+          <h4 class="pull-right card-title"> 
             <% if (camp.price == 0) { %>
               Free!
             <% } else { %>
             $<%= camp.price%>/night
             <% } %>
           </h4>
-          <h4><%= camp.name%></h4>
-          <p><%= camp.desc%> </p>
+          <h4 class="card-title"><%= camp.name%></h4>
+          <p class="card-body-full"><%= camp.desc%> </p>
           <% let timeString = moment(camp.createdAt).fromNow(); %>
-          <p>Submitted by <a href="/users/<%= camp.author.id%>">
-            <strong><%= camp.author.username%></strong>
-          </a>
-          <span class="time-since pull-right"><%= timeString %></span></p>
-
+          <div class="mb-2">
+            <p class="card-body-full d-flex justify-content-between">
+              <span>
+                Submitted by 
+                <a href="/users/<%= camp.author.id%>">
+                  <strong><%= camp.author.username%></strong>
+                </a>
+              </span>
+              <span class="time-since align-middle"><%= timeString %></span>
+            </p>
+          </div>
           <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
             <a href="<%= camp._id%>/edit" class="btn btn-warning">Edit</a>
             <form class="inline text-right" action="?_method=DELETE" method="POST">

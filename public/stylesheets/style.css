@@ -19,7 +19,6 @@ body {
 
 img {
   object-fit: cover;
-  width: 50%;
 }
 
 img.card-img-top {
@@ -30,14 +29,11 @@ img.card-img-top {
   margin-bottom: 1vh
 }
 
-.thumbnail > img {
-  width: 100%;
+.card-body {
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 0px;
 }
-.thumbnail {
-  padding: 0px;
-  padding-bottom: 10px;
-}
-
 .caption-full {
   padding: 10px;
 }
@@ -87,7 +83,7 @@ img.card-img-top {
 }
 .new-form {
   min-width: 300px;
-  width: 30%;
+  width: 40%;
   margin: 25px auto;
   margin-top: 12.5px;
 }
@@ -124,8 +120,10 @@ img.card-img-top {
 }
 
 .time-since {
-  font-style: italic;;
+  font-style: italic;
   color: grey;
+  margin-bottom: 0;
+  height: inherit
 }
 
 .num-notifs {
