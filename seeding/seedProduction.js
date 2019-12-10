@@ -15,6 +15,7 @@ const seedCommets = require('./commentsCreator')
 const seedUserWrappers = []
 seedUsers.forEach(seed => {
   const seedWrapper = {}
+  console.log(seedWrapper.password)
   seedWrapper.user = seed
   seedWrapper.password = seed.password
 
