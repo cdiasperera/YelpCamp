@@ -10,18 +10,6 @@ const seedCamps = require('./campsCreator')
 const seedUsers = require('./usersCreator')
 const seedCommets = require('./commentsCreator')
 
-// Create a local user for debugging purposes:
-
-const localUser = {
-  username: 'admin',
-  email: 'cdiasperera@gmail.com',
-  activated: 'true',
-  avatar: '/imgs/no-image.jpg',
-  password: 'a'
-}
-
-seedUsers.push(localUser)
-
 // Separate user's password from their template, as we do not pass the password
 // to User.create when registering
 const seedUserWrappers = []
