@@ -4,43 +4,45 @@
 
 <div class="container">
     <header class="jumbotron text-center">
-        <h1>These are our campgrounds</h1>
+        <h1 class="display-4">These are our campgrounds</h1>
         <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add a campground</a>
     </header>
 
     <div class="campgrounds-row">
       <div class="col-lg-12">
-          <% if (!search) { %>
-            <h3>Our most popular campgrounds</h3>
-          <% } else { %>
-            <h3>Results for: <%= search %></h3>
-          <% } %>
-        </div>
+        <% if (!search) { %>
+          <h3>Our most popular campgrounds</h3>
+        <% } else { %>
+          <h3>Results for: <%= search %></h3>
+        <% } %>
+      </div>
     </div>
-    <div class="row text-center">
+    <div class="row d-flex text-center">
       <% if (camps.length === 0) { %>
         <h3>Sorry! We could not find any camps! &#128549;</h3>
       <% } %>
         <% camps.forEach((camp) => { %>
             <div class="col-sm-6 cold-md-6 col-lg-4">
-                <div class="thumbnail">
-                    <img class="img-grid" 
+                <div class="card">
+                    <img class="card-img-top" 
                       src="<%= camp.image %>"  
                       alt="campground">
-                    <div class="caption">
-                        <h4><%= camp.name%></h4>
-                        <% if (!camp.averageRating) { %>
-                          <em>No Reviews Yet</em>
-                        <% } else { %>
-                          <% for(let i = 0; i < camp.averageRating; i++) { %>
-                            <span class="star"></span>
-                          <% } %>
+                    <div class="card-body">
+                      <h4 class="card-title"><%= camp.name%></h4>
+                      <% if (!camp.averageRating) { %>
+                        <em class="card-text">No Reviews Yet</em>
+                      <% } else { %>
+                        <div class="mb-sm-2">
+                        <% for(let i = 0; i < camp.averageRating; i++) { %>
+                          <span class="star"></span>
                         <% } %>
-                    </div>
-                    <a href="/campgrounds/<%= camp._id%>" 
+                        </div>
+                      <% } %>
+                      <a href="/campgrounds/<%= camp._id%>" 
                       class="btn btn-primary">
                         Learn More
-                    </a>
+                      </a>
+                    </div>
                 </div>
             </div>
         <%  }); %>

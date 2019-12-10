@@ -20,8 +20,12 @@ img {
   width: 50%;
 }
 
-img.img-grid {
-  height: 350px
+img.card-img-top {
+  height: 300px
+}
+
+.card {
+  margin-bottom: 1vh
 }
 
 .thumbnail > img {
@@ -211,6 +215,7 @@ img.img-grid {
 }
 
 .page-select {
+  min-width: 100px;
   width: 20%;
   margin: auto;
 }
