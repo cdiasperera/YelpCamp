@@ -38,10 +38,10 @@ router.get('/page/', (req, res) => {
 router.get('/page/:page', async (req, res) => {
   // Request could come from a campground search or directly.
   let search
-  let dbSearchParams = {}
+  const dbSearchParams = {}
   if (req.query.search) {
     // If the request came from a serach, form the search regex.
-    const regexSearch = { $regex: req.query.search}
+    const regexSearch = { $regex: req.query.search }
     dbSearchParams.name = regexSearch
     search = req.query.search
   } else {

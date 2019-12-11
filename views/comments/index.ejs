@@ -6,7 +6,7 @@
     <div class="col-md-12 comment">
       <div class="d-flex justify-content-between">
         <span>
-          <img class="avatar" src="<%= comment.author.avatar%>" alt="">
+          <img class="avatar-comment" src="<%= comment.author.avatar%>" alt="">
           <a href="/users/<%= comment.author.id%>">
             <p class="inline"><strong ><%= comment.author.username %></strong></p>
           </a>
@@ -29,7 +29,7 @@
         </p>
       </div>
       <div> 
-        <p class="comment-text inline"><%= comment.text%></p>
+        <p class="comment-text"><%= comment.text%></p>
       </div>
     </div>
   </div>

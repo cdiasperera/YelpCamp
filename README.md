@@ -57,7 +57,7 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Redesign Campgrounds page to standardize thumbnail size_
 - [x] _Migrate to B4_\*
 - [x] _Make responsive in general_
-- [ ] _Refactor CSS_
+- [x] _Refactor CSS_
 - [ ] _Redesign CSS for website. Improve Nav Brand. Redesign comment/index.ejs_
 - [ ] _Refactor scripts in EJS files_
 - [ ] _Refactor functions to be more modular_

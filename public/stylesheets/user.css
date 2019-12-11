@@ -1,0 +1,15 @@
+/* Profile */
+.avatar-profile {
+  width: 10vw;
+  height: 10vw;
+}
+
+.profile-list {
+  margin-top: 1vh;
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.profile-list li {
+  margin-top: 2vh;
+}

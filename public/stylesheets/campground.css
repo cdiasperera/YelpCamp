@@ -1,0 +1,17 @@
+/* INDEX PAGE */
+.page-select {
+  min-width: 100px;
+  width: 20%;
+  margin: auto;
+}
+
+label.label-center {
+  width: 100%;
+  margin: auto;
+}
+
+/* SHOW PAGE */
+#map {
+  height: 400px;
+  width: 100%;
+}

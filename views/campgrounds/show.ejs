@@ -1,15 +1,20 @@
 <% include ../partials/header/meta %>
 <script src="https://kit.fontawesome.com/f96d9fa558.js" crossorigin="anonymous"></script>
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+<link rel="stylesheet" href="/stylesheets/comment.css">
+<link rel="stylesheet" href="/stylesheets/campground.css">
 <% include ../partials/header/commonContent %>
 
 <div class="container">
   <div class="row">
     <div class="col-md-3">
       <div class="list-group">
-        <li class="list-group-item">Average Rating</li>
+        <li class="list-group-item d-flex justify-content-center">
+          <% for(let i = 0; i < camp.averageRating; i++) { %>
+            <span class="star"></span>
+          <% } %>
+        </li>
         <li class="list-group-item"><div id="map"></div></li>
-        <li class="list-group-item">Info3</li>
       </div>
     </div>
     <div class="col-md-9">
