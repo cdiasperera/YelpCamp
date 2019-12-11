@@ -2,7 +2,6 @@
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
 const User = require('../models/user')
-const Notification = require('../models/notif')
 
 const seedCamps = require('./campsCreator')
 const seedUsers = require('./usersCreator')
@@ -23,14 +22,6 @@ seedUsers.forEach(seed => {
 async function seedDB () {
   console.log('Seeding...')
   try {
-    // Clean up DB
-    await Promise.all([
-      Campground.deleteMany({}),
-      Comment.deleteMany({}),
-      Notification.deleteMany({}),
-      User.deleteMany({})
-    ])
-
     const campQueries = []
     const userQueries = []
 

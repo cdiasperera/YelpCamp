@@ -65,7 +65,7 @@ helper.makeMongoURI = () => {
 helper.mostRecentUpdate = moment('20191211', 'YYYYMMDD')
 
 // Booleans that tells if we are seeding the database or not
-helper.producSeeding = true
+helper.producSeeding = false
 helper.devSeeding = false
 
 module.exports = helper
