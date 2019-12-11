@@ -1,14 +1,9 @@
+
 <% if (pageInfo.numPages > 1) { %>
   <div>
     <nav class="d-flex justify-content-center" aria-label="Page Navigation">
       <ul class="pagination mt-3">
-        <% let firstClass = "", lastClass = "" %>
-        <% if (pageInfo.currentPage === 1) { %>
-          <% firstClass = "disabled" %>
-        <% } else if (pageInfo.currentPage === pageInfo.numPages) { %>
-          <% lastClass = "disabled" %>
-        <% } %>
-        <li class="page-item <%= firstClass %>">
+        <li class="page-item" id="firstPage">
           <a class="page-link" href="/campgrounds/1">First</a>
           </li>
         <% if (pageInfo.currentPage !== 1 ) { %>
@@ -26,11 +21,7 @@
           <% startPage = pageInfo.numPages %>
         <% } %>
         <% for (let page = startPage; page <= pageInfo.currentPage + PAGE_LINKS_DISPLAYED && page <= pageInfo.numPages; page++) { %>
-          <% let activeClass = "" %>
-          <% if (page === pageInfo.currentPage) { %>
-            <% activeClass = "disabled" %>
-          <% } %>
-          <li class="page-item <%= activeClass %>">
+          <li class="page-item" id='page<%= page %>'>
             <a class="page-link"href="/campgrounds/page/<%= page%>"><%= page%></a>
           </li>
         <% } %>
@@ -41,7 +32,7 @@
           </a>
         </li>
         <% } %>
-        <li class="page-item <%= lastClass %>">
+        <li class="page-item" id="lastPage">
           <a class="page-link" href="/campgrounds/page/<%= pageInfo.numPages%>">
             Last
           </a>
@@ -49,6 +40,7 @@
       </ul>
     </nav>
   </div>
+
   <% if (pageInfo.numPages > PAGE_LINKS_DISPLAYED + 1) { %>
     <form class="page-select" action="/campgrounds/page/" method="POST">
       <div class="form-group">
@@ -59,9 +51,5 @@
   <% } %>
 <% } %>
 
-<script>
-  const MOBILE_SCREEN_WIDTH = 460
-  if (window.screen.width < MOBILE_SCREEN_WIDTH) {
-    document.querySelector('.pagination').classList.add('pagination-sm')
-  }
-</script>
+<script src='/scripts/pagination.js'></script>
+<script>setPaginationClasses(<%= pageInfo.currentPage %>, <%= pageInfo.numPages %>)</script>
