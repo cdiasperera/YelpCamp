@@ -28,9 +28,9 @@
         <% for (let page = startPage; page <= pageInfo.currentPage + PAGE_LINKS_DISPLAYED && page <= pageInfo.numPages; page++) { %>
           <% let activeClass = "" %>
           <% if (page === pageInfo.currentPage) { %>
-            <% activeClass = "active" %>
+            <% activeClass = "disabled" %>
           <% } %>
-          <li class="page-item" class="<%= activeClass %>">
+          <li class="page-item <%= activeClass %>">
             <a class="page-link"href="/campgrounds/page/<%= page%>"><%= page%></a>
           </li>
         <% } %>
