@@ -58,8 +58,8 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Migrate to B4_\*
 - [x] _Make responsive in general_
 - [x] _Refactor CSS_
-- [ ] _Redesign CSS for website. Improve Nav Brand. Redesign comment/index.ejs_
-- [ ] _Refactor scripts in EJS files_
+- [x] _Redesign comment/index.ejs_
+- [x] _Refactor scripts in EJS files_
 - [ ] _Refactor functions to be more modular_
 - [ ] _Pass Audits_
 - [ ] _Refactor Constants_
