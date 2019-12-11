@@ -1,6 +1,4 @@
 'use strict'
-const moment = require('moment')
-
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
 const User = require('../models/user')
@@ -15,18 +13,17 @@ const seedCommets = require('./commentsCreator')
 const seedUserWrappers = []
 seedUsers.forEach(seed => {
   const seedWrapper = {}
-  console.log(seedWrapper.password)
   seedWrapper.user = seed
-  seedWrapper.password = seed.password
+  seedWrapper.password = seed.password.valueOf()
 
-  seedWrapper.user.password = undefined
+  delete seedWrapper.user.password
 
-  console.log(seedWrapper)
   seedUserWrappers.push(seedWrapper)
 })
 async function seedDB () {
   console.log('Seeding...')
   try {
+    // Clean up DB
     await Promise.all([
       Campground.deleteMany({}),
       Comment.deleteMany({}),
@@ -72,7 +69,7 @@ async function seedDB () {
       const numComments = Math.floor(Math.random() * 6)
       let averageRatingTotal = 0
       const commentQueries = []
-      // To make sure users don't make mulitple comments, we keep track of 
+      // To make sure users don't make mulitple comments, we keep track of
       // which users have commnted
       const commentedUsers = []
       for (let i = 0; i < numComments; i++) {

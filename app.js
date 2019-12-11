@@ -24,8 +24,6 @@ const commentRoutes = require('./routes/comments')
 const indexRoutes = require('./routes/index')
 const notifRoutes = require('./routes/notifs')
 const userRoutes = require('./routes/user')
-const seedDB = require('./seeding/seeds')
-const seedProduction = require('./seeding/seedProduction')
 const helper = require('./helper')
 const middleware = require('./middleware')
 
@@ -80,14 +78,14 @@ app.use(middleware.locals)
 // Reset Database
 if (helper.producSeeding) {
   if (process.env.NODE_ENV === 'production') {
-    seedProduction()
+    require('./seeding/seedProduction')()
   }
 }
 
 if (helper.devSeeding) {
   // Not in production, so we can run seedDB, if needed.
-  if (process.env.NODE_ENV !== 'production') {
-    seedDB()
+  if (process.env.NODE_ENV === 'development') {
+    require('./seeding/seeds')()
   }
 }
 app.use('/', indexRoutes)
