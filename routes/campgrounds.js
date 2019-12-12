@@ -75,20 +75,6 @@ router.get('/page/:page', async (req, res) => {
   }
 })
 
-function createCampTemplate (authorId, authorUsername, currentCamp) {
-  const newCamp = currentCamp
-  if (!/^http.*/.test(newCamp.image)) {
-    /**
-     * The image is trying to access an image outside the internet. Thus, it
-     * will ping the server. We must set the image to be no-image.jpg
-    */
-    newCamp.image = '/imgs/no-image.jpg'
-  }
-  newCamp.author = { id: authorId, username: authorUsername }
-
-  return newCamp
-}
-
 /**
  * Create a new camp
  */
@@ -150,14 +136,14 @@ router.get('/:id', async (req, res) => {
   try {
     const foundCamp = await Campground.findById(req.params.id)
       .populate('comments')
-    // An array of queries to get the avatars of associated comments
+
+    // Get users, so we can give avatars to the comments
     const queries = []
     for (const comment of foundCamp.comments) {
-      // Get promise to get the users for each comment
       queries.push(User.findById(comment.author.id))
     }
 
-    // Wait for all the  for users to finish
+    // Give the comment the author avatar & username
     const users = await Promise.all(queries)
     foundCamp.comments.forEach((comment, index) => {
       comment.author.avatar = users[index].avatar
@@ -169,15 +155,16 @@ router.get('/:id', async (req, res) => {
       key: process.env.MAPS_WEBSITE_API_KEY,
       userComment: undefined
     }
+
+    // If the user has already made a comment, send that comment as a local
+    // variable to the client, for its client-side logic
     if (req.user && req.user.campsRated.includes(foundCamp._id)) {
-      (() => {
-        foundCamp.comments.forEach(comment => {
-          if (comment.author.id.equals(req.user.id)) {
-            locals.userComment = comment
-            return locals.userComment
-          }
-        })
-      })()
+      for (const comment of foundCamp.comments) {
+        if (comment.author.id.equals(req.user.id)) {
+          locals.userComment = comment
+          break
+        }
+      }
     }
 
     res.render('campgrounds/show', locals)
@@ -203,27 +190,21 @@ router.get('/:id/edit', middleware.checkCampStack, async (req, res) => {
  * Route to update a camp with submitted information.
  */
 router.put('/:id', middleware.checkCampStack, async (req, res) => {
+  let updateCamp = createCampTemplate(
+    req.user.id,
+    req.user.username,
+    req.body.camp
+  )
   try {
-    const newCamp = req.body.camp
-    if (!/^http.*/.test(newCamp.image)) {
-      // The image is trying to access an image outside the internet. Thus, it
-      // will ping the server. We must set the image to be no-image.jpg
-      newCamp.image = '/imgs/no-image.jpg'
-    }
-    const geoData = await geocoder.geocode(req.body.camp.location)
-    if (!isEmpty(geoData)) {
-      newCamp.lat = geoData[0].latitude
-      newCamp.lng = geoData[0].longitude
+    const locationData = await setCampLocationData(req.body.camp.location)
+    updateCamp = { ...updateCamp, ...locationData }
 
-      newCamp.location = geoData[0].formattedAddress
-    } else {
-      throw helper.customErrors.locationInvalid
-    }
-    const updatedCamp = await Campground.findByIdAndUpdate(req.params.id,
-      newCamp)
-    if (isEmpty(updatedCamp)) {
+    const camp = await Campground.findByIdAndUpdate(req.params.id,
+      updateCamp)
+    if (isEmpty(camp)) {
       throw helper.customErrors.campUpdate
     }
+
     req.flash('success', 'Campground Updated!')
     res.redirect('/campgrounds/' + req.params.id)
   } catch (err) {
@@ -265,6 +246,20 @@ function getDBSearchParams (req) {
     // And search for all camps
     return ['', {}]
   }
+}
+
+function createCampTemplate (authorId, authorUsername, currentCamp) {
+  const newCamp = currentCamp
+  if (!/^http.*/.test(newCamp.image)) {
+    /**
+     * The image is trying to access an image outside the internet. Thus, it
+     * will ping the server. We must set the image to be no-image.jpg
+    */
+    newCamp.image = '/imgs/no-image.jpg'
+  }
+  newCamp.author = { id: authorId, username: authorUsername }
+
+  return newCamp
 }
 
 /**
