@@ -124,8 +124,10 @@ router.post(
       res.redirect('/login')
     }
 
-    // Return to the previous page, if previous page is know. Otherwise, go to the index.
-    const returnTo = req.session.returnTo ? req.session.returnTo : '/campgrounds'
+    // Return to the previous page, if previous page is know.
+    // Otherwise, go to the index.
+    const returnTo =
+      req.session.returnTo ? req.session.returnTo : '/campgrounds'
     delete req.session.returnTo
     res.redirect(returnTo)
   }
@@ -137,11 +139,10 @@ router.post(
 router.get('/logout', (req, res) => {
   if (!req.isAuthenticated()) {
     req.flash('error', 'You need to be logged in to log out!')
-    res.redirect('/campgrounds')
+  } else {
+    req.flash('success', 'Logged out!')
+    req.logout()
   }
-  req.logout()
-
-  req.flash('success', 'Logged out!')
   res.redirect('/campgrounds')
 })
 
