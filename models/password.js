@@ -16,24 +16,4 @@ schema
   .has().lowercase()
   .has().digits()
 
-/**
- * Function to return a string listing the errors in the password.
- * */
-schema.errorMessage = (errors, rules) => {
-  let message = 'You need '
-  for (let i = 0; i < errors.length; i++) {
-    message += rules[errors[i]]
-    // Choose which type of punctuation is needed, between listing the errors
-    if (i === errors.length - 1) {
-      message += '!'
-    } else if (i === errors.length - 2) {
-      message += ' and '
-    } else {
-      message += ', '
-    }
-  }
-
-  return message
-}
-
 module.exports = schema

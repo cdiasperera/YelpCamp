@@ -51,7 +51,7 @@ router.post('/register', middleware.isNotLoggedIn, async (req, res) => {
     // Check if the username is a valid password
     const usernameErrors = usernameSchema.validate(username, { list: true })
     if (usernameErrors.length > 0) {
-      throw passwordSchema.errorMessage(
+      throw helper.validationErrorMessage(
         usernameErrors,
         passwordSchema.invalidUsernameMessages)
     }
@@ -59,7 +59,7 @@ router.post('/register', middleware.isNotLoggedIn, async (req, res) => {
     // Check if the password is a valid password
     const passwordErrors = passwordSchema.validate(password, { list: true })
     if (passwordErrors.length > 0) {
-      throw passwordSchema.errorMessage(
+      throw helper.validationErrorMessage(
         passwordErrors,
         passwordSchema.invalidPasswordMessages)
     }

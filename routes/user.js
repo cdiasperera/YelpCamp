@@ -19,14 +19,18 @@ router.get('/register', (req, res) => {
   res.render('users/register')
 })
 
+/**
+ * Add use to DB
+ */
 router.post('/', async (req, res) => {
   try {
     const password = req.body.password
-    const usernameErrors = usernameSchema.validate(
-      req.body.user.username,
-      { list: true })
+    const username = req.body.user.username
+
+    // Check if the username is valid
+    const usernameErrors = usernameSchema.validate(username, { list: true })
     if (usernameErrors.length > 0) {
-      throw passwordSchema.errorMessage(
+      throw helper.validationErrorMessage(
         usernameErrors,
         usernameSchema.invalidPasswordMessages)
     }
@@ -34,7 +38,7 @@ router.post('/', async (req, res) => {
     // Check if the password is a valid password
     const passwordErrors = passwordSchema.validate(password, { list: true })
     if (passwordErrors.length > 0) {
-      throw passwordSchema.errorMessage(
+      throw helper.validationErrorMessage(
         passwordErrors,
         passwordSchema.invalidPasswordMessages)
     }
