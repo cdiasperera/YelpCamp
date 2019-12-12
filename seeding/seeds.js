@@ -11,7 +11,7 @@ const seedCommets = require('./commentsCreator')
 // Create a local user for debugging purposes:
 
 const localUser = {
-  username: 'admin',
+  username: 'admin1',
   email: 'cdiasperera@gmail.com',
   activated: 'true',
   avatar: '/imgs/no-image.jpg',
@@ -19,6 +19,13 @@ const localUser = {
 }
 
 seedUsers.push(localUser)
+const localUser2 = {
+  username: 'admin2',
+  activated: 'true',
+  avatar: '/imgs/no-image.jpg',
+  password: 'aa'
+}
+seedUsers.push(localUser2)
 
 // Separate user's password from their template, as we do not pass the password
 // to User.create when registering
