@@ -15,6 +15,7 @@ helper.customErrors = {
   commentDelete: 'Eggo! We could not delete your comment for some reason :(',
   commentAuth: 'I\'m not sure what you\re trying to do with this commnent, but I ain\'t down for that!',
   commentExists: 'You already have a comment on this camp!',
+  commentRatingMiss: 'You need to rate your comment!',
   notifMiss: 'Uhh, we could not find that notification!',
   notifAuth: 'Hmmm, you should not need that notification!',
   userMiss: 'This is not the user you are looking for',

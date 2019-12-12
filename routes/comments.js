@@ -17,6 +17,9 @@ const helper = require('../helper')
  */
 router.post('/', middleware.isLoggedIn, async (req, res) => {
   try {
+    if (!req.body.comment.rating) {
+      throw helper.customErrors.commentRatingMiss
+    }
     // Template for the new comment
     const newCommentTemp = req.body.comment
 
@@ -41,13 +44,11 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
       throw helper.customErrors.userMiss
     }
 
-    if (newComment.rating) {
-      camp.averageRating =
-        (camp.averageRating * camp.numRatings + newComment.rating) /
-        (camp.numRatings + 1)
-
-      camp.numRatings++
-    }
+    // Update rating for the camp
+    camp.averageRating =
+      (camp.averageRating * camp.numRatings + newComment.rating) /
+      (camp.numRatings + 1)
+    camp.numRatings++
 
     camp.comments.push(newComment)
     user.campsRated.push(camp._id)
@@ -77,14 +78,17 @@ router.put('/:comment_id', middleware.checkCommentStack, async (req, res) => {
 
     if (isEmpty(comment)) {
       throw helper.customErrors.commentMiss
+    } else if (isEmpty(camp)) {
+      throw helper.customErrors.campMiss
     }
 
-    comment.text = req.body.comment.text
-
+    // Adjust camp rating
     const oldRatingTotal = camp.averageRating * camp.numRatings
     const ratingAdjustment = req.body.comment.rating - comment.rating
     camp.averageRating = (oldRatingTotal + ratingAdjustment) / camp.numRatings
 
+    // Update comment
+    comment.text = req.body.comment.text
     comment.rating = req.body.comment.rating
 
     await Promise.all([
@@ -116,15 +120,17 @@ router.delete('/:comment_id', middleware.checkCommentStack, async (req, res) => 
       throw helper.customErrors.commentDelete
     }
 
+    // Remove comment ID from camp
     camp.comments.splice(camp.comments.indexOf(removedComment._id), 1)
 
+    // Adjust camp rating
     const oldRatingTotal = camp.averageRating * camp.numRatings
     camp.numRatings--
     camp.averageRating = (oldRatingTotal - removedComment.rating) / camp.numRatings
 
+    // Adjust rated camps of user
     user.campsRated.splice(user.campsRated.indexOf(camp._id), 1)
 
-    // Adjust the rating and num ratings of camp
     await Promise.all([
       camp.save(),
       user.save()
