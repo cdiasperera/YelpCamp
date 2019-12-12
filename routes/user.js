@@ -25,28 +25,15 @@ router.get('/register', (req, res) => {
  */
 router.post('/', async (req, res) => {
   try {
-    const password = req.body.password
-    const username = req.body.user.username
-
-    // Check if the username is valid
-    helper.validate(usernameSchema, username, { list: true })
-    // Check if the password is a valid password
-    helper.validate(passwordSchema, password, { list: true })
-
-    // Check if the email address is a valid one
-    if (!emailValidator.validate(req.body.user.email)) {
-      throw helper.customErrors.emailInvalid
-    } else {
-      const emailUser = await User.findOne({ email: req.body.user.email })
-      if (!isEmpty(emailUser)) {
-        throw helper.customErrors.emailUsed
-      }
-    }
-
-    req.body.user.avatar = helper.setNoImage(req.body.user.avatar)
+    validateUserDetails({
+      password: req.body.password,
+      username: req.body.username,
+      email: req.body.user.email,
+      avatar: req.body.user.avatar
+    })
     const userTemplate = await new User(req.body.user)
 
-    const user = await User.register(userTemplate, password)
+    const user = await User.register(userTemplate, req.body.password)
 
     // Configure Transporter
     const transporter = nodeMailer.createTransport(emails.transporConfig)
@@ -93,6 +80,7 @@ router.get('/:id', async (req, res) => {
       throw helper.customErrors.userMiss
     }
 
+    // Render 'show' page for user, for visitors to the users page
     if (!req.user || !user._id.equals(req.user.id)) {
       res.render('users/show', { user })
     } else {
@@ -109,6 +97,11 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', middleware.checkProfileStack, async (req, res) => {
   try {
+    validateUserDetails({
+      username: req.body.username,
+      email: req.body.user.email,
+      avatar: req.body.user.avatar
+    })
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       req.body.user)
@@ -143,29 +136,24 @@ router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
     if (req.body.action === 'follow' &&
       !user.followers.includes(req.body.follower)) {
       // If the follower is already not a follower and a follow action is sent
-      user.followers.push(req.body.follower)
+      user.followers.push(follower)
 
       const newFollowerNotifTemplate = {
         link: `/users/${follower._id}`,
-        notifType: 'newFollower',
-        author: {}
+        notifType: 'newFollower'
       }
 
-      Notification.generateMessage(newFollowerNotifTemplate)
-      newFollowerNotifTemplate.author.id = user._id
-      const notif = await Notification.create(newFollowerNotifTemplate)
+      const notif = await Notification.createNotification(newFollowerNotifTemplate)
 
-      user.notifs.push(notif)
-      await user.save()
+      await Notification.sendNotifications([user], notif)
     } else if (req.body.action === 'unfollow' &&
       user.followers.includes(req.body.follower)) {
       // Remove follower from followers list
       user.followers = user.followers.filter((follower) => {
         return !follower.equals(req.body.follower)
       })
-
-      await user.save()
     }
+    await user.save()
     res.redirect('back')
   } catch (err) {
     helper.displayError(req, err)
@@ -297,4 +285,32 @@ router.post('/:id/token/:token_id', async (req, res) => {
     res.redirect('/campgrounds')
   }
 })
+
+/**
+ * Validates the password, username, email and avatar. Checking holds these values
+ */
+async function validateUserDetails (checking) {
+  if (checking.username) {
+    helper.validate(usernameSchema, checking.username, { list: true })
+  }
+  if (checking.password) {
+    helper.validate(passwordSchema, checking.password, { list: true })
+  }
+
+  if (checking.email) {
+    if (!emailValidator.validate(checking.email)) {
+      throw helper.customErrors.emailInvalid
+    } else {
+      const emailUser = await User.findOne({ email: checking.email })
+      if (!isEmpty(emailUser)) {
+        throw helper.customErrors.emailUsed
+      }
+    }
+  }
+
+  if (checking.avatar) {
+    checking.avatar = helper.setNoImage(checking.avatar)
+  }
+}
+
 module.exports = router

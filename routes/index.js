@@ -94,10 +94,7 @@ router.post(
       if (lastLoginMoment.isBefore(helper.mostRecentUpdate)) {
         const notifTemp = {
           link: '/changelog',
-          notifType: 'changelog',
-          author: {
-            id: user._id
-          }
+          notifType: 'changelog'
         }
 
         const notif = await Notification.createNotification(notifTemp)

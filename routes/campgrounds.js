@@ -105,10 +105,7 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
     const notifTemp = {
       link: `/campgrounds/${camp.id}`,
       notifType: 'newCamp',
-      info: { creator: user.username },
-      author: {
-        id: user._id
-      }
+      info: { creator: user.username }
     }
     const notif = await Notification.createNotification(notifTemp)
 

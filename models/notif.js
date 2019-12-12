@@ -59,16 +59,20 @@ model.sendNotifications = async (recipients, notif) => {
    * We also save each notification asynch
    */
   let foundRecipients = 0
-  const saveQueries = []
+  const saveReceiverQueries = []
+  const saveNotifQueries = []
   while (foundRecipients < findRecipientQuries.length) {
     const foundRecipient = await Promise.race(findRecipientQuries)
+    notif.author.id = foundRecipient._id
+    saveNotifQueries.push(notif.save())
     foundRecipient.notifs.push(notif)
 
-    saveQueries.push(foundRecipient.save())
+    saveReceiverQueries.push(foundRecipient.save())
     foundRecipients++
   }
 
-  await Promise.all(saveQueries)
+  await Promise.all(saveNotifQueries)
+  await Promise.all(saveReceiverQueries)
 }
 
 module.exports = model
