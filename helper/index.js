@@ -92,6 +92,20 @@ helper.validate = (schema, item, options) => {
     )
   }
 }
+
+/**
+ * Checks to see if img should be set to the default "no image" image
+ * Sets it, if it were the case
+ */
+helper.setNoImage = (img) => {
+  /**
+   * The image is trying to access an image outside the internet. Thus, it
+   * will ping the server. We must set the image to be no-image.jpg
+  */
+  if (!/^http.*/.test(img)) {
+    return '/imgs/no-image.jpg'
+  }
+}
 helper.mostRecentUpdate = moment('20191211', 'YYYYMMDD')
 
 // Booleans that tells if we are seeding the database or not

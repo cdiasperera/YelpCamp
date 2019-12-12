@@ -250,13 +250,10 @@ function getDBSearchParams (req) {
 
 function createCampTemplate (authorId, authorUsername, currentCamp) {
   const newCamp = currentCamp
-  if (!/^http.*/.test(newCamp.image)) {
-    /**
-     * The image is trying to access an image outside the internet. Thus, it
-     * will ping the server. We must set the image to be no-image.jpg
-    */
-    newCamp.image = '/imgs/no-image.jpg'
-  }
+  // if (!/^http.*/.test(newCamp.image)) {
+  //   newCamp.image = '/imgs/no-image.jpg'
+  // }
+  newCamp.image = helper.setNoImage(newCamp.image)
   newCamp.author = { id: authorId, username: authorUsername }
 
   return newCamp

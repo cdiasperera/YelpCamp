@@ -40,9 +40,8 @@ router.post('/', async (req, res) => {
         throw helper.customErrors.emailUsed
       }
     }
-    if (!/^http.*/.test(req.body.user.avatar)) {
-      req.body.user.avatar = '/imgs/no-image.jpg'
-    }
+
+    req.body.user.avatar = helper.setNoImage(req.body.user.avatar)
     const userTemplate = await new User(req.body.user)
 
     const user = await User.register(userTemplate, password)
