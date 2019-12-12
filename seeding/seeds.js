@@ -1,4 +1,6 @@
 'use strict'
+const moment = require('moment')
+
 const Campground = require('../models/campground')
 const Comment = require('../models/comment')
 const User = require('../models/user')
@@ -15,6 +17,7 @@ const localUser = {
   email: 'cdiasperera@gmail.com',
   activated: 'true',
   avatar: '/imgs/no-image.jpg',
+  lastLogin: moment('20111111', 'YYYYMMDD'),
   password: 'a'
 }
 
