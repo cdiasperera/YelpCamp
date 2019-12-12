@@ -45,13 +45,15 @@ router.get('/register', middleware.isNotLoggedIn, (req, res) => {
  */
 router.post('/register', middleware.isNotLoggedIn, async (req, res) => {
   const password = req.body.password
+  const username = req.body.username
 
   try {
-    const usernameErrors = usernameSchema.validate(req.body.username, { list: true })
+    // Check if the username is a valid password
+    const usernameErrors = usernameSchema.validate(username, { list: true })
     if (usernameErrors.length > 0) {
       throw passwordSchema.errorMessage(
         usernameErrors,
-        usernameSchema.invalidPasswordMessages)
+        passwordSchema.invalidUsernameMessages)
     }
 
     // Check if the password is a valid password
@@ -101,17 +103,17 @@ router.post(
       // Create a moment object from the last login to compare moments
       const lastLoginMoment = moment(user.lastLogin)
       if (lastLoginMoment.isBefore(helper.mostRecentUpdate)) {
-        const notif = await Notification.create({
+        const notifTemp = {
           link: '/changelog',
-          notifType: 'changelog'
-        })
+          notifType: 'changelog',
+          author: {
+            id: user._id
+          }
+        }
 
-        Notification.generateMessage(notif)
-        notif.author.id = user._id
-        await notif.save()
+        const notif = await Notification.createNotification(notifTemp)
 
-        user.notifs.push(notif)
-        await user.save()
+        await Notification.sendNotifications([user], notif)
       }
 
       // Reset lastLogin date

@@ -12,8 +12,8 @@ router.get('/', middleware.isLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate('notifs').exec()
 
-    const notifs = user.notifs
-    res.render('notifs/index', { notifs })
+    const allNotifs = user.notifs
+    res.render('notifs/index', { allNotifs })
   } catch (err) {
     helper.displayError(req, err)
     res.redirect('back')

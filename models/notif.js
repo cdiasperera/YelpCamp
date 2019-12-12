@@ -1,6 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const User = require('./user')
 
 const notifSchema = new mongoose.Schema({
   link: String,
@@ -38,6 +39,36 @@ model.createNotification = async (template) => {
   const notif = await model.create(template)
   model.generateMessage(notif)
 
+  await notif.save()
+
   return notif
 }
+
+model.sendNotifications = async (recipients, notif) => {
+  /**
+   * First, we find all the followers asynchronously.
+   * That way, we can executing sending notifications in parrallel
+   */
+  const findRecipientQuries = []
+  for (const follower of recipients) {
+    findRecipientQuries.push(User.findById(follower._id))
+  }
+
+  /**
+   * As we find each follower, we add the notification to their current notifs
+   * We also save each notification asynch
+   */
+  let foundRecipients = 0
+  const saveQueries = []
+  while (foundRecipients < findRecipientQuries.length) {
+    const foundRecipient = await Promise.race(findRecipientQuries)
+    foundRecipient.notifs.push(notif)
+
+    saveQueries.push(foundRecipient.save())
+    foundRecipients++
+  }
+
+  await Promise.all(saveQueries)
+}
+
 module.exports = model

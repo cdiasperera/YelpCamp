@@ -112,7 +112,7 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
     }
     const notif = await Notification.createNotification(notifTemp)
 
-    sendNotifications(user.followers, notif)
+    await Notification.sendNotifications(user.followers, notif)
 
     req.flash('success', 'Campground was created!')
     res.redirect('/campgrounds')
@@ -284,34 +284,4 @@ async function setCampLocationData (location) {
   return locationData
 }
 
-/**
- * Sends a specific notification to all the users in the followers array
- */
-async function sendNotifications (followers, notif) {
-  /**
-   * First, we find all the followers asynchronously.
-   * That way, we can executing sending notifications in parrallel
-   */
-  const findFollowerQueries = []
-  for (const follower of followers) {
-    findFollowerQueries.push(User.findById(follower))
-  }
-
-  /**
-   * As we find each follower, we add the notification to their current notifs
-   * We also save each notification asynch
-   */
-  let foundFollowers = 0
-  const saveQueries = []
-  while (foundFollowers < findFollowerQueries.length) {
-    const foundFollower = await Promise.race(findFollowerQueries)
-    foundFollower.notifs.push(notif)
-
-    saveQueries.push(foundFollower.save())
-    foundFollowers++
-  }
-
-  // Finally we save (thus send) all the notifs
-  await Promise.all(saveQueries)
-}
 module.exports = router
