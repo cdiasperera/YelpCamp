@@ -10,8 +10,17 @@ label.label-center {
   margin: auto;
 }
 
+
 /* SHOW PAGE */
 #map {
   height: 400px;
   width: 100%;
+}
+
+#camp-delete {
+  margin-bottom: 0;
+}
+
+#camp-description {
+  padding-bottom: 1rem;
 }

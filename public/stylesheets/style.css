@@ -90,3 +90,10 @@ img.card-img-top {
 .forgot-pass {
   font-size: 0.8em
 }
+
+/* STAR CSS */
+.star:after {
+  content: '\f005';
+  font-family: fontAwesome;
+  color: gold;
+}

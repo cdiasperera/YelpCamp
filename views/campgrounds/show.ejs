@@ -10,6 +10,9 @@
     <div class="col-md-3">
       <div class="list-group">
         <li class="list-group-item d-flex justify-content-center">
+          <% if (!camp.averageRating) { %>
+            <em>No Reviews Yet</em>
+          <% } %>
           <% for(let i = 0; i < camp.averageRating; i++) { %>
             <span class="star"></span>
           <% } %>
@@ -20,7 +23,7 @@
     <div class="col-md-9">
       <div class="card">
         <img class="img-card-top" src="<%= camp.image%>" alt="campground">
-        <div class="card-body">
+        <div class="card-body" id="camp-description">
           <h4 class="pull-right card-title"> 
             <% if (camp.price == 0) { %>
               Free!
@@ -31,6 +34,10 @@
           <h4 class="card-title"><%= camp.name%></h4>
           <p class="card-body-full"><%= camp.desc%> </p>
           <% let timeString = moment(camp.createdAt).fromNow(); %>
+          <% if (/^[a-z]/.test(timeString)) { %>
+            <% // First letter is lowercase and must be capitalized %>
+            <% timeString = timeString.replace(/^./, timeString.charAt(0).toUpperCase()); %>
+          <% } %>
           <div class="mb-2">
             <p class="card-body-full d-flex justify-content-between">
               <span>
@@ -45,7 +52,7 @@
           <% if (currentUser && camp.author.id.equals(currentUser._id)) { %>
             <a href="<%= camp._id%>/edit" class="btn btn-warning">Edit</a>
             <form class="inline text-right" action="?_method=DELETE" method="POST">
-              <button class="btn btn-danger">Delete</button>
+              <button class="btn btn-danger" id="camp-delete">Delete</button>
             </form>
         <% } %>
         </div>

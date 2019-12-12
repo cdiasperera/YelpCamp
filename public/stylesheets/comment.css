@@ -78,11 +78,6 @@
   opacity: 1;
 }
 
-.star:after {
-  content: '\f005';
-  font-family: fontAwesome;
-  color: gold;
-}
 
 /* NEW COMMENT */
 .new-comment {
