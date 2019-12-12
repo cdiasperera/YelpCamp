@@ -5,6 +5,7 @@ const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 const moment = require('moment')
+const emails = require('../emails')
 
 const Notification = require('../models/notif')
 
@@ -32,6 +33,7 @@ router.post('/', async (req, res) => {
     // Check if the password is a valid password
     helper.validate(passwordSchema, password, { list: true })
 
+    // Check if the email address is a valid one
     if (!emailValidator.validate(req.body.user.email)) {
       throw helper.customErrors.emailInvalid
     } else {
@@ -46,26 +48,19 @@ router.post('/', async (req, res) => {
 
     const user = await User.register(userTemplate, password)
 
-    const transporter = nodeMailer.createTransport({
-      host: process.env.SMTP_SERVER,
-      port: process.env.SMTP_PORT,
-      secure: true,
-      auth: {
-        user: process.env.SMTP_USERNAME,
-        pass: process.env.SMTP_PASSWORD
-      }
-    })
-
+    // Configure Transporter
+    const transporter = nodeMailer.createTransport(emails.transporConfig)
     await transporter.verify
 
-    const mail = require('../emails/verifyEmail')
+    const mail = emails.verifyEmail
 
+    // Create verifying email token
     const token = await crypto.randomBytes(32).toString('hex')
     const tokenLink = `${req.headers.host}/users/${user._id}/activate/${token}`
     mail.addLink(tokenLink)
 
     transporter.sendMail({
-      from: 'cdiasperera@gmail.com',
+      from: emails.serverEmail,
       to: user.email,
       subject: 'Account Activation - YelpCamp',
       html: mail.mailContent
@@ -73,6 +68,7 @@ router.post('/', async (req, res) => {
 
     user.activateToken = token
     await user.save()
+
     req.login(user, (err) => {
       if (!err) {
         req.flash('success',
@@ -197,7 +193,7 @@ router.get('/:id/pReset', async (req, res) => {
 
     console.log({ rest })
 
-    const mail = require('../emails/resetPassword')
+    const mail = emails.resetPassword
 
     // Generate token and send it to the user.
     const token = await crypto.randomBytes(32).toString('hex')
