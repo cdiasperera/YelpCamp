@@ -83,6 +83,15 @@ helper.validationErrorMessage = (errors, rules) => {
   return message
 }
 
+helper.validate = (schema, item, options) => {
+  const errors = schema.validate(item, options)
+  if (errors.length > 0) {
+    throw helper.validationErrorMessage(
+      errors,
+      schema.errorMessages
+    )
+  }
+}
 helper.mostRecentUpdate = moment('20191211', 'YYYYMMDD')
 
 // Booleans that tells if we are seeding the database or not

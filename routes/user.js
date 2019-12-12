@@ -28,20 +28,9 @@ router.post('/', async (req, res) => {
     const username = req.body.user.username
 
     // Check if the username is valid
-    const usernameErrors = usernameSchema.validate(username, { list: true })
-    if (usernameErrors.length > 0) {
-      throw helper.validationErrorMessage(
-        usernameErrors,
-        usernameSchema.invalidPasswordMessages)
-    }
-
+    helper.validate(usernameSchema, username, { list: true })
     // Check if the password is a valid password
-    const passwordErrors = passwordSchema.validate(password, { list: true })
-    if (passwordErrors.length > 0) {
-      throw helper.validationErrorMessage(
-        passwordErrors,
-        passwordSchema.invalidPasswordMessages)
-    }
+    helper.validate(passwordSchema, password, { list: true })
 
     if (!emailValidator.validate(req.body.user.email)) {
       throw helper.customErrors.emailInvalid

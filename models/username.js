@@ -3,7 +3,7 @@ const PasswordValidator = require('password-validator')
 
 const schema = new PasswordValidator()
 
-schema.invalidUsernameMessages = {
+schema.errorMessages = {
   min: 'at least 2 characters',
   symbol: 'no symbols',
   spaces: 'no spaces'
