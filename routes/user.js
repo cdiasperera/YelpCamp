@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 
     // Configure Transporter
     const transporter = nodeMailer.createTransport(emails.transporConfig)
-    await transporter.verify
+    await transporter.verify()
 
     const mail = emails.verifyEmail
 
@@ -73,6 +73,10 @@ router.post('/', async (req, res) => {
   }
 })
 
+/**
+ * Gets a users 'show' page.
+ * Alternatively, if the user is logged in, it shows their edit page.
+ */
 router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -95,6 +99,9 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+/**
+ * Updates a users details
+ */
 router.put('/:id', middleware.checkProfileStack, async (req, res) => {
   try {
     validateUserDetails({
@@ -117,6 +124,9 @@ router.put('/:id', middleware.checkProfileStack, async (req, res) => {
   }
 })
 
+/**
+ * Route to follow/unfollow a user
+ */
 router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
   try {
     if (req.user.id !== req.body.follower) {
@@ -161,37 +171,32 @@ router.post('/:id/follow', middleware.isLoggedIn, async (req, res) => {
   }
 })
 
+/**
+ * Route to send a password reset email to the requested uer
+ */
 router.get('/:id/pReset', async (req, res) => {
   try {
-    // Set up and verify email server connection
-    const transporter = nodeMailer.createTransport({
-      host: process.env.SMTP_SERVER,
-      port: process.env.SMTP_PORT,
-      secure: true,
-      auth: {
-        user: process.env.SMTP_USERNAME,
-        pass: process.env.SMTP_PASSWORD
-      }
-    })
+    // Set up transporter
+    const transporter = nodeMailer.createTransport(emails.transporConfig)
+
     // Send email
-    const [user, ...rest] = await Promise.all([
+    const resolvedPromises = await Promise.all([
       User.findById(req.params.id),
-      transporter.verify
+      transporter.verify()
     ])
 
-    console.log({ rest })
+    const user = resolvedPromises[0]
 
     const mail = emails.resetPassword
 
     // Generate token and send it to the user.
     const token = await crypto.randomBytes(32).toString('hex')
-
     const tokenLink = `${req.headers.host}/users/${user._id}/token/${token}`
     mail.addLink(tokenLink)
 
     // No need to await as nothing is depending on this executing
     transporter.sendMail({
-      from: 'cdiasperera@gmail.com',
+      from: emails.serverEmail,
       to: user.email,
       subject: 'Password Reset - YelpCamp',
       html: mail.mailContent
@@ -214,10 +219,13 @@ router.get('/:id/pReset', async (req, res) => {
     res.redirect('/campgrounds')
   }
 })
+
+/**
+ * Activates a users account
+ */
 router.get('/:id/activate/:token_id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-
     if (isEmpty(user)) {
       throw helper.customErrors.userMiss
     }
@@ -235,6 +243,11 @@ router.get('/:id/activate/:token_id', async (req, res) => {
 
   }
 })
+
+/**
+ * Processes a password reset request, through the use of a token.
+ * If the token is valid, a reset form is sent
+ */
 router.get('/:id/token/:token_id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -260,6 +273,9 @@ router.get('/:id/token/:token_id', async (req, res) => {
   }
 })
 
+/**
+ * Process the actual password update
+ */
 router.post('/:id/token/:token_id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
