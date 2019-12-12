@@ -110,7 +110,7 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
         id: user._id
       }
     }
-    const notif = await createNotification(notifTemp)
+    const notif = await Notification.createNotification(notifTemp)
 
     sendNotifications(user.followers, notif)
 
@@ -282,16 +282,6 @@ async function setCampLocationData (location) {
   }
 
   return locationData
-}
-
-/**
- * Creates a notification object to send to anyone, any number of times
- */
-async function createNotification (template) {
-  const notif = await Notification.create(template)
-  Notification.generateMessage(notif)
-
-  return notif
 }
 
 /**

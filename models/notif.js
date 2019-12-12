@@ -31,4 +31,13 @@ model.generateMessage = (notif) => {
   }
 }
 
+/**
+ * Creates a notification object to send to anyone, any number of times
+ */
+model.createNotification = async (template) => {
+  const notif = await model.create(template)
+  model.generateMessage(notif)
+
+  return notif
+}
 module.exports = model
