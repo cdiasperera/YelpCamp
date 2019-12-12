@@ -30,9 +30,28 @@ middleware.locals = async (req, res, next) => {
     req.session.returnTo = req.originalUrl
   }
 
-  res.locals.error = req.flash('error')
-  res.locals.success = req.flash('success')
+  if (inRedirectPage(req.url)) {
+    // We are not on a user facing page, so we do not set the flash messages,
+    // as that will remove it from session storage.
+    res.locals.error = []
+    res.locals.success = []
+  } else {
+    res.locals.error = req.flash('error')
+    res.locals.success = req.flash('success')
+  }
   next()
+}
+
+/**
+ * Checks to see if the current page we are on is a use facing page or a 
+ * redirect
+ */
+function inRedirectPage (url) {
+  if (url === '/campgrounds' || url === '/campgrounds/page/') {
+    return true
+  } else {
+    return false
+  }
 }
 
 /**

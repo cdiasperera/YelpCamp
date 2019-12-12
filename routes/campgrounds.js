@@ -22,8 +22,10 @@ const options = {
 
 const geocoder = Nodegeocoder(options)
 
+/**
+ * Redirect to the first page of camps
+ */
 router.get('/', (req, res) => {
-  // Redirect to page 1 of campgrounds
   let searchQuery = ''
   if (req.query.search) {
     searchQuery = '?search=' + req.query.search
@@ -31,26 +33,22 @@ router.get('/', (req, res) => {
   res.redirect('/campgrounds/page/1' + searchQuery)
 })
 
+/**
+ * If no page number was given, go to the first page
+ */
 router.get('/page/', (req, res) => {
   res.redirect('/campgrounds/page/1')
 })
 
+/**
+ * Index page of camps
+ */
 router.get('/page/:page', async (req, res) => {
-  // Request could come from a campground search or directly.
-  let search
-  const dbSearchParams = {}
-  if (req.query.search) {
-    // If the request came from a serach, form the search regex.
-    const regexSearch = { $regex: req.query.search }
-    dbSearchParams.name = regexSearch
-    search = req.query.search
-  } else {
-    // Otherwise set the regex to find all the camps.
-    search = ''
-  }
+  const [search, dbSearchParams] = getDBSearchParams(req)
 
   try {
     const PER_PAGE = 6
+    // The index, in the sorted array of camps, of the first camp to display
     const firstCampIndex = (req.params.page - 1) * PER_PAGE
     const foundCamps = await (
       Campground.find(dbSearchParams)
@@ -59,10 +57,13 @@ router.get('/page/:page', async (req, res) => {
         .limit(PER_PAGE)
     )
 
+    // Page Information for pagiantion
     const pageInfo = {
       currentPage: parseInt(req.params.page),
       numPages: parseInt(
-        Math.ceil((await Campground.countDocuments()) / PER_PAGE)
+        Math.ceil(
+          await Campground.find(dbSearchParams).countDocuments() / PER_PAGE
+        )
       )
     }
 
@@ -74,71 +75,60 @@ router.get('/page/:page', async (req, res) => {
   }
 })
 
-/**
- * Route to create a new camp.
- */
-router.post('/', middleware.isLoggedIn, async (req, res) => {
-  // Manually add the user data to the campground
-  const newCamp = req.body.camp
+function createCampTemplate (authorId, authorUsername, currentCamp) {
+  const newCamp = currentCamp
   if (!/^http.*/.test(newCamp.image)) {
-    // The image is trying to access an image outside the internet. Thus, it
-    // will ping the server. We must set the image to be no-image.jpg
+    /**
+     * The image is trying to access an image outside the internet. Thus, it
+     * will ping the server. We must set the image to be no-image.jpg
+    */
     newCamp.image = '/imgs/no-image.jpg'
   }
-  newCamp.author = { id: req.user._id, username: req.user.username }
+  newCamp.author = { id: authorId, username: authorUsername }
+
+  return newCamp
+}
+
+/**
+ * Create a new camp
+ */
+router.post('/', middleware.isLoggedIn, async (req, res) => {
+  // The template for the new camp to be added
+  let newCamp = createCampTemplate(
+    req.user.id,
+    req.user.username,
+    req.body.camp
+  )
+
   try {
-    const geoData = await geocoder.geocode(req.body.camp.location)
-    const location = geoData[0]
-    if (!isEmpty(location)) {
-      newCamp.lat = location.latitude
-      newCamp.lng = location.longitude
+    const locationData = await setCampLocationData(req.body.camp.location)
+    newCamp = { ...newCamp, ...locationData }
 
-      newCamp.location = location.formattedAddress
-    } else {
-      throw helper.customErrors.locationInvalid
-    }
-    const promises = []
+    const queries = []
     // Step 1: Create Campground
-    promises.push(Campground.create(newCamp))
-    promises.push(User.findById(req.user._id))
+    queries.push(Campground.create(newCamp))
+    queries.push(User.findById(req.user._id))
 
-    const [camp, user] = await Promise.all(promises)
+    const [camp, user] = await Promise.all(queries)
     if (isEmpty(camp)) {
       throw helper.customErrors.campsCreate
     }
-    req.flash('success', 'Campground Created!')
 
     // Step 2: Notify Followers
-
-    // First, create a notification
+    // Generate the notification
     const notifTemp = {
       link: `/campgrounds/${camp.id}`,
       notifType: 'newCamp',
-      info: { creator: user.username }
+      info: { creator: user.username },
+      author: {
+        id: user._id
+      }
     }
-    const notif = await Notification.create(notifTemp)
-    Notification.generateMessage(notif)
-    notif.author.id = user._id
-    await notif.save()
+    const notif = await createNotification(notifTemp)
 
-    // Make a promise to get each follower
-    const findFollowers = []
-    for (const follower of user.followers) {
-      findFollowers.push(User.findById(follower))
-    }
+    sendNotifications(user.followers, notif)
 
-    // THe number of followers found
-    let foundFollowers = 0
-
-    // An array to hold the promises to save the notif of each follower
-    while (foundFollowers < findFollowers.length) {
-      const foundFollower = await Promise.race(findFollowers)
-
-      foundFollower.notifs.push(notif)
-      await foundFollower.save()
-      foundFollowers++
-    }
-
+    req.flash('success', 'Campground was created!')
     res.redirect('/campgrounds')
   } catch (err) {
     helper.displayError(req, err)
@@ -261,4 +251,82 @@ router.delete('/:id', middleware.checkCampStack, async (req, res) => {
   }
 })
 
+/**
+ * Makes the paramter for searching for camps, for the index page.
+ */
+function getDBSearchParams (req) {
+  // Request could come from a campground search or directly.
+  if (req.query.search) {
+    // If there was a search, find camps with names that contain the search term
+    const regexSearch = { $regex: new RegExp(req.query.search, 'i') }
+    return [req.query.search, { name: regexSearch }]
+  } else {
+    // If there was no search, return '' (as req.query.search is undefined)
+    // And search for all camps
+    return ['', {}]
+  }
+}
+
+/**
+ * Returned geocoded data, given a location string
+ */
+async function setCampLocationData (location) {
+  const locationData = {}
+  const geoLocation = location
+  if (location) {
+    const geoData = await geocoder.geocode(geoLocation)
+    const location = geoData[0]
+    if (!isEmpty(location)) {
+      locationData.lat = location.latitude
+      locationData.lng = location.longitude
+
+      locationData.location = location.formattedAddress
+    } else {
+      throw helper.customErrors.locationInvalid
+    }
+  }
+
+  return locationData
+}
+
+/**
+ * Creates a notification object to send to anyone, any number of times
+ */
+async function createNotification (template) {
+  const notif = await Notification.create(template)
+  Notification.generateMessage(notif)
+
+  return notif
+}
+
+/**
+ * Sends a specific notification to all the users in the followers array
+ */
+async function sendNotifications (followers, notif) {
+  /**
+   * First, we find all the followers asynchronously.
+   * That way, we can executing sending notifications in parrallel
+   */
+  const findFollowerQueries = []
+  for (const follower of followers) {
+    findFollowerQueries.push(User.findById(follower))
+  }
+
+  /**
+   * As we find each follower, we add the notification to their current notifs
+   * We also save each notification asynch
+   */
+  let foundFollowers = 0
+  const saveQueries = []
+  while (foundFollowers < findFollowerQueries.length) {
+    const foundFollower = await Promise.race(findFollowerQueries)
+    foundFollower.notifs.push(notif)
+
+    saveQueries.push(foundFollower.save())
+    foundFollowers++
+  }
+
+  // Finally we save (thus send) all the notifs
+  await Promise.all(saveQueries)
+}
 module.exports = router
