@@ -43,7 +43,7 @@ middleware.locals = async (req, res, next) => {
 }
 
 /**
- * Checks to see if the current page we are on is a use facing page or a 
+ * Checks to see if the current page we are on is a use facing page or a
  * redirect
  */
 function inRedirectPage (url) {
