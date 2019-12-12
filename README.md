@@ -61,7 +61,6 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Redesign comment/index.ejs_
 - [x] _Refactor scripts in EJS files_
 - [ ] _Refactor functions to be more modular_
-- [ ] _Pass Audits_
 - [ ] _Refactor Constants_
 - [ ] _Refactor Comments into Reviews_
 - [x] _Refactor callbacks in most functions with Async/Await_
