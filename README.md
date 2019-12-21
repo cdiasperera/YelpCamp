@@ -63,6 +63,6 @@ The following is a checklist of items to complete after deployment to Heroku:
 - [x] _Refactor functions to be more modular_
 - [x] _Refactor callbacks in most functions with Async/Await_
 - [x] Add total feature list to README
-- [ ] _Rename website_
+- [x] _Rename website_
 
 \* _Whilst the course does cover this feature, this was implemented indepenently_
